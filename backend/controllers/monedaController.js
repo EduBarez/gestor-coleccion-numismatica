@@ -1,4 +1,4 @@
-const Moneda = require('../models/Moneda');
+const Moneda = require('../models/moneda');
 
 // Obtener todas las monedas
 exports.getMonedas = async (req, res) => {
