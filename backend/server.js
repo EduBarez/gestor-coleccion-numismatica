@@ -10,16 +10,16 @@ app.use(cors()); // Permitir solicitudes desde el frontend
 app.use(express.json()); // Reemplazo de body-parser para analizar JSON
 
 // Conexión a MongoDB
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Conexión a MongoDB establecida'))
-  .catch((err) => {
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('Conexión a MongoDB establecida');
+  } catch (err) {
     console.error('Error al conectar a MongoDB:', err);
-    process.exit(1); // Termina el proceso si falla la conexión
-  });
+    setTimeout(connectDB, 5000); // Reintentar conexión después de 5 segundos
+  }
+};
+connectDB();
 
 // Importar rutas
 const monedaRoutes = require('./routes/monedaRoutes');
@@ -37,9 +37,20 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
+// Manejo de errores global
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Ocurrió un error en el servidor', details: err.message });
+});
+
 // Iniciar el servidor
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
 
+// Manejo global de errores
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled Rejection:', err.message);
+  server.close(() => process.exit(1));
+});
