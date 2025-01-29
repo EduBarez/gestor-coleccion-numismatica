@@ -1,25 +1,32 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+require('dotenv').config(); // Cargar variables de entorno
+
+// Expresiones regulares para validaciones
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
 
 // Registrar un nuevo usuario con encriptación de contraseña
 exports.registerUser = async (req, res) => {
   try {
     const { DNI, nombre, apellidos, email, password } = req.body;
 
-    // Verificar si el email o DNI ya están registrados
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: 'El email ya está registrado' });
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Formato de email inválido' });
     }
-    const existingDNI = await User.findOne({ DNI });
-    if (existingDNI) {
-      return res.status(400).json({ error: 'El DNI ya está registrado' });
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres, incluir letras y números' });
+    }
+
+    // Verificar si el email o DNI ya están registrados
+    const existingUser = await User.findOne({ $or: [{ email }, { DNI }] });
+    if (existingUser) {
+      return res.status(400).json({ error: 'El email o DNI ya están registrados' });
     }
 
     // Encriptar la contraseña antes de guardarla
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Crear un nuevo usuario con isApproved en false
     const newUser = new User({ DNI, nombre, apellidos, email, password: hashedPassword, isApproved: false });
@@ -46,9 +53,25 @@ exports.approveUser = async (req, res) => {
     user.isApproved = true;
     await user.save();
 
-    res.status(200).json({ message: 'Usuario aprobado', user });
+    res.status(200).json({ message: 'Usuario aprobado' });
   } catch (error) {
     res.status(500).json({ error: 'Error al aprobar el usuario', details: error.message });
+  }
+};
+
+// Rechazar un usuario eliminándolo de la base de datos
+exports.rejectUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    await User.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Usuario rechazado y eliminado' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al rechazar el usuario', details: error.message });
   }
 };
 
@@ -71,13 +94,21 @@ exports.loginUser = async (req, res) => {
     // Verificar la contraseña
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ error: 'Contraseña incorrecta' });
+      return res.status(401).json({ error: 'Contraseña incorrecta' });
     }
 
-    // Generar un token de autenticación JWT
-    const token = jwt.sign({ id: user._id, role: user.role }, 'secreto', { expiresIn: '1h' });
+    // Generar un token de autenticación JWT usando variable de entorno
+    const token = jwt.sign(
+      { id: user._id, role: user.role }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: '1h' }
+    );
 
-    res.status(200).json({ message: 'Inicio de sesión exitoso', token, user: { id: user._id, nombre: user.nombre, apellidos: user.apellidos, email: user.email, role: user.role } });
+    res.status(200).json({ 
+      message: 'Inicio de sesión exitoso', 
+      token, 
+      user: { id: user._id, nombre: user.nombre, role: user.role } 
+    });
   } catch (error) {
     res.status(500).json({ error: 'Error al iniciar sesión', details: error.message });
   }
