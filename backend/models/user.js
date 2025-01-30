@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isApproved: { type: Boolean, default: false },  // Estado de aprobación
-    role: { type: String, enum: ['user', 'admin'], default: 'user' } // Roles
+    rol: { type: String, enum: ['user', 'admin'], default: 'user' } // Roles
 });
 
 // Hash de contraseña antes de guardar
@@ -19,5 +19,5 @@ userSchema.pre('save', async function(next) {
     next();
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema, 'Usuarios');
 module.exports = User;
