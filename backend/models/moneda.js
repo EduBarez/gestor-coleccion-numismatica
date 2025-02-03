@@ -81,4 +81,4 @@ const MonedaSchema = new mongoose.Schema({
 });
 
 // Crear y exportar el modelo
-module.exports = mongoose.model('Moneda', MonedaSchema, 'monedas');
+module.exports = mongoose.model('Moneda', MonedaSchema, 'Monedas');

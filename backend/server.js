@@ -23,9 +23,11 @@ connectDB();
 
 // Importar rutas
 const monedaRoutes = require('./routes/monedaRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // Usar rutas
 app.use('/api/monedas', monedaRoutes); // Ruta base para las monedas
+app.use('/api/usuarios', userRoutes); // Ruta base para los usuarios
 
 // Ruta de prueba
 app.get('/', (req, res) => {
