@@ -24,10 +24,12 @@ connectDB();
 // Importar rutas
 const monedaRoutes = require('./routes/monedaRoutes');
 const userRoutes = require('./routes/userRoutes');
+const triviaRoutes = require('./routes/triviaRoutes');
 
 // Usar rutas
 app.use('/api/monedas', monedaRoutes); // Ruta base para las monedas
 app.use('/api/usuarios', userRoutes); // Ruta base para los usuarios
+app.use('/api/trivia', triviaRoutes); // Ruta base para las preguntas de trivia
 
 // Ruta de prueba
 app.get('/', (req, res) => {
