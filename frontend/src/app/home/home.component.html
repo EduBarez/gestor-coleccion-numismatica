@@ -1,21 +1,42 @@
-<div class="home-container">
-    <h1>Bienvenido al Gestor de Colecciones Numismáticas</h1>
-    <p>
-      Explora y gestiona tus propias colecciones de monedas. Aquí podrás
-      descubrir monedas históricas y compartir tu pasión por la numismática.
-    </p>
-  
-    <!-- Botones para usuarios no registrados -->
-    <div class="buttons">
-      <a routerLink="/register" class="btn">Registrarse</a>
-      <a routerLink="/login" class="btn">Iniciar Sesión</a>
+<header>
+  <nav class="navbar">
+    <!-- Izquierda: Logo y mensaje de bienvenida -->
+    <div class="navbar-left">
+      <img src="assets/logo.png" alt="Logo" class="logo">
+      <span class="welcome">Bienvenido a la Gestión Numismática</span>
     </div>
-  
-    <!-- Área para mostrar algunas colecciones o monedas de forma pública -->
-    <div class="preview-section">
-      <h2>Colecciones destacadas</h2>
-      <p>Aquí aparecerán algunas colecciones públicas...</p>
-      <!-- Más adelante puedes añadir un listado dinámico de monedas o colecciones -->
+
+    <!-- Centro: Campo de búsqueda -->
+    <div class="navbar-center">
+      <input type="text" placeholder="Buscar monedas..." class="search-input">
     </div>
+
+    <!-- Derecha: Navegación y botones según el estado de login -->
+    <div class="navbar-right">
+      <!-- Elementos visibles para cualquier usuario -->
+      <a class="nav-item" href="/colecciones">Colecciones</a>
+      <a class="nav-item" href="/trivia">Trivia</a>
+
+      <!-- Si el usuario NO está logueado -->
+      <ng-container *ngIf="!isLoggedIn">
+        <button class="btn" (click)="onRegister()">Registrarse</button>
+        <button class="btn" (click)="onLogin()">Loguearse</button>
+      </ng-container>
+
+      <!-- Si el usuario ESTÁ logueado -->
+      <ng-container *ngIf="isLoggedIn">
+        <a class="nav-item" href="/mis-colecciones">Mis Colecciones</a>
+        <a class="nav-item" href="/anadir-moneda">Añadir moneda</a>
+      </ng-container>
+    </div>
+  </nav>
+</header>
+
+<!-- Contenido principal de la página -->
+<main class="main-content">
+  <div class="logo-section">
+    <img src="assets/logo.png" alt="Logo" class="main-logo">
+    <h1>Bienvenido a la Plataforma de Gestión de Colecciones Numismáticas</h1>
+    <p>Administra tus monedas y pon a prueba tus conocimientos con nuestra trivia.</p>
   </div>
-  
+</main>
