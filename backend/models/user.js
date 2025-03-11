@@ -7,8 +7,9 @@ const userSchema = new mongoose.Schema({
     apellidos: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isApproved: { type: Boolean, default: false },  // Estado de aprobación
-    rol: { type: String, enum: ['user', 'admin'], default: 'user' } // Roles
+    isApproved: { type: Boolean, default: false },                      // Estado de aprobación
+    rol: { type: String, enum: ['user', 'admin'], default: 'user' },    // Roles
+    profilePicture: { type: String, default: '' }                       // URL de la foto de perfil
 });
 
 // Hash de contraseña antes de guardar
