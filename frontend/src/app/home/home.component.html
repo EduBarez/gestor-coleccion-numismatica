@@ -1,42 +1,53 @@
 <header>
-  <nav class="navbar">
-    <!-- Izquierda: Logo y mensaje de bienvenida -->
-    <div class="navbar-left">
-      <img src="assets/logo.png" alt="Logo" class="logo">
-      <span class="welcome">Bienvenido a Enjoy Coins</span>
-    </div>
-
-    <!-- Centro: Campo de búsqueda -->
-    <div class="navbar-center">
-      <input type="text" placeholder="Buscar monedas..." class="search-input">
-    </div>
-
-    <!-- Derecha: Navegación y botones según el estado de login -->
-    <div class="navbar-right">
-      <!-- Elementos visibles para cualquier usuario -->
-      <a class="nav-item" href="/colecciones">Colecciones</a>
-      <a class="nav-item" href="/trivia">Trivia</a>
-
-      <!-- Si el usuario NO está logueado -->
-      <ng-container *ngIf="!isLoggedIn">
-        <button class="btn" (click)="onRegister()">Registrarse</button>
-        <button class="btn" (click)="onLogin()">Loguearse</button>
-      </ng-container>
-
-      <!-- Si el usuario ESTÁ logueado -->
-      <ng-container *ngIf="isLoggedIn">
-        <a class="nav-item" href="/mis-colecciones">Mis Colecciones</a>
-        <a class="nav-item" href="/anadir-moneda">Añadir moneda</a>
-      </ng-container>
+  <!-- Navbar con Bootstrap -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <!-- Logo con link al home -->
+      <a class="navbar-brand" routerLink="/">Enjoy Coins</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- Menú de navegación principal -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/colecciones">Colecciones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/trivia">Trivia</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/buscador">Buscador</a>
+          </li>
+        </ul>
+        <!-- Opciones de usuario (según estado de login) -->
+        <ul class="navbar-nav">
+          <li class="nav-item" *ngIf="!isLoggedIn">
+            <a class="nav-link" routerLink="/register">Registrarse</a>
+          </li>
+          <li class="nav-item" *ngIf="!isLoggedIn">
+            <a class="nav-link" routerLink="/login">Loguearse</a>
+          </li>
+          <li class="nav-item" *ngIf="isLoggedIn">
+            <a class="nav-link" href="#">Perfil</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 </header>
 
-<!-- Contenido principal de la página -->
-<main class="main-content">
-  <div class="logo-section">
-    <img src="assets/logo.png" alt="Logo" class="main-logo">
-    <h1>Bienvenido a la Plataforma de Gestión de Colecciones Numismáticas</h1>
-    <p>Administra tus monedas y pon a prueba tus conocimientos con nuestra trivia.</p>
+<main class="container my-4">
+  <!-- Contenido principal -->
+  <div class="row">
+    <div class="col">
+      <h1 class="mb-4">Bienvenido a Enjoy Coins</h1>
+      <p>Aquí podrás gestionar tus colecciones, participar en trivia y mucho más.</p>
+      <!-- Aquí puedes agregar más contenido o componentes -->
+    </div>
   </div>
 </main>
+
+<footer class="bg-light text-center py-3">
+  <p>&copy; 2025 Enjoy Coins. Todos los derechos reservados.</p>
+</footer>

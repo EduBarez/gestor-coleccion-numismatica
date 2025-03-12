@@ -1,29 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [
+    CommonModule,  // Permite usar directivas como *ngIf, *ngFor, etc.
+    RouterModule   // Necesario para usar routerLink
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
+  // Estado simulado de autenticación; en un caso real vendría de un servicio.
+  isLoggedIn = false;
 
-  // Simula el estado del usuario: false = visitante, true = usuario registrado.
-  public isLoggedIn: boolean = false;
-
-  constructor() { }
-
-  ngOnInit(): void {
-    // Aquí podrías chequear el estado de autenticación real.
-  }
-
-  onRegister(): void {
-    // Lógica o navegación hacia la página de registro.
-    console.log('Botón Registrarse clicado');
-  }
-
-  onLogin(): void {
-    // Lógica o navegación hacia la página de login.
-    console.log('Botón Loguearse clicado');
-  }
-
+  // Aquí podrías agregar métodos para navegar, iniciar sesión, etc.
 }
