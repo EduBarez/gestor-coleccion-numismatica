@@ -20,14 +20,8 @@ const triviaSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Debe haber una respuesta correcta'],
   },
-  monedaAsociada: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Moneda',
-    required: false, // Es opcional
-  },
   periodo: {
     type: String,
-    enum: ['Antigüedad', 'Imperio Romano', 'Edad Media', 'Edad Moderna', 'Edad Contemporánea'],
     required: false,
   },
 });

@@ -34,7 +34,6 @@ const MonedaSchema = new mongoose.Schema({
   },
   estado_conservacion: {
     type: String,
-    enum: ['FC', 'SC', 'EBC', 'MBC', 'BC', 'RC', 'MC'],
     required: [true, 'El estado de conservación es obligatorio'],
     trim: true,
   },

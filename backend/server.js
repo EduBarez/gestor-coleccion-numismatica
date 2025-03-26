@@ -1,25 +1,14 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config(); // Cargar variables de entorno desde .env
+require('dotenv').config();
 
 const app = express();
 
-// Middleware
-app.use(cors()); // Permitir solicitudes desde el frontend
-app.use(express.json()); // Reemplazo de body-parser para analizar JSON
-
-// Conexión a MongoDB
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('Conexión a MongoDB establecida');
-  } catch (err) {
-    console.error('Error al conectar a MongoDB:', err);
-    setTimeout(connectDB, 5000); // Reintentar conexión después de 5 segundos
-  }
-};
-connectDB();
+// Middlewares
+app.use(cors());
+app.use(express.json());
 
 // Importar rutas
 const monedaRoutes = require('./routes/monedaRoutes');
@@ -27,9 +16,9 @@ const userRoutes = require('./routes/userRoutes');
 const triviaRoutes = require('./routes/triviaRoutes');
 
 // Usar rutas
-app.use('/api/monedas', monedaRoutes); // Ruta base para las monedas
-app.use('/api/usuarios', userRoutes); // Ruta base para los usuarios
-app.use('/api/trivia', triviaRoutes); // Ruta base para las preguntas de trivia
+app.use('/api/monedas', monedaRoutes);
+app.use('/api/usuarios', userRoutes);
+app.use('/api/trivia', triviaRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
@@ -47,14 +36,32 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Ocurrió un error en el servidor', details: err.message });
 });
 
-// Iniciar el servidor
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+/**
+ * Si se ejecuta con `node server.js`, conectamos y levantamos el servidor.
+ * Si se importa (por ejemplo, en los tests), no hacemos nada aquí.
+ */
+if (require.main === module) {
+  // Conectamos a la BD
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => console.log('Conexión a MongoDB establecida'))
+    .catch((err) => {
+      console.error('Error al conectar a MongoDB:', err);
+      process.exit(1);
+    });
 
-// Manejo global de errores
-process.on('unhandledRejection', (err) => {
-  console.error('Unhandled Rejection:', err.message);
-  server.close(() => process.exit(1));
-});
+  // Iniciar el servidor
+  const PORT = process.env.PORT || 5000;
+  const server = app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+  });
+
+  // Manejo de errores asíncronos
+  process.on('unhandledRejection', (err) => {
+    console.error('Unhandled Rejection:', err.message);
+    server.close(() => process.exit(1));
+  });
+}
+
+// Exportamos la app para que Supertest la use en los tests
+module.exports = app;
