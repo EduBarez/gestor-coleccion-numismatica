@@ -25,9 +25,9 @@ exports.getPreguntaById = async (req, res) => {
 // Crear una nueva pregunta de trivia
 exports.createPregunta = async (req, res) => {
   try {
-    const { pregunta, opciones, respuestaCorrecta, monedaAsociada, periodo } = req.body;
+    const { pregunta, opciones, respuestaCorrecta, periodo } = req.body;
 
-    if (!pregunta || !opciones || opciones.length !== 4 || !respuestaCorrecta) {
+    if (!pregunta || !opciones || opciones.length !== 4 || !respuestaCorrecta || !periodo) {
       return res.status(400).json({ error: 'Faltan datos o las opciones no tienen exactamente 4 respuestas' });
     }
 
@@ -35,7 +35,7 @@ exports.createPregunta = async (req, res) => {
       return res.status(400).json({ error: 'La respuesta correcta debe estar dentro de las opciones' });
     }
 
-    const nuevaPregunta = new Trivia({ pregunta, opciones, respuestaCorrecta, monedaAsociada, periodo });
+    const nuevaPregunta = new Trivia({ pregunta, opciones, respuestaCorrecta, periodo });
     await nuevaPregunta.save();
 
     res.status(201).json(nuevaPregunta);
@@ -48,13 +48,25 @@ exports.createPregunta = async (req, res) => {
 exports.updatePregunta = async (req, res) => {
   try {
     const { id } = req.params;
-    const preguntaActualizada = await Trivia.findByIdAndUpdate(id, req.body, { new: true });
+    const preguntaActualizada = await Trivia.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
     if (!preguntaActualizada) return res.status(404).json({ error: 'Pregunta no encontrada' });
     res.status(200).json(preguntaActualizada);
   } catch (error) {
     res.status(500).json({ error: 'Error al actualizar la pregunta', details: error.message });
   }
 };
+
+// Obtener preguntas de trivia por periodo
+exports.getPreguntasPorPeriodo = async (req, res) => {
+  try {
+    const { nombrePeriodo } = req.params;
+    const preguntas = await Trivia.find({ periodo: nombrePeriodo });
+    res.status(200).json(preguntas);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener preguntas por periodo', details: error.message });
+  }
+};
+
 
 // Eliminar una pregunta de trivia por ID
 exports.deletePregunta = async (req, res) => {

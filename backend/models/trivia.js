@@ -22,7 +22,7 @@ const triviaSchema = new mongoose.Schema({
   },
   periodo: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 
