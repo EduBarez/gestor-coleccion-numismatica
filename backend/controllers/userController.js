@@ -32,16 +32,13 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ error: 'El email o DNI ya están registrados' });
     }
 
-    // Encriptar la contraseña antes de guardarla
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     // Crear un nuevo usuario con isApproved en false
     const newUser = new User({
       DNI,
       nombre,
       apellidos,
       email,
-      password: hashedPassword,
+      password,
       isApproved: false,
       rol: rol, // asegúrate de que usas 'rol' en singular como en el modelo
       profilePicture: fotoPorDefecto

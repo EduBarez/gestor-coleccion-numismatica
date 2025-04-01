@@ -9,7 +9,8 @@ describe('Pruebas de User Controller', () => {
     nombre: 'Test',
     apellidos: 'User',
     email: 'testuser@example.com',
-    password: 'Test1234'
+    password: 'Test1234',
+    rol: 'user'
   };
 
   beforeAll(async () => {
@@ -26,9 +27,10 @@ describe('Pruebas de User Controller', () => {
   // 1. Registro de usuario
   it('Debería registrar un nuevo usuario', async () => {
     const res = await request(app)
-      .post('/api/users/register')
+      .post('/api/usuarios/register')
       .send(testUser);
-
+    
+    console.log('Registro:', res.status, res.body);
     expect([201, 400]).toContain(res.status); // 400 si ya está registrado
     if (res.status === 201) {
       expect(res.body.message).toBe('Usuario registrado. Pendiente de aprobación.');
@@ -37,11 +39,7 @@ describe('Pruebas de User Controller', () => {
 
   // 2. Obtener el ID del usuario para las siguientes pruebas
   it('Debería obtener el ID del usuario de prueba', async () => {
-    const res = await request(app)
-      .get(`/api/users?email=${testUser.email}`);
-    // Solo funcionará si tienes un endpoint de "get users by email", si no, debes buscar directamente en Mongo o mockear
-    // Como alternativa directa:
-    const User = require('../models/user');
+    const User = require('./models/user');
     const user = await User.findOne({ email: testUser.email });
     expect(user).toBeDefined();
     testUserId = user._id.toString();
@@ -50,7 +48,7 @@ describe('Pruebas de User Controller', () => {
   // 3. Aprobar usuario
   it('Debería aprobar al usuario', async () => {
     const res = await request(app)
-      .put(`/api/users/approve/${testUserId}`);
+      .put(`/api/usuarios/approve/${testUserId}`)
 
     expect([200, 400]).toContain(res.status); // 400 si ya estaba aprobado
     if (res.status === 200) {
@@ -60,9 +58,11 @@ describe('Pruebas de User Controller', () => {
 
   // 4. Login con usuario aprobado
   it('Debería iniciar sesión con usuario aprobado', async () => {
+    console.log('Login con:', testUser.email, testUser.password);
     const res = await request(app)
-      .post('/api/users/login')
+      .post('/api/usuarios/login')
       .send({ email: testUser.email, password: testUser.password });
+    console.log('Respuesta login:', res.status, res.body);
 
     expect(res.status).toBe(200);
     expect(res.body.token).toBeDefined();
@@ -72,7 +72,7 @@ describe('Pruebas de User Controller', () => {
   // 5. Rechazar usuario (eliminarlo)
   it('Debería rechazar (eliminar) al usuario', async () => {
     const res = await request(app)
-      .delete(`/api/users/reject/${testUserId}`);
+      .delete(`/api/usuarios/reject/${testUserId}`)
 
     expect(res.status).toBe(200);
     expect(res.body.message).toBe('Usuario rechazado y eliminado');
