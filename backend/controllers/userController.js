@@ -7,10 +7,17 @@ require('dotenv').config(); // Cargar variables de entorno
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
 
+
+
 // Registrar un nuevo usuario con encriptación de contraseña
 exports.registerUser = async (req, res) => {
   try {
-    const { DNI, nombre, apellidos, email, password } = req.body;
+    const { DNI, nombre, apellidos, email, password, rol = 'usuario' } = req.body;
+
+    const fotoPorDefecto = rol === 'admin'
+      ? 'https://res.cloudinary.com/dqofgewng/image/upload/v1741803502/AdminPFP_jqr7gt.png'
+      : 'https://res.cloudinary.com/dqofgewng/image/upload/v1741796341/Default_fu6mtj.png';
+
 
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: 'Formato de email inválido' });
@@ -29,7 +36,17 @@ exports.registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Crear un nuevo usuario con isApproved en false
-    const newUser = new User({ DNI, nombre, apellidos, email, password: hashedPassword, isApproved: false });
+    const newUser = new User({
+      DNI,
+      nombre,
+      apellidos,
+      email,
+      password: hashedPassword,
+      isApproved: false,
+      rol: rol, // asegúrate de que usas 'rol' en singular como en el modelo
+      profilePicture: fotoPorDefecto
+    });
+    
     await newUser.save();
 
     res.status(201).json({ message: 'Usuario registrado. Pendiente de aprobación.' });
@@ -99,7 +116,7 @@ exports.loginUser = async (req, res) => {
 
     // Generar un token de autenticación JWT usando variable de entorno
     const token = jwt.sign(
-      { id: user._id, role: user.role }, 
+      { id: user._id, rol: user.rol }, 
       process.env.JWT_SECRET, 
       { expiresIn: '1h' }
     );
@@ -107,7 +124,12 @@ exports.loginUser = async (req, res) => {
     res.status(200).json({ 
       message: 'Inicio de sesión exitoso', 
       token, 
-      user: { id: user._id, nombre: user.nombre, role: user.role } 
+      user: { 
+        id: user._id, 
+        nombre: user.nombre, 
+        rol: user.rol, 
+        profilePicture: user.profilePicture 
+      }
     });
   } catch (error) {
     res.status(500).json({ error: 'Error al iniciar sesión', details: error.message });

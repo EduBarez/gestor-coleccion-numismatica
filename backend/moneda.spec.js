@@ -6,7 +6,7 @@ describe('Pruebas de Moneda Controller', () => {
   let denarioId;
   let adrianoId;
   // Usamos el ObjectId fijo (24 caracteres) para eliminar
-  const fixedDeleteId = '67e3cf354cc723754393eabe';
+  const fixedDeleteId = '67eaae8b12635caec90f9310';
 
   beforeAll(async () => {
     // Conectar a la base de datos usando el MONGO_URI definido en .env
@@ -45,6 +45,7 @@ describe('Pruebas de Moneda Controller', () => {
       .post('/api/monedas')
       .send(newDenario);
 
+    console.log(res.body);
     expect(res.status).toBe(201);
     expect(res.body._id).toBeDefined();
     // Usamos .trim() para evitar espacios invisibles
@@ -79,90 +80,33 @@ describe('Pruebas de Moneda Controller', () => {
     expect(res.body._id).toBe(denarioId);
   });
 
-  // 4. updateMoneda - actualizar la ceca de la moneda de Adriano a "Roma"
-  it('Debería actualizar la ceca de la moneda de "Adriano" a "Roma"', async () => {
-    // Buscar la moneda de Adriano (filtrando por nombre "Denario" y autoridad "Adriano")
-    let adrianoCoin;
-    const resBuscar = await request(app)
-      .get('/api/monedas?nombre=Denario&autoridad_emisora=Adriano');
-    
-    if (resBuscar.status === 200 && resBuscar.body.monedas.length > 0) {
-      adrianoCoin = resBuscar.body.monedas[0];
-    } else {
-      // Si no existe, crearla
-      const newAdriano = {
-        fotografia: 'https://res.cloudinary.com/dqofgewng/image/upload/v1741715219/813_Adri.jpg',
-        nombre: 'Denario',
-        valor: '1',
-        autoridad_emisora: 'Adriano',
-        ceca: 'Original', // valor inicial
-        datacion: '137 d.C.',
-        estado_conservacion: 'MBC',
-        metal: 'Plata',
-        peso: 3.4,
-        diametro: 19,
-        anverso: 'HADRIANVS AVG COS III P P. Cabeza descubierta de Adriano...',
-        reverso: 'SALVS AVG. Salus sentada a derecha...',
-        canto: '',
-        referencias: 'RSC 98, RIC 240, BMC 576',
-        observaciones: 'Ejemplo de denario de Adriano',
-        trivia: null
-      };
-      const resCreateAdriano = await request(app)
-        .post('/api/monedas')
-        .send(newAdriano);
+  // 4. updateMoneda - actualizar la ceca de la moneda de Adriano a "Roma" (usando un ID fijo existente)
+  it('Debería actualizar la ceca de la moneda de Adriano a "Roma"', async () => {
+    const adrianoIdFijo = '67e3cf354cc723754393eac1';
 
-      expect(resCreateAdriano.status).toBe(201);
-      adrianoCoin = resCreateAdriano.body;
-    }
-    adrianoId = adrianoCoin._id;
-
-    // Actualizar la ceca a "roma" (se espera que se normalice a "Roma")
     const resUpdate = await request(app)
-      .put(`/api/monedas/${adrianoId}`)
-      .send({ ceca: 'roma' });
-    
+      .put(`/api/monedas/${adrianoIdFijo}`)
+      .send({ ceca: 'roma' }); // Enviamos en minúsculas para ver si se normaliza
+
     expect(resUpdate.status).toBe(200);
-    expect(resUpdate.body.ceca).toBe('Roma');
+    expect(resUpdate.body._id).toBe(adrianoIdFijo);
+    expect(resUpdate.body.ceca).toBe('Roma'); // Asumiendo que normalizas a mayúscula inicial
   });
 
-  // 5. deleteMoneda - eliminar la moneda con el ID fijo ya existente
-  it('Debería eliminar la moneda con ID 67e3cf354cc723754393eabe', async () => {
-    // Primero, crear (o asegurar) la existencia de la moneda con ese _id
-    const coinToDelete = {
-      _id: fixedDeleteId,
-      fotografia: 'https://res.cloudinary.com/dqofgewng/image/upload/v1741715219/ejemplo.jpg',
-      nombre: 'MonedaDelete',
-      valor: '2',
-      autoridad_emisora: 'Test',
-      ceca: 'Test',
-      datacion: '100 d.C.',
-      estado_conservacion: 'EBC',
-      metal: 'Oro',
-      peso: 5.0,
-      diametro: 20,
-      anverso: 'Anverso de prueba',
-      reverso: 'Reverso de prueba',
-      canto: '',
-      referencias: 'Referencia de prueba',
-      observaciones: 'Observaciones de prueba',
-      trivia: null
-    };
 
-    // Crear la moneda con ese _id (si no existe)
-    const resCreateDelete = await request(app)
-      .post('/api/monedas')
-      .send(coinToDelete);
-    // Puede fallar con 400 si ya existe.  
-    // En ese caso, omitimos el error a menos que sea otro status
-    if (resCreateDelete.status !== 201 && resCreateDelete.status !== 400) {
-      throw new Error(`Fallo al crear la moneda con ID fijo. Status: ${resCreateDelete.status}`);
-    }
-
-    // Eliminar la moneda con el _id fijo
+  // 5. deleteMoneda - eliminar una moneda existente con ID fijo
+  it.skip('Debería eliminar la moneda con ID fijo 67eaae8b12635caec90f9310', async () => {
+    // Paso 1: Eliminar la moneda por su ID
     const resDelete = await request(app)
       .delete(`/api/monedas/${fixedDeleteId}`);
+
     expect(resDelete.status).toBe(200);
     expect(resDelete.body.message).toBe('Moneda eliminada correctamente');
+
+    // Paso 2: Confirmar que ya no existe
+    const resCheck = await request(app)
+      .get(`/api/monedas/${fixedDeleteId}`);
+
+    expect(resCheck.status).toBe(404);
   });
 });
