@@ -81,7 +81,12 @@ const MonedaSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Usuario',
     required: true
-  },  
+  },
+  coleccion: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Coleccion',
+    default: null
+  }  
 });
 
 // Crear y exportar el modelo

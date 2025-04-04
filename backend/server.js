@@ -14,11 +14,14 @@ app.use(express.json());
 const monedaRoutes = require('./routes/monedaRoutes');
 const userRoutes = require('./routes/userRoutes');
 const triviaRoutes = require('./routes/triviaRoutes');
+const coleccionRoutes = require('./routes/coleccionRoutes');
+
 
 // Usar rutas
 app.use('/api/monedas', monedaRoutes);
 app.use('/api/usuarios', userRoutes);
 app.use('/api/trivia', triviaRoutes);
+app.use('/api/colecciones', coleccionRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
