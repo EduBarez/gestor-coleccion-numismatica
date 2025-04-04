@@ -102,44 +102,37 @@ exports.getMonedaById = async (req, res) => {
  */
 exports.createMoneda = async (req, res) => {
   try {
-    // Si se envía un archivo de imagen (por ejemplo, desde un formulario con Multer), se sube a Cloudinary
+    if (!req.user) return res.status(401).json({ error: 'No autenticado' });
+
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, { folder: 'monedas' });
       req.body.fotografia = result.secure_url;
     }
 
-    // Extraer campos específicos del req.body
     let {
       nombre,
       valor,
       autoridad_emisora,
       ceca,
       metal,
-      estado_conservacion,
-      // Otros campos como: datacion, peso, diametro, anverso, reverso, canto, referencias y observaciones.
+      estado_conservacion
     } = req.body;
 
-    // Validaciones mínimas
     if (!nombre || !valor) {
-      return res.status(400).json({
-        error: 'Se requieren los campos "nombre" y "valor"',
-      });
+      return res.status(400).json({ error: 'Se requieren los campos "nombre" y "valor"' });
     }
 
-    // Normalización de los campos de texto
     nombre = normalizarTexto(nombre, 'capitalize');
     autoridad_emisora = normalizarTexto(autoridad_emisora, 'capitalize');
     ceca = normalizarTexto(ceca, 'capitalize');
     metal = normalizarTexto(metal, 'capitalize');
     estado_conservacion = normalizarTexto(estado_conservacion, 'upper');
 
-    // Evitar duplicados (se verifica la combinación de nombre y valor)
     const monedaExistente = await Moneda.findOne({ nombre, valor });
     if (monedaExistente) {
       return res.status(400).json({ error: 'Ya existe una moneda con ese nombre y valor' });
     }
 
-    // Crear la nueva moneda usando el spread operator para incluir el resto de los campos
     const moneda = new Moneda({
       ...req.body,
       nombre,
@@ -147,6 +140,7 @@ exports.createMoneda = async (req, res) => {
       ceca,
       metal,
       estado_conservacion,
+      propietario: req.user.id
     });
 
     const nuevaMoneda = await moneda.save();
@@ -155,7 +149,6 @@ exports.createMoneda = async (req, res) => {
     res.status(500).json({ error: 'Error al crear la moneda', details: error.message });
   }
 };
-
 /**
  * Actualizar una moneda por ID.
  * - Si se envía un nuevo archivo de imagen, se sube a Cloudinary y se actualiza el campo fotografía.
@@ -167,13 +160,23 @@ exports.updateMoneda = async (req, res) => {
       return res.status(400).json({ error: 'ID de moneda no válido' });
     }
 
-    // Si se envía un nuevo archivo para la fotografía, se sube a Cloudinary
+    const moneda = await Moneda.findById(id);
+    if (!moneda) {
+      return res.status(404).json({ error: 'Moneda no encontrada' });
+    }
+
+    if (
+      moneda.propietario.toString() !== req.user.id &&
+      req.user.rol !== 'admin'
+    ) {
+      return res.status(403).json({ error: 'No tienes permisos para modificar esta moneda' });
+    }
+
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, { folder: 'monedas' });
       req.body.fotografia = result.secure_url;
     }
 
-    // Extraer y normalizar los campos que se envían en el body
     let { nombre, autoridad_emisora, ceca, metal, estado_conservacion } = req.body;
     if (nombre) nombre = normalizarTexto(nombre, 'capitalize');
     if (autoridad_emisora) autoridad_emisora = normalizarTexto(autoridad_emisora, 'capitalize');
@@ -183,20 +186,10 @@ exports.updateMoneda = async (req, res) => {
 
     const monedaActualizada = await Moneda.findByIdAndUpdate(
       id,
-      {
-        ...req.body,
-        nombre,
-        autoridad_emisora,
-        ceca,
-        metal,
-        estado_conservacion,
-      },
+      { ...req.body, nombre, autoridad_emisora, ceca, metal, estado_conservacion },
       { new: true }
     );
 
-    if (!monedaActualizada) {
-      return res.status(404).json({ error: 'Moneda no encontrada' });
-    }
     return res.status(200).json(monedaActualizada);
   } catch (error) {
     res.status(500).json({ error: 'Error al actualizar la moneda', details: error.message });
@@ -210,12 +203,53 @@ exports.deleteMoneda = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'ID de moneda no válido' });
     }
-    const moneda = await Moneda.findByIdAndDelete(id);
+
+    const moneda = await Moneda.findById(id);
     if (!moneda) {
       return res.status(404).json({ error: 'Moneda no encontrada' });
     }
+
+    if (
+      moneda.propietario.toString() !== req.user.id &&
+      req.user.rol !== 'admin'
+    ) {
+      return res.status(403).json({ error: 'No tienes permisos para eliminar esta moneda' });
+    }
+
+    await Moneda.findByIdAndDelete(id);
     res.status(200).json({ message: 'Moneda eliminada correctamente' });
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar la moneda', details: error.message });
   }
 };
+
+// Obtener monedas del usuario autenticado
+exports.getMisMonedas = async (req, res) => {
+  try {
+    const usuarioId = req.user.id;
+
+    const monedas = await Moneda.find({ propietario: usuarioId });
+
+    res.status(200).json(monedas);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener tus monedas', details: error.message });
+  }
+};
+
+// Obtener monedas de un usuario específico (para perfil público o admins)
+exports.getMonedasDeUsuario = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: 'ID de usuario no válido' });
+    }
+
+    const monedas = await Moneda.find({ propietario: userId });
+
+    res.status(200).json(monedas);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener monedas del usuario', details: error.message });
+  }
+};
+
