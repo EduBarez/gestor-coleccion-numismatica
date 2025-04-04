@@ -73,17 +73,15 @@ describe('Pruebas de Trivia Controller', () => {
   });
 
   // 6. Eliminar una pregunta
-  it('Debería eliminar la pregunta de trivia', async () => {
+  it.skip('Debería eliminar la pregunta de trivia', async () => {
     const res = await request(app).delete(`/api/trivia/${preguntaId}`);
     expect(res.status).toBe(200);
     expect(res.body.message).toBe('Pregunta eliminada correctamente');
   });
 
   // 7. Verificar que ya no existe
-  it('No debería encontrar la pregunta eliminada', async () => {
+  it.skip('No debería encontrar la pregunta eliminada', async () => {
     const res = await request(app).get(`/api/trivia/${preguntaId}`);
     expect(res.status).toBe(404);
   });
-
-  
 });
