@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const app = require('./server');
 const jwt = require('jsonwebtoken');
 
-// Simular token de usuario (debes ajustar el ID real de un usuario en tu BD)
-const userId = '65fabcde1234567890123456';
-const userToken = jwt.sign({ id: userId, rol: 'user' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+const userId = '67f3972e5bf893c6c8087901';
+const adminId = '67f3972e5bf893c6c80878ff';
 
-describe('Pruebas de Colección Controller', () => {
+const userToken = jwt.sign({ id: userId, rol: 'user' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+const adminToken = jwt.sign({ id: adminId, rol: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+describe('Pruebas de Colección Controller (usuario y admin)', () => {
   let coleccionId;
 
   beforeAll(async () => {
@@ -21,11 +23,11 @@ describe('Pruebas de Colección Controller', () => {
     await mongoose.connection.close();
   });
 
-  // 1. Crear colección
-  it('Debería crear una nueva colección privada', async () => {
+  // 1. Crear colección como usuario
+  it('El usuario debería crear una nueva colección privada', async () => {
     const nueva = {
-      nombre: 'Colección Romana',
-      descripcion: 'Monedas de época romana',
+      nombre: 'Colección Republicana',
+      descripcion: 'Monedas de la República Romana',
       publica: false
     };
 
@@ -36,50 +38,64 @@ describe('Pruebas de Colección Controller', () => {
 
     expect(res.status).toBe(201);
     expect(res.body._id).toBeDefined();
-    expect(res.body.nombre).toBe('Colección Romana');
+    expect(res.body.nombre).toBe('Colección Republicana');
     coleccionId = res.body._id;
   });
 
-  // 2. Obtener colecciones públicas
-  it('Debería obtener colecciones públicas', async () => {
+  // 2. Ver colecciones públicas
+  it('Cualquier usuario puede ver las colecciones públicas', async () => {
     const res = await request(app).get('/api/colecciones/publicas');
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  // 3. Obtener mis colecciones
-  it('Debería obtener las colecciones del usuario', async () => {
+  // 3. Ver colecciones del usuario autenticado
+  it('El usuario debería ver solo sus colecciones', async () => {
     const res = await request(app)
       .get('/api/colecciones/usuario')
       .set('Authorization', `Bearer ${userToken}`);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.some(c => c.nombre === 'Colección Republicana')).toBe(true);
   });
 
-  // 4. Obtener una colección por ID
-  it('Debería obtener una colección por su ID', async () => {
+  // 4. Ver una colección por ID
+  it('Debería devolver la colección con sus monedas (vacía)', async () => {
     const res = await request(app).get(`/api/colecciones/${coleccionId}`);
     expect(res.status).toBe(200);
     expect(res.body.coleccion._id).toBe(coleccionId);
     expect(Array.isArray(res.body.monedas)).toBe(true);
   });
 
-  // 5. Actualizar colección
-  it('Debería actualizar el nombre de la colección', async () => {
+  // 5. Actualizar colección como usuario
+  it('El usuario puede actualizar su colección', async () => {
     const res = await request(app)
       .put(`/api/colecciones/${coleccionId}`)
       .set('Authorization', `Bearer ${userToken}`)
-      .send({ nombre: 'Colección Imperial' });
+      .send({ nombre: 'Colección de Roma' });
 
     expect(res.status).toBe(200);
-    expect(res.body.nombre).toBe('Colección Imperial');
+    expect(res.body.nombre).toBe('Colección de Roma');
   });
 
-  // 6. Eliminar colección (y desvincular monedas)
-  it('Debería eliminar la colección y desvincular monedas', async () => {
+  // 6. Acceso del admin a todas las colecciones
+  it('El admin puede acceder a todas las colecciones (ruta admin)', async () => {
+    const res = await request(app)
+      .get('/api/colecciones/admin/todas')
+      .set('Authorization', `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    // Debería incluir la creada por el usuario
+    const nombres = res.body.map(c => c.nombre);
+    expect(nombres).toContain('Colección de Roma');
+  });
+
+  // 7. Eliminar la colección y desvincular monedas
+  it('El admin también puede eliminar la colección', async () => {
     const res = await request(app)
       .delete(`/api/colecciones/${coleccionId}`)
-      .set('Authorization', `Bearer ${userToken}`);
+      .set('Authorization', `Bearer ${adminToken}`);
 
     expect(res.status).toBe(200);
     expect(res.body.message).toMatch(/Colección eliminada/);

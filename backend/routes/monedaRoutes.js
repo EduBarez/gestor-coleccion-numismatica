@@ -8,7 +8,9 @@ const {
   getMonedaById,
   createMoneda,
   updateMoneda,
-  deleteMoneda
+  deleteMoneda,
+  getMisMonedas,
+  getMonedasDeUsuario
 } = require('../controllers/monedaController');
 
 const { authMiddleware } = require('../middleware/auth');

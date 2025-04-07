@@ -101,7 +101,6 @@ exports.agregarMonedasAColeccion = async (req, res) => {
     }
   };
   
-
   exports.quitarMonedasDeColeccion = async (req, res) => {
     try {
       const { id } = req.params; // ID de la colección
@@ -119,6 +118,19 @@ exports.agregarMonedasAColeccion = async (req, res) => {
       res.status(200).json({ message: 'Monedas quitadas de la colección' });
     } catch (error) {
       res.status(500).json({ error: 'Error al quitar monedas', details: error.message });
+    }
+  };
+
+  exports.getTodasLasColecciones = async (req, res) => {
+    if (req.user.rol !== 'admin') {
+      return res.status(403).json({ error: 'Acceso solo para administradores' });
+    }
+  
+    try {
+      const colecciones = await Coleccion.find().populate('usuario');
+      res.status(200).json(colecciones);
+    } catch (err) {
+      res.status(500).json({ error: 'Error al obtener todas las colecciones', details: err.message });
     }
   };
   
