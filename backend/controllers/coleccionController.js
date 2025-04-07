@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
 const Coleccion = require('../models/coleccion');
 const Moneda = require('../models/moneda');
+const Usuario = require('../models/user'); 
 
 // Crear colección
 exports.createColeccion = async (req, res) => {
   try {
     const { nombre, descripcion, publica } = req.body;
-    const usuario = req.user.id;
+    const user = req.user.id;
 
-    const coleccion = new Coleccion({ nombre, descripcion, publica, usuario });
+    const coleccion = new Coleccion({ nombre, descripcion, publica, user });
     const guardada = await coleccion.save();
     res.status(201).json(guardada);
   } catch (error) {
@@ -19,17 +20,17 @@ exports.createColeccion = async (req, res) => {
 // Obtener colecciones públicas
 exports.getColeccionesPublicas = async (req, res) => {
   try {
-    const colecciones = await Coleccion.find({ publica: true }).populate('usuario');
+    const colecciones = await Coleccion.find({ publica: true }).populate('user');
     res.status(200).json(colecciones);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener colecciones públicas' });
   }
 };
 
-// Colecciones del usuario autenticado
+// Colecciones del user autenticado
 exports.getMisColecciones = async (req, res) => {
   try {
-    const colecciones = await Coleccion.find({ usuario: req.user.id });
+    const colecciones = await Coleccion.find({ user: req.user.id });
     res.status(200).json(colecciones);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener tus colecciones' });
@@ -39,7 +40,7 @@ exports.getMisColecciones = async (req, res) => {
 // Obtener una colección y sus monedas
 exports.getColeccionById = async (req, res) => {
   try {
-    const coleccion = await Coleccion.findById(req.params.id).populate('usuario');
+    const coleccion = await Coleccion.findById(req.params.id).populate('user');
     if (!coleccion) return res.status(404).json({ error: 'Colección no encontrada' });
 
     const monedas = await Moneda.find({ coleccion: coleccion._id });
@@ -127,7 +128,7 @@ exports.agregarMonedasAColeccion = async (req, res) => {
     }
   
     try {
-      const colecciones = await Coleccion.find().populate('usuario');
+      const colecciones = await Coleccion.find().populate('user');
       res.status(200).json(colecciones);
     } catch (err) {
       res.status(500).json({ error: 'Error al obtener todas las colecciones', details: err.message });
