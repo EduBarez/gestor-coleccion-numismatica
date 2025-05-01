@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  background-color: #F5F5F5;
+  color: #000000;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+mat-toolbar a.router-link-active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.footer {
+  background-color: #9ED8DD;
+  padding: 2rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333333;
+}
+
+.footer-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-text {
+  max-width: 600px;
+  margin: 0 auto 1rem;
+}
+
+.footer a {
+  color: #1C3A4D;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}

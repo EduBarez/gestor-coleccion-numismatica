@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-main-layout',
+  standalone: true,
+  imports: [RouterOutlet, NgIf],
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.css']
 })
+
 export class MainLayoutComponent {
   currentYear: number = new Date().getFullYear();
   userName: string = '';

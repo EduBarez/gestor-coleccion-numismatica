@@ -1,53 +1,9 @@
-<header>
-  <!-- Navbar con Bootstrap -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <!-- Logo con link al home -->
-      <a class="navbar-brand" routerLink="/">Enjoy Coins</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <!-- Menú de navegación principal -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/colecciones">Colecciones</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/trivia">Trivia</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/buscador">Buscador</a>
-          </li>
-        </ul>
-        <!-- Opciones de usuario (según estado de login) -->
-        <ul class="navbar-nav">
-          <li class="nav-item" *ngIf="!isLoggedIn">
-            <a class="nav-link" routerLink="/register">Registrarse</a>
-          </li>
-          <li class="nav-item" *ngIf="!isLoggedIn">
-            <a class="nav-link" routerLink="/login">Loguearse</a>
-          </li>
-          <li class="nav-item" *ngIf="isLoggedIn">
-            <a class="nav-link" href="#">Perfil</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
-
-<main class="container my-4">
-  <!-- Contenido principal -->
-  <div class="row">
-    <div class="col">
-      <h1 class="mb-4">Bienvenido a Enjoy Coins</h1>
-      <p>Aquí podrás gestionar tus colecciones, participar en trivia y mucho más.</p>
-      <!-- Aquí puedes agregar más contenido o componentes -->
-    </div>
-  </div>
-</main>
-
-<footer class="bg-light text-center py-3">
-  <p>&copy; 2025 Enjoy Coins. Todos los derechos reservados.</p>
-</footer>
+<section class="home-container text-center">
+  <h2 class="home-title">Bienvenido a Enjoy Coins</h2>
+  <p class="home-text">
+    Somos una asociación dedicada a la numismática, el estudio y coleccionismo de monedas de todas las épocas y culturas.
+  </p>
+  <p class="home-text">
+    Nuestro objetivo es compartir conocimientos, descubrir nuevas piezas y aprender juntos sobre la historia detrás de cada moneda.
+  </p>
+</section>

@@ -1,29 +1,29 @@
 <header class="top-header">
-    <div class="top-bar flex justify-between items-center px-4 py-2 bg-gray-100 border-b">
-      <div class="left flex items-center space-x-2">
-        <img [src]="logoUrl" alt="Logo Enjoy Coins" class="h-8 cursor-pointer" (click)="goHome()" />
-        <h1 class="text-xl font-semibold text-blue-800 cursor-pointer" (click)="goHome()">Enjoy Coins</h1>
-      </div>
-  
-      <div class="right text-sm text-right space-x-3">
-        <ng-container *ngIf="!isLoggedIn()">
-          <a routerLink="/register" class="hover:underline">Registrarse</a>
-          <a routerLink="/login" class="hover:underline">Login</a>
-        </ng-container>
-        <ng-container *ngIf="isLoggedIn()">
-          <span class="text-gray-600">Hola, {{ userName }}</span>
-          <button (click)="logout()" class="text-red-500 hover:underline">Logout</button>
-        </ng-container>
-      </div>
+  <div class="top-bar flex justify-between items-center px-4 py-2 bg-gray-100 border-b">
+    <div class="left flex items-center space-x-2">
+      <img [src]="logoUrl" alt="Logo Enjoy Coins" class="h-8 cursor-pointer" (click)="goHome()" />
+      <h1 class="text-xl font-semibold text-blue-800 cursor-pointer" (click)="goHome()">Enjoy Coins</h1>
     </div>
-  
-    <nav class="navbar bg-blue-800 text-white px-4 py-3 flex space-x-6">
-      <a routerLink="/monedas" routerLinkActive="font-bold underline">Monedas</a>
-      <a routerLink="/colecciones" routerLinkActive="font-bold underline">Colecciones</a>
-      <a *ngIf="isLoggedIn()" routerLink="/mis-colecciones" routerLinkActive="font-bold underline">Mis colecciones</a>
-      <a routerLink="/trivia" routerLinkActive="font-bold underline">Trivia</a>
-    </nav>
-  </header>
+
+    <div class="right text-sm text-right space-x-3">
+      <ng-container *ngIf="!isLoggedIn()">
+        <a routerLink="/register" class="hover:underline">Registrarse</a>
+        <a routerLink="/login" class="hover:underline">Login</a>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn()">
+        <span class="text-gray-600">Hola, {{ userName }}</span>
+        <button (click)="logout()" class="text-red-500 hover:underline">Logout</button>
+      </ng-container>
+    </div>
+  </div>
+
+  <nav class="navbar bg-blue-800 text-white px-4 py-3 flex space-x-6">
+    <a routerLink="/monedas" routerLinkActive="font-bold underline">Monedas</a>
+    <a routerLink="/colecciones" routerLinkActive="font-bold underline">Colecciones</a>
+    <a *ngIf="isLoggedIn()" routerLink="/mis-colecciones" routerLinkActive="font-bold underline">Mis colecciones</a>
+    <a routerLink="/trivia" routerLinkActive="font-bold underline">Trivia</a>
+  </nav>
+</header>
   
   <!-- Contenido dinámico -->
   <main class="p-4 container mx-auto min-h-[70vh]">
@@ -36,7 +36,7 @@
     <p class="max-w-md mx-auto text-gray-600">
       Enjoy Coins es una comunidad dedicada a la difusión y preservación de la numismática, promoviendo el intercambio y aprendizaje entre coleccionistas de todas las épocas.
     </p>
-    <p class="mt-2">Contacto: <a href="mailto:enjoycoins@gmail.com" class="text-blue-600">enjoycoins@gmail.com</a></p>
+    <p class="mt-2">Contacto: <a href="mailto:enjoycoins&#64;gmail.com" class="text-blue-600">enjoycoins&#64;gmail.com</a></p>
     <p><a href="#" class="underline">Mapa del sitio</a></p>
     <p class="mt-1 text-gray-500">© {{ currentYear }} Enjoy Coins. Todos los derechos reservados.</p>
   </footer>
