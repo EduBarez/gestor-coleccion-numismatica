@@ -7,14 +7,8 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: '', component: HomeComponent },
-      // { path: 'monedas', component: MonedasComponent },
-      // { path: 'colecciones', component: ColeccionesComponent },
-      // { path: 'mis-colecciones', component: MisColeccionesComponent },
-      // { path: 'trivia', component: TriviaComponent }
+      { path: '', component: HomeComponent }
     ]
   },
-  // { path: 'login', component: LoginComponent },
-  // { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '' }
 ];

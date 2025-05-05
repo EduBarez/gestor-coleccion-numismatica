@@ -6,6 +6,11 @@
   min-height: 100vh;
 }
 
+.logo-img {
+  height: 30px;
+  cursor: pointer;
+}
+
 mat-toolbar a.router-link-active {
   font-weight: bold;
   text-decoration: underline;
