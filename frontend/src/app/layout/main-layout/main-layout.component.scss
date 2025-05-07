@@ -1,0 +1,76 @@
+@use 'custom-theme' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--fondo-general);
+  color: var(--texto-principal);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+// Header
+header {
+  background-color: var(--color-secundario);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 0.75rem 1rem;
+}
+
+// Botones de login/register y logout
+header .btn {
+  &.btn-primary {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: white;
+
+    &:hover {
+      background-color: var(--color-primario-600);
+      border-color: var(--color-primario-600);
+    }
+  }
+  &.btn-outline-primary {
+    color: var(--color-primario);
+    border-color: var(--color-primario);
+
+    &:hover {
+      background-color: var(--color-primario);
+      color: white;
+    }
+  }
+  &.btn-outline-secondary {
+    color: var(--texto-secundario);
+    border-color: var(--texto-secundario);
+  }
+}
+
+// Navbar principal
+nav.navbar {
+  background-color: var(--color-primario);
+  .nav-link {
+    color: white;
+    &.active, &:hover {
+      text-decoration: underline;
+      color: black;
+    }
+  }
+}
+
+// Footer adicional
+.footer {
+  background-color: var(--color-secundario);
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--texto-secundario);
+
+  a {
+    color: var(--color-acento);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+main {
+  flex: 1;
+}

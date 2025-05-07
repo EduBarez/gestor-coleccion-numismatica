@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,26 +8,19 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-main-layout',
   standalone: true,
   imports: [
-    RouterOutlet,
+    RouterModule,
     NgIf,
     MatToolbarModule,
     MatButtonModule
   ],
   templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.css']
+  styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent {
-  currentYear: number = new Date().getFullYear();
-  userName: string = '';
-  logoUrl: string = 'https://res.cloudinary.com/dqofgewng/image/upload/v1744890405/Test-Logo-Circle-black-transparent_nrbdhd.png';
+  currentYear = new Date().getFullYear();
+  userName = localStorage.getItem('user') || '';
 
-  constructor() {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      const parsed = JSON.parse(userData);
-      this.userName = parsed.nombre || parsed.name || 'Usuario';
-    }
-  }
+  constructor(private router: Router) {}
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
@@ -35,11 +28,6 @@ export class MainLayoutComponent {
 
   logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.href = '/login';
-  }
-
-  goHome(): void {
-    window.location.href = '/';
+    this.router.navigate(['/']);
   }
 }
