@@ -1,50 +1,16 @@
-@use '@angular/material/theming' as mat;
+@use '@angular/material' as mat;
 
-// 1. Paletas personalizadas
-$custom-primary: (
-  500: #F28C6F,
-  600: #EC7451,
-  700: #DC6240,
-  contrast: (
-    500: white,
-    600: white,
-    700: white
-  )
-);
+html{
+  @include mat.theme((
+    color: mat.$cyan-palette,
+    typography: Roboto,
+    density: 0
+  ));
+}
 
-$custom-accent: (
-  200: #9ED8DD,
-  300: #86C7CD,
-  400: #6EB6BD,
-  contrast: (
-    200: black,
-    300: black,
-    400: black
-  )
-);
-
-// 2. Definición del tema light
-$custom-theme: mat.define-light-theme((
-  color: (
-    primary: $custom-primary,
-    accent:  $custom-accent,
-    warn:    mat.$red-palette
-  ),
-  typography: mat.define-typography-config(),
-  density:    0
-));
-
-// 3. Inclusión de estilos de Angular Material
-@include mat.core();
-@include mat.all-component-themes($custom-theme);
-
-// 4. Exposición de variables CSS
 :root {
-  --color-primario:     #{mat.get-color-from-palette($custom-primary, 500)};
-  --color-primario-600: #{mat.get-color-from-palette($custom-primary, 600)};
-  --color-secundario:   #{mat.get-color-from-palette($custom-accent, 200)};
-  --color-acento:       #{mat.get-color-from-palette($custom-primary, 700)};
-  --texto-principal:    #000000;
-  --texto-secundario:   #333333;
-  --fondo-general:      #F5F5F5;
+  @include mat.toolbar-overrides((
+    container-background-color: var(--mat-sys-primary),
+    container-text-color: white,
+  ));
 }

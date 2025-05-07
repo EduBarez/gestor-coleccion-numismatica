@@ -1,44 +1,45 @@
-<header class="d-flex justify-content-between align-items-center p-3 bg-light shadow-sm">
-  <div class="d-flex align-items-center">
-    <a routerLink="/" class="me-2">
-      <img src="assets/logo.png" alt="Enjoy Coins" height="40">
-    </a>
-    <a routerLink="/" class="h4 text-dark text-decoration-none m-0">Enjoy Coins</a>
-  </div>
-  <div>
-    <ng-container *ngIf="!isLoggedIn(); else loggedTpl">
-      <a routerLink="/login" class="btn btn-outline-primary me-2">Login</a>
-      <a routerLink="/register" class="btn btn-primary">Registrarse</a>
-    </ng-container>
-    <ng-template #loggedTpl>
-      <span class="me-3">Hola, {{ userName }}</span>
-      <button (click)="logout()" class="btn btn-outline-secondary">Logout</button>
-    </ng-template>
-  </div>
-</header>
+<div class="awawa">
+  <header>
+    <mat-toolbar>
+      <a mat-button routerLink="/">
+        <img src="https://res.cloudinary.com/dqofgewng/image/upload/v1746126834/Logo_Enjoy_Coins_q0z6jc.png"
+        alt="Enjoy Coins" height="40">
+        <span>Enjoy Coins</span>
+      </a>
+      <!-- Separador -->
+      <span class="separador"></span>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container">
-    <ul class="navbar-nav mx-auto">
-      <li class="nav-item"><a routerLink="/monedas" class="nav-link">Monedas</a></li>
-      <li class="nav-item"><a routerLink="/colecciones" class="nav-link">Colecciones</a></li>
-      <li *ngIf="isLoggedIn()" class="nav-item">
-        <a routerLink="/mis-colecciones" class="nav-link">Mis colecciones</a>
-      </li>
-      <li class="nav-item"><a routerLink="/trivia" class="nav-link">Trivia</a></li>
-    </ul>
-  </div>
-</nav>
+      <a mat-button routerLink="/monedas">Monedas</a>
+      <a mat-button routerLink="/colecciones">Colecciones</a>
+      <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-colecciones" >Mis colecciones</a>
+      <a mat-button routerLink="/trivia" >Trivia</a>
 
-<main class="container my-4">
-  <router-outlet></router-outlet>
-</main>
 
-<footer class="bg-light text-center py-4 border-top footer">
-  <p class="footer-title mb-1">Enjoy Coins es una asociación dedicada al coleccionismo numismático.</p>
-  <p class="footer-text mb-1">
-    Email: <a href="mailto:enjoycoins&#64;gmail.com">enjoycoins&#64;gmail.com</a>
-  </p>
-  <p class="mb-1"><a routerLink="/sitemap">Sitemap</a></p>
-  <small>&copy; {{ currentYear }} Enjoy Coins. Todos los derechos reservados.</small>
-</footer>
+       <!-- Separador -->
+      <span class="separador"></span>
+
+      <ng-container *ngIf="!isLoggedIn(); else loggedTpl">
+        <a mat-button routerLink="/login">Login</a>
+        <a mat-button routerLink="/register">Registrarse</a>
+      </ng-container>
+      <ng-template #loggedTpl>
+        <span>Hola, {{ userName }}</span>
+        <button (click)="logout()">Logout</button>
+      </ng-template>
+
+    </mat-toolbar>
+  </header> 
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer>
+    <p>Enjoy Coins es una asociación dedicada al coleccionismo numismático.</p>
+    <p>
+      Email: <a href="mailto:enjoycoins&#64;gmail.com">enjoycoins&#64;gmail.com</a>
+    </p>
+    <p><a routerLink="/sitemap">Sitemap</a></p>
+    <small>&copy; {{ currentYear }} Enjoy Coins. Todos los derechos reservados.</small>
+  </footer>
+</div>
