@@ -30,9 +30,6 @@
     "backend",
     "colecciones"
   ],
-  "scripts": {
-    "test": "jest"
-  },
   "jest": {
     "testMatch": [
       "**/*.spec.js"

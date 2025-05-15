@@ -1,0 +1,6 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label>Email:<input formControlName="email" type="email"></label>
+  <label>Contraseña:<input formControlName="password" type="password"></label>
+  <button type="submit">Entrar</button>
+</form>
+<p>{{ error }}</p>
