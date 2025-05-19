@@ -1,3 +1,8 @@
+export enum UserRole {
+    USER = 'user',
+    ADMIN = 'admin',
+}
+
 export interface User {
   id: string;
   DNI: string;
@@ -5,7 +10,7 @@ export interface User {
   apellidos: string;
   email: string;
   isApproved: boolean;
-  rol: 'user' | 'admin';
+  rol: UserRole;
   profilePicture: string;
 }
 
@@ -15,6 +20,7 @@ export interface RegisterData {
   apellidos: string;
   email: string;
   password: string;
+  rol?: UserRole;
 }
 
 export interface LoginData {
@@ -23,6 +29,7 @@ export interface LoginData {
 }
 
 export interface LoginResponse {
-  token: string;
-  user: User;
+    message: string;
+    token: string;
+    user: User;
 }

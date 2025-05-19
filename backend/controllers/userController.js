@@ -125,7 +125,11 @@ exports.loginUser = async (req, res) => {
         id: user._id, 
         nombre: user.nombre, 
         rol: user.rol, 
-        profilePicture: user.profilePicture 
+        profilePicture: user.profilePicture,
+        email: user.email,
+        DNI: user.DNI,
+        apellidos: user.apellidos,
+        isApproved: user.isApproved
       }
     });
   } catch (error) {
