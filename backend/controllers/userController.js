@@ -131,25 +131,12 @@ exports.loginUser = async (req, res) => {
 
     // Generar un token de autenticación JWT usando variable de entorno
     const token = jwt.sign(
-      { id: user._id, rol: user.rol },
+      { id: user._id, rol: user.rol, nombre: user.nombre },
       process.env.JWT_SECRET,
-      { expiresIn: "30d" }
+      { expiresIn: "24h" }
     );
 
-    res.status(200).json({
-      message: "Inicio de sesión exitoso",
-      token,
-      user: {
-        id: user._id,
-        nombre: user.nombre,
-        rol: user.rol,
-        profilePicture: user.profilePicture,
-        email: user.email,
-        DNI: user.DNI,
-        apellidos: user.apellidos,
-        isApproved: user.isApproved,
-      },
-    });
+    res.status(200).json({ token });
   } catch (error) {
     res
       .status(500)

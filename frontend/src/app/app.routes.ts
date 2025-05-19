@@ -3,15 +3,16 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-
+import { UserManagementComponent } from './user-management/user-management.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: '', component: HomeComponent }
-    ]
+      { path: '', component: HomeComponent },
+      { path: 'gestion-usuarios', component: UserManagementComponent },
+    ],
   },
   {
     path: 'login',
@@ -21,5 +22,5 @@ export const routes: Routes = [
     path: 'register',
     component: RegisterComponent,
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];

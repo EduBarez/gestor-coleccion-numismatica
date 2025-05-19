@@ -2,8 +2,11 @@
   <header>
     <mat-toolbar>
       <a mat-button routerLink="/">
-        <img src="https://res.cloudinary.com/dqofgewng/image/upload/v1746126834/Logo_Enjoy_Coins_q0z6jc.png"
-        alt="Enjoy Coins"  height="60"/>
+        <img
+          src="https://res.cloudinary.com/dqofgewng/image/upload/v1746126834/Logo_Enjoy_Coins_q0z6jc.png"
+          alt="Enjoy Coins"
+          height="60"
+        />
         <span>Enjoy Coins</span>
       </a>
       <!-- Separador -->
@@ -11,11 +14,16 @@
 
       <a mat-button routerLink="/monedas">Monedas</a>
       <a mat-button routerLink="/colecciones">Colecciones</a>
-      <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-colecciones" >Mis colecciones</a>
-      <a mat-button routerLink="/trivia" >Trivia</a>
+      <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-colecciones"
+        >Mis colecciones</a
+      >
+      <a mat-button routerLink="/trivia">Trivia</a>
 
+      <!-- Separador -->
+      <span class="separador"></span>
+      <a mat-button *ngIf="isAdmin()" routerLink="/gestion-usuarios"></a>
 
-       <!-- Separador -->
+      <!-- Separador -->
       <span class="separador"></span>
 
       <ng-container *ngIf="!isLoggedIn(); else loggedTpl">
@@ -26,9 +34,8 @@
         <span>Hola, {{ userName }}</span>
         <button (click)="logout()">Logout</button>
       </ng-template>
-
     </mat-toolbar>
-  </header> 
+  </header>
 
   <main>
     <router-outlet></router-outlet>
@@ -37,9 +44,13 @@
   <footer>
     <p>Enjoy Coins es una asociación dedicada al coleccionismo numismático.</p>
     <p>
-      Email: <a href="mailto:enjoycoins&#64;gmail.com">enjoycoins&#64;gmail.com</a>
+      Email:
+      <a href="mailto:enjoycoins&#64;gmail.com">enjoycoins&#64;gmail.com</a>
     </p>
     <p><a routerLink="/sitemap">Sitemap</a></p>
-    <small>&copy; {{ currentYear }} Enjoy Coins. Todos los derechos reservados.</small>
+    <small
+      >&copy; {{ currentYear }} Enjoy Coins. Todos los derechos
+      reservados.</small
+    >
   </footer>
 </div>

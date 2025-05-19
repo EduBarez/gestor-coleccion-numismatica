@@ -8,6 +8,8 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { MatButtonModule } from '@angular/material/button';
+import { jwtDecode } from 'jwt-decode';
+import { JwtPayload } from '../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +37,11 @@ export class LoginComponent {
     if (this.form.valid) {
       this.userService.login(this.form.value).subscribe({
         next: (resp) => {
+          const payload = jwtDecode<JwtPayload>(resp.token);
           localStorage.setItem('token', resp.token);
+          localStorage.setItem('userId', payload.id);
+          localStorage.setItem('userName', payload.nombre);
+          localStorage.setItem('userRole', payload.rol);
           this.router.navigate(['/dashboard']);
         },
         error: (err) =>

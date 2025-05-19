@@ -1,6 +1,6 @@
 export enum UserRole {
-    USER = 'user',
-    ADMIN = 'admin',
+  USER = 'user',
+  ADMIN = 'admin',
 }
 
 export interface User {
@@ -29,7 +29,13 @@ export interface LoginData {
 }
 
 export interface LoginResponse {
-    message: string;
-    token: string;
-    user: User;
+  token: string;
+}
+
+export interface JwtPayload {
+  id: string;
+  nombre: string;
+  rol: string;
+  exp: number;
+  iat: number;
 }
