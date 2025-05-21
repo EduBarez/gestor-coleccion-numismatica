@@ -14,14 +14,13 @@
 
       <a mat-button routerLink="/monedas">Monedas</a>
       <a mat-button routerLink="/colecciones">Colecciones</a>
-      <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-colecciones"
-        >Mis colecciones</a
-      >
+      <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-colecciones">
+        Mis colecciones
+      </a>
       <a mat-button routerLink="/trivia">Trivia</a>
-
-      <!-- Separador -->
-      <span class="separador"></span>
-      <a mat-button *ngIf="isAdmin()" routerLink="/gestion-usuarios"></a>
+      <a mat-button *ngIf="isAdmin()" routerLink="/gestion-usuarios">
+        Gestion usuarios
+      </a>
 
       <!-- Separador -->
       <span class="separador"></span>

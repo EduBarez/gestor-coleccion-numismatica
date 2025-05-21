@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -11,7 +12,11 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'gestion-usuarios', component: UserManagementComponent },
+      {
+        path: 'gestion-usuarios',
+        component: UserManagementComponent,
+        canActivate: [AdminGuard],
+      },
     ],
   },
   {

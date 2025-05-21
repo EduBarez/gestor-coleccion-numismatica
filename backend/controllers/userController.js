@@ -1,7 +1,8 @@
+// controllers/userController.js
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-require("dotenv").config(); // Cargar variables de entorno
+require("dotenv").config();
 
 // Expresiones regulares para validaciones
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -50,7 +51,7 @@ exports.registerUser = async (req, res) => {
       email,
       password,
       isApproved: false,
-      rol: rol, // asegúrate de que usas 'rol' en singular como en el modelo
+      rol: rol,
       profilePicture: fotoPorDefecto,
     });
 
@@ -63,6 +64,19 @@ exports.registerUser = async (req, res) => {
     res
       .status(500)
       .json({ error: "Error al registrar el usuario", details: error.message });
+  }
+};
+
+// Obtener todos los usuarios pendientes de aprobación
+exports.getPendingUsers = async (req, res) => {
+  try {
+    const pendientes = await User.find({ isApproved: false });
+    res.status(200).json(pendientes);
+  } catch (error) {
+    res.status(500).json({
+      error: "Error al obtener usuarios pendientes",
+      details: error.message,
+    });
   }
 };
 
@@ -129,7 +143,7 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ error: "Contraseña incorrecta" });
     }
 
-    // Generar un token de autenticación JWT usando variable de entorno
+    // Generar token JWT
     const token = jwt.sign(
       { id: user._id, rol: user.rol, nombre: user.nombre },
       process.env.JWT_SECRET,

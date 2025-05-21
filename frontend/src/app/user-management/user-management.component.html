@@ -1,4 +1,56 @@
-<div *ngIf="error" class="error">{{ error }}</div>
+<mat-card class="user-pending-card">
+  <mat-card-header>
+    <mat-card-title>Usuarios pendientes de aprobación</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <ng-container *ngIf="pendientes.length > 0; else noUsers">
+      <mat-list>
+        <mat-list-item *ngFor="let u of pendientes" class="user-item">
+          <img
+            *ngIf="u.profilePicture"
+            [src]="u.profilePicture"
+            alt="Perfil"
+            width="50"
+          />
+
+          <div matLine class="user-info">
+            <span class="user-dni">{{ u.DNI }}</span> -
+            <span class="user-name">{{ u.nombre }} {{ u.apellidos }}</span>
+          </div>
+          <div matLine class="user-contact">
+            {{ u.email }} • Rol: <strong>{{ u.rol }}</strong>
+          </div>
+
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="approve(u.id)"
+            matTooltip="Aprobar usuario"
+            aria-label="Aprobar"
+          >
+            Aprobar
+          </button>
+          <button
+            mat-flat-button
+            color="warn"
+            (click)="reject(u.id)"
+            matTooltip="Rechazar usuario"
+            aria-label="Rechazar"
+          >
+            Rechazar
+          </button>
+        </mat-list-item>
+      </mat-list>
+    </ng-container>
+
+    <ng-template #noUsers>
+      <p class="no-users">No hay usuarios pendientes de aprobación.</p>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
+
+<!-- <div *ngIf="error" class="error">{{ error }}</div>
 <ul>
   <li *ngFor="let u of pendientes">
     <img
@@ -7,9 +59,9 @@
       alt="Perfil"
       width="50"
     />
-    {{ u.DNI }} - {{ u.nombre }} {{ u.apellidos }} ({{ u.email }}) - Rol: {{
-    u.rol }}
+    {{ u.DNI }} - {{ u.nombre }} {{ u.apellidos }} ({{ u.email }}) - Rol:
+    {{ u.rol }}
     <button (click)="approve(u.id)">Aprobar</button>
     <button (click)="reject(u.id)">Rechazar</button>
   </li>
-</ul>
+</ul> -->

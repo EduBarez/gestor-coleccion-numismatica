@@ -1,9 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 
+// Módulos de Angular Material usados en el template
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 @Component({
   selector: 'app-user-management',
+  standalone: true, // Componente standalone
+  imports: [
+    NgIf,
+    NgFor,
+    MatCardModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+  ],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss'],
 })
@@ -25,8 +43,11 @@ export class UserManagementComponent implements OnInit {
    */
   loadPendings(): void {
     this.userService.getPending().subscribe({
-      next: (list: User[]) => {
-        this.pendientes = list;
+      next: (list: any[]) => {
+        this.pendientes = list.map((u) => ({
+          ...u,
+          id: u._id,
+        }));
         this.error = '';
       },
       error: (err) => {
@@ -39,8 +60,8 @@ export class UserManagementComponent implements OnInit {
   /**
    * Aprueba un usuario y recarga la lista
    */
-  approve(user: User): void {
-    this.userService.approve(user.id).subscribe({
+  approve(userId: string): void {
+    this.userService.approve(userId).subscribe({
       next: (u: User) => {
         this.message = `Usuario ${u.nombre} aprobado correctamente.`;
         this.error = '';
@@ -55,10 +76,10 @@ export class UserManagementComponent implements OnInit {
   /**
    * Rechaza (elimina) un usuario y recarga la lista
    */
-  reject(user: User): void {
-    this.userService.reject(user.id).subscribe({
+  reject(userId: string): void {
+    this.userService.reject(userId).subscribe({
       next: () => {
-        this.message = `Usuario ${user.nombre} rechazado y eliminado.`;
+        this.message = `Usuario ${userId} rechazado y eliminado.`;
         this.error = '';
         this.loadPendings();
       },
