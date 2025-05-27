@@ -1,24 +1,44 @@
 <div class="awawa">
   <header>
-    <mat-toolbar>
+    <mat-toolbar class="barraNavegacion">
       <a mat-button routerLink="/">
         <img
           src="https://res.cloudinary.com/dqofgewng/image/upload/v1746126834/Logo_Enjoy_Coins_q0z6jc.png"
           alt="Enjoy Coins"
           height="60"
+          class="logo"
         />
-        <span>Enjoy Coins</span>
+        <span class="nombreLogo">Enjoy Coins</span>
       </a>
+
       <!-- Separador -->
       <span class="separador"></span>
 
-      <a mat-button routerLink="/monedas">Monedas</a>
-      <a mat-button routerLink="/colecciones">Colecciones</a>
-      <a *ngIf="isLoggedIn()" mat-button routerLink="/mis-colecciones">
+      <a mat-button routerLink="/monedas" class="botonBarra">Monedas</a>
+      <a
+        *ngIf="isLoggedIn()"
+        mat-button
+        routerLink="/crear-moneda"
+        class="botonBarra"
+      >
+        Crear moneda
+      </a>
+      <a mat-button routerLink="/colecciones" class="botonBarra">Colecciones</a>
+      <a
+        *ngIf="isLoggedIn()"
+        mat-button
+        routerLink="/mis-colecciones"
+        class="botonBarra"
+      >
         Mis colecciones
       </a>
-      <a mat-button routerLink="/trivia">Trivia</a>
-      <a mat-button *ngIf="isAdmin()" routerLink="/gestion-usuarios">
+      <a mat-button routerLink="/trivia" class="botonBarra">Trivia</a>
+      <a
+        mat-button
+        *ngIf="isAdmin()"
+        routerLink="/gestion-usuarios"
+        class="botonBarra"
+      >
         Gestion usuarios
       </a>
 
@@ -26,12 +46,16 @@
       <span class="separador"></span>
 
       <ng-container *ngIf="!isLoggedIn(); else loggedTpl">
-        <a mat-button routerLink="/login">Login</a>
-        <a mat-button routerLink="/register">Registrarse</a>
+        <a mat-raised-button routerLink="/login" class="textoLogout">Login</a>
+        <a mat-raised-button routerLink="/register" class="textoLogout"
+          >Registrarse</a
+        >
       </ng-container>
       <ng-template #loggedTpl>
-        <span>Hola, {{ userName }}</span>
-        <button (click)="logout()">Logout</button>
+        <span class="textoLog">Hola, {{ userName }}</span>
+        <button mat-raised-button (click)="logout()" class="textoLogout">
+          Logout
+        </button>
       </ng-template>
     </mat-toolbar>
   </header>

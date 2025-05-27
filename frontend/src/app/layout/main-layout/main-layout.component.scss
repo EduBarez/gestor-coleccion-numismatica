@@ -1,10 +1,10 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
-.cuerpo{
-  flex:1;
+.cuerpo {
+  flex: 1;
 }
 
-.awawa{
+.awawa {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -14,9 +14,52 @@
   flex: 1 1 auto;
 }
 
+main {
+  padding: 16 px, 20px;
+}
+
 footer {
   margin-top: auto;
   padding: 1rem;
-  background-color: #F28C6F;
+  background-color: #c5ebef;
   text-align: center;
+}
+
+.barraNavegacion {
+  padding: 2.7rem 1rem;
+}
+
+.botonBarra {
+  font-size: 1.5rem;
+  margin: 0, 2rem;
+}
+
+.logo {
+  vertical-align: middle;
+}
+
+.nombreLogo {
+  font-size: 1.5rem;
+  vertical-align: middle;
+  margin-left: 0.7rem;
+}
+
+.textoLog {
+  font-size: 1.5rem;
+}
+.textoLogout {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+/* ───────────────────────────────────────────────────
+   Ajustes responsivos
+   ─────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .barraNavegacion {
+    padding: 0.5rem;
+    font-size: 1rem; /* 16px en móvil */
+  }
+  .barraNavegacion a:first-child img {
+    height: 2rem; /* 32px logo en móvil */
+  }
 }

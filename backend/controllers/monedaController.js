@@ -176,6 +176,7 @@ exports.createMoneda = async (req, res) => {
       .json({ error: "Error al crear la moneda", details: error.message });
   }
 };
+
 /**
  * Actualizar una moneda por ID.
  * - Si se envía un nuevo archivo de imagen, se sube a Cloudinary y se actualiza el campo fotografía.

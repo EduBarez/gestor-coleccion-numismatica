@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-user-management',
@@ -21,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatDividerModule,
   ],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss'],

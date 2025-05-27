@@ -1,0 +1,103 @@
+<div class="crear-moneda-page">
+  <h2>Nueva Moneda</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Valor</mat-label>
+        <input matInput formControlName="valor" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Autoridad emisora</mat-label>
+        <input matInput formControlName="autoridad_emisora" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ceca</mat-label>
+        <input matInput formControlName="ceca" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Datación</mat-label>
+        <input matInput formControlName="datacion" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Estado conservación</mat-label>
+        <input matInput formControlName="estado_conservacion" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Metal</mat-label>
+        <input matInput formControlName="metal" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Peso (g)</mat-label>
+        <input matInput type="number" formControlName="peso" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Diámetro (mm)</mat-label>
+        <input matInput type="number" formControlName="diametro" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Anverso</mat-label>
+        <textarea matInput formControlName="anverso" rows="2"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Reverso</mat-label>
+        <textarea matInput formControlName="reverso" rows="2"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Canto</mat-label>
+        <input matInput formControlName="canto" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Referencias</mat-label>
+        <textarea matInput formControlName="referencias" rows="2"></textarea>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Observaciones</mat-label>
+      <textarea matInput formControlName="observaciones" rows="2"></textarea>
+    </mat-form-field>
+
+    <div class="file-input">
+      <label mat-button color="primary" for="file">Seleccionar imagen</label>
+      <input
+        id="file"
+        type="file"
+        (change)="onFileChange($event)"
+        accept="image/*"
+        hidden
+      />
+      <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+    </div>
+    <div class="preview" *ngIf="previewUrl">
+      <img [src]="previewUrl" alt="Vista previa" />
+    </div>
+
+    <div class="actions">
+      <button mat-flat-button color="primary" type="submit">Crear</button>
+      <button mat-stroked-button type="button" (click)="cancel()">
+        Cancelar
+      </button>
+    </div>
+
+    <p class="error" *ngIf="message">{{ message }}</p>
+  </form>
+</div>

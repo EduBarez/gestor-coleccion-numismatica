@@ -1,0 +1,74 @@
+/* monedas.component.scss */
+.monedas-page {
+  padding: 16px;
+
+  .search-filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    mat-form-field {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    /* Contenedor del botón Filtros */
+    .filter-toggle {
+      margin: 1rem 0;
+      button {
+        width: 100%;
+      }
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+  }
+
+  .filter-actions :first-child {
+    margin-right: 7px;
+  }
+
+  .monedas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 24px;
+    justify-items: center;
+    margin-bottom: 24px;
+  }
+
+  .moneda-card {
+    width: 100%;
+    max-width: 200px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    img {
+      object-fit: cover;
+      height: 160px;
+      width: 100%;
+    }
+
+    h3 {
+      text-align: center;
+      margin: 8px 0 0;
+      font-size: 1rem;
+    }
+  }
+}

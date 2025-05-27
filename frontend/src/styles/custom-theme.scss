@@ -1,16 +1,30 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
-html{
-  @include mat.theme((
-    color: mat.$cyan-palette,
-    typography: Roboto,
-    density: 0
-  ));
+html {
+  @include mat.theme(
+    (
+      color: mat.$cyan-palette,
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-family: Roboto;
 }
 
 :root {
-  @include mat.toolbar-overrides((
-    container-background-color: var(--mat-sys-primary),
-    container-text-color: white,
-  ));
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: var(--mat-sys-primary),
+      container-text-color: white,
+    )
+  );
 }

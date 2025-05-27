@@ -1,0 +1,57 @@
+.crear-moneda-page {
+  max-width: 800px;
+  margin: 24px auto;
+  padding: 16px;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    .full {
+      flex: 1 1 100%;
+    }
+
+    mat-form-field {
+      flex: 1 1 45%;
+      min-width: 200px;
+    }
+  }
+
+  .file-input {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .preview {
+    img {
+      max-width: 200px;
+      max-height: 200px;
+      border-radius: 4px;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .error {
+    color: #c0392b;
+    text-align: center;
+  }
+}

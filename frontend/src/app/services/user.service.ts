@@ -37,4 +37,12 @@ export class UserService {
   reject(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/reject/${id}`);
   }
+
+  public isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  public isAdmin(): boolean {
+    return localStorage.getItem('userRole') === 'admin';
+  }
 }
