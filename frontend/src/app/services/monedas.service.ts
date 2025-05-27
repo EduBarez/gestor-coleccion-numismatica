@@ -48,7 +48,7 @@ export class MonedaService {
   }
 
   /** Crea una nueva moneda (con multipart/form-data para la foto) */
-  createMoneda(formData: FormData): Observable<Moneda> {
+  createMoneda(formData: MonedaCreate): Observable<Moneda> {
     const token = localStorage.getItem('token');
     const headers = token
       ? new HttpHeaders({ Authorization: `Bearer ${token}` })

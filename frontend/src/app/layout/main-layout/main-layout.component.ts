@@ -3,6 +3,7 @@ import { RouterModule, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { UserService } from '@app/services/user.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -15,15 +16,15 @@ export class MainLayoutComponent {
   currentYear = new Date().getFullYear();
   userName = localStorage.getItem('userName') || '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public userService: UserService) {}
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
-  }
+  // isLoggedIn(): boolean {
+  //   return !!localStorage.getItem('token');
+  // }
 
-  isAdmin(): boolean {
-    return localStorage.getItem('userRole') === 'admin';
-  }
+  // isAdmin(): boolean {
+  //   return localStorage.getItem('userRole') === 'admin';
+  // }
 
   logout(): void {
     localStorage.removeItem('token');

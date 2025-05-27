@@ -1,79 +1,68 @@
-<div class="awawa">
-  <header>
-    <mat-toolbar class="barraNavegacion">
-      <a mat-button routerLink="/">
-        <img
-          src="https://res.cloudinary.com/dqofgewng/image/upload/v1746126834/Logo_Enjoy_Coins_q0z6jc.png"
-          alt="Enjoy Coins"
-          height="60"
-          class="logo"
-        />
-        <span class="nombreLogo">Enjoy Coins</span>
-      </a>
+<header>
+  <mat-toolbar class="barraNavegacion">
+    <a mat-button routerLink="/">
+      <img
+        src="https://res.cloudinary.com/dqofgewng/image/upload/v1746126834/Logo_Enjoy_Coins_q0z6jc.png"
+        alt="Enjoy Coins"
+        height="60"
+        class="logo"
+      />
+      <span class="nombreLogo">Enjoy Coins</span>
+    </a>
 
-      <!-- Separador -->
-      <span class="separador"></span>
+    <!-- Separador -->
+    <span class="separador"></span>
 
-      <a mat-button routerLink="/monedas" class="botonBarra">Monedas</a>
-      <a
-        *ngIf="isLoggedIn()"
-        mat-button
-        routerLink="/crear-moneda"
-        class="botonBarra"
-      >
-        Crear moneda
-      </a>
-      <a mat-button routerLink="/colecciones" class="botonBarra">Colecciones</a>
-      <a
-        *ngIf="isLoggedIn()"
-        mat-button
-        routerLink="/mis-colecciones"
-        class="botonBarra"
-      >
-        Mis colecciones
-      </a>
-      <a mat-button routerLink="/trivia" class="botonBarra">Trivia</a>
-      <a
-        mat-button
-        *ngIf="isAdmin()"
-        routerLink="/gestion-usuarios"
-        class="botonBarra"
-      >
-        Gestion usuarios
-      </a>
-
-      <!-- Separador -->
-      <span class="separador"></span>
-
-      <ng-container *ngIf="!isLoggedIn(); else loggedTpl">
-        <a mat-raised-button routerLink="/login" class="textoLogout">Login</a>
-        <a mat-raised-button routerLink="/register" class="textoLogout"
-          >Registrarse</a
-        >
-      </ng-container>
-      <ng-template #loggedTpl>
-        <span class="textoLog">Hola, {{ userName }}</span>
-        <button mat-raised-button (click)="logout()" class="textoLogout">
-          Logout
-        </button>
-      </ng-template>
-    </mat-toolbar>
-  </header>
-
-  <main>
-    <router-outlet></router-outlet>
-  </main>
-
-  <footer>
-    <p>Enjoy Coins es una asociación dedicada al coleccionismo numismático.</p>
-    <p>
-      Email:
-      <a href="mailto:enjoycoins&#64;gmail.com">enjoycoins&#64;gmail.com</a>
-    </p>
-    <p><a routerLink="/sitemap">Sitemap</a></p>
-    <small
-      >&copy; {{ currentYear }} Enjoy Coins. Todos los derechos
-      reservados.</small
+    <a mat-button routerLink="/monedas" class="botonBarra">Monedas</a>
+    <a mat-button routerLink="/colecciones" class="botonBarra">Colecciones</a>
+    <a
+      *ngIf="userService.isLoggedIn()"
+      mat-button
+      routerLink="/mis-colecciones"
+      class="botonBarra"
     >
-  </footer>
-</div>
+      Mis colecciones
+    </a>
+    <a mat-button routerLink="/trivia" class="botonBarra">Trivia</a>
+    <a
+      mat-button
+      *ngIf="userService.isAdmin()"
+      routerLink="/gestion-usuarios"
+      class="botonBarra"
+    >
+      Gestion usuarios
+    </a>
+
+    <!-- Separador -->
+    <span class="separador"></span>
+
+    <ng-container *ngIf="!userService.isLoggedIn(); else loggedTpl">
+      <a mat-raised-button routerLink="/login" class="textoLogout">Login</a>
+      <a mat-raised-button routerLink="/register" class="textoLogout"
+        >Registrarse</a
+      >
+    </ng-container>
+    <ng-template #loggedTpl>
+      <span class="textoLog">Hola, {{ userName }} </span>
+      <button mat-raised-button (click)="logout()" class="textoLogout">
+        Logout
+      </button>
+    </ng-template>
+  </mat-toolbar>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer>
+  <p>Enjoy Coins es una asociación dedicada al coleccionismo numismático.</p>
+  <p>
+    Email:
+    <a href="mailto:enjoycoins&#64;gmail.com">enjoycoins&#64;gmail.com</a>
+  </p>
+  <p><a routerLink="/sitemap">Sitemap</a></p>
+  <small
+    >&copy; {{ currentYear }} Enjoy Coins. Todos los derechos reservados.</small
+  >
+</footer>

@@ -1,12 +1,15 @@
-<span class="spacer"></span>
+<a
+  *ngIf="userService.isLoggedIn()"
+  mat-flat-button
+  routerLink="/crear-moneda"
+  class="crear-moneda-button"
+>
+  Crear moneda
+</a>
 
-<div class="monedas-page">
-  <form
-    [formGroup]="filterForm"
-    class="search-filter"
-    (ngSubmit)="getMonedas()"
-  >
-    <mat-form-field appearance="outline">
+<form [formGroup]="filterForm" class="search-filter" (ngSubmit)="getMonedas()">
+  <div class="buscador-filtro">
+    <mat-form-field appearance="outline" class="buscador">
       <mat-label>Buscar monedas</mat-label>
       <input
         matInput
@@ -14,37 +17,38 @@
         placeholder="Nombre de la moneda"
       />
     </mat-form-field>
+    <button
+      mat-stroked-button
+      type="button"
+      (click)="toggleFilters()"
+      class="filter-toggle"
+    >
+      {{ showFilters ? "Ocultar filtros" : "Filtros" }}
+    </button>
+  </div>
 
-    <!-- Botón para mostrar/ocultar filtros -->
-    <div class="filter-toggle">
-      <button mat-stroked-button type="button" (click)="toggleFilters()">
-        {{ showFilters ? "Ocultar filtros" : "Filtros" }}
-      </button>
-    </div>
-
-    <!-- Filtros adicionales -->
-    <div class="filters" *ngIf="showFilters">
-      <mat-form-field appearance="outline">
-        <mat-label>Autoridad emisora</mat-label>
-        <input matInput formControlName="autoridad_emisora" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Ceca</mat-label>
-        <input matInput formControlName="ceca" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Datación</mat-label>
-        <input matInput formControlName="datacion" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Estado conservación</mat-label>
-        <input matInput formControlName="estado_conservacion" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Metal</mat-label>
-        <input matInput formControlName="metal" />
-      </mat-form-field>
-    </div>
+  <!-- Filtros adicionales -->
+  <div class="filters" *ngIf="showFilters">
+    <mat-form-field appearance="outline">
+      <mat-label>Autoridad emisora</mat-label>
+      <input matInput formControlName="autoridad_emisora" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Ceca</mat-label>
+      <input matInput formControlName="ceca" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Datación</mat-label>
+      <input matInput formControlName="datacion" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Estado conservación</mat-label>
+      <input matInput formControlName="estado_conservacion" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Metal</mat-label>
+      <input matInput formControlName="metal" />
+    </mat-form-field>
 
     <!-- Acciones de filtros: sólo se ven cuando showFilters = true -->
     <div class="filter-actions" *ngIf="showFilters">
@@ -59,29 +63,30 @@
         Aplicar búsqueda
       </button>
     </div>
-  </form>
-
-  <div class="monedas-grid">
-    <mat-card *ngFor="let moneda of monedas" class="moneda-card">
-      <a [routerLink]="['/monedas', moneda._id]">
-        <img mat-card-image [src]="moneda.fotografia" [alt]="moneda.nombre" />
-        <mat-card-content>
-          <h3>{{ moneda.nombre }} - {{ moneda.autoridad_emisora }}</h3>
-        </mat-card-content>
-      </a>
-    </mat-card>
-
-    <div *ngIf="monedas.length === 0" class="sin-resultados">
-      No se encontraron monedas.
-    </div>
   </div>
+</form>
 
-  <mat-paginator
-    [length]="totalItems"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex"
-    [pageSizeOptions]="[5, 10, 20]"
-    (page)="onPageChange($event)"
-  >
-  </mat-paginator>
+<div class="monedas-grid">
+  <mat-card *ngFor="let moneda of monedas" class="moneda-card">
+    <a [routerLink]="['/monedas', moneda._id]">
+      <img mat-card-image [src]="moneda.fotografia" [alt]="moneda.nombre" />
+      <mat-card-content>
+        <h3>{{ moneda.nombre }} - {{ moneda.autoridad_emisora }}</h3>
+      </mat-card-content>
+    </a>
+  </mat-card>
+
+  <div *ngIf="monedas.length === 0" class="sin-resultados">
+    No se encontraron monedas.
+  </div>
 </div>
+
+<mat-paginator
+  [length]="totalItems"
+  [pageSize]="pageSize"
+  [pageIndex]="pageIndex"
+  [pageSizeOptions]="[8, 16, 24]"
+  (page)="onPageChange($event)"
+  class="paginator"
+>
+</mat-paginator>

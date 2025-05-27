@@ -16,6 +16,7 @@ import {
   MonedaResponse,
   FiltrosMonedas,
 } from '../models/moneda.models';
+import { UserService } from '@app/services/user.service';
 
 @Component({
   selector: 'app-monedas',
@@ -44,7 +45,7 @@ export class MonedasComponent implements OnInit {
   pageSize = 10;
   pageIndex = 0;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, public userService: UserService) {
     this.filterForm = this.fb.group<FiltrosMonedas>({
       search: '',
       autoridad_emisora: '',

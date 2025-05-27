@@ -1,74 +1,147 @@
-/* monedas.component.scss */
-.monedas-page {
-  padding: 16px;
+/* Botón de crear moneda */
+.crear-moneda-button {
+  font-size: 20px;
+}
 
-  .search-filter {
+/* Buscador y filtros */
+.buscador-filtro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Campo de búsqueda */
+mat-form-field {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Toggle de filtros */
+.filter-toggle {
+  margin: 1rem 0;
+
+  button {
+    width: 100%;
+  }
+}
+
+/* Contenedor de filtros */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: calc((25ch * 3) + (16px * 2));
+  margin: 1.4rem auto 1.6rem;
+}
+
+.filters mat-form-field {
+  flex: 0 1 25ch;
+  min-width: 15ch;
+}
+
+/* Acciones de filtro */
+.filter-actions :first-child {
+  margin-right: 15px;
+}
+
+/* Botones generales */
+button {
+  font-size: 20px;
+}
+
+/* ---------------------------------
+   GRID/FLEX de tarjetas de moneda
+   4 por fila, imagen uniforme
+   --------------------------------- */
+$gap: 1rem;
+$min-card-width: 240px; // aquí defines el ancho mínimo: si quieres más chica, bájalo
+$max-card-width: 1fr; // para que ocupe el espacio restante
+
+.monedas-grid {
+  display: grid;
+  /* siempre 4 columnas, cada una al menos $min-card-width y auto-expandiéndose */
+  grid-template-columns: repeat(4, minmax($min-card-width, $max-card-width));
+  gap: $gap;
+  margin: 0 1rem 2rem;
+}
+
+.moneda-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  /* imagen ocupa todo el ancho, mantiene 2:1 y se recorta bien */
+  img {
+    width: 100%;
+    height: auto; /* elimina cualquier altura fija */
+    aspect-ratio: 2/1; /* tu proporción 600×300 */
+    object-fit: cover; /* recorta sin deformar */
+    display: block;
+  }
+
+  .card-body {
+    padding: 0.5rem; /* un poco menos de padding para que la imagen destaque más */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
-
-    mat-form-field {
-      width: 100%;
-      max-width: 500px;
-    }
-
-    /* Contenedor del botón Filtros */
-    .filter-toggle {
-      margin: 1rem 0;
-      button {
-        width: 100%;
-      }
-    }
-
-    .filters {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
-      width: 100%;
-      max-width: 800px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
+    justify-content: center;
   }
+}
 
-  .filter-actions :first-child {
-    margin-right: 7px;
-  }
+/* Título bajo la imagen */
+h3 {
+  text-align: center;
+  margin: 8px 0 0;
+  font-size: 1.2rem;
+}
 
-  .monedas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 24px;
-    justify-items: center;
-    margin-bottom: 24px;
-  }
+:host ::ng-deep.mat-mdc-select-value-text {
+  font-size: 1.2rem;
+}
 
+:host ::ng-deep.mat-mdc-paginator-container {
+  background-color: inherit;
+}
+
+/* Paginador */
+.paginator {
+  font-size: 20px;
+}
+
+/* ------------------------------
+   Breakpoints responsivos
+   ------------------------------ */
+/* 3 por fila en pantallas ≤1200px */
+/* Responsivo: cambia el ancho de la tarjeta en pantallas más pequeñas */
+@media (max-width: 1200px) {
+  $card-width: 12rem; /* 192px */
   .moneda-card {
-    width: 100%;
-    max-width: 200px;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-
-    &:hover {
-      transform: translateY(-4px);
-    }
-
-    img {
-      object-fit: cover;
-      height: 160px;
-      width: 100%;
-    }
-
-    h3 {
-      text-align: center;
-      margin: 8px 0 0;
-      font-size: 1rem;
-    }
+    flex: 0 1 $card-width;
+    max-width: $card-width;
+  }
+}
+@media (max-width: 800px) {
+  $card-width: 10rem; /* 160px */
+  .moneda-card {
+    flex: 0 1 $card-width;
+    max-width: $card-width;
+  }
+}
+@media (max-width: 600px) {
+  .moneda-card {
+    flex: 0 1 100%;
+    max-width: 100%;
   }
 }
