@@ -38,6 +38,10 @@ export class UserService {
     return this.http.delete<void>(`${this.baseUrl}/reject/${id}`);
   }
 
+  getUser(id: string): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/user/${id}`);
+  }
+
   public isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }

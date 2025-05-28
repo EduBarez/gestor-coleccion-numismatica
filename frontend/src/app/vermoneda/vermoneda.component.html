@@ -1,0 +1,32 @@
+<div *ngIf="cargando" class="loading">Cargando moneda…</div>
+
+<div *ngIf="error" class="error">
+  {{ error }}
+</div>
+
+<mat-card *ngIf="!cargando && !error && moneda" class="detalle-moneda-card">
+  <img mat-card-image [src]="moneda.fotografia" [alt]="moneda.nombre" />
+  <mat-card-content>
+    <h2>{{ moneda.nombre }}</h2>
+    <p><strong>Autoridad emisora:</strong> {{ moneda.autoridad_emisora }}</p>
+    <p><strong>Ceca:</strong> {{ moneda.ceca }}</p>
+    <p><strong>Datación:</strong> {{ moneda.datacion }}</p>
+    <p>
+      <strong>Estado de conservación:</strong> {{ moneda.estado_conservacion }}
+    </p>
+    <p><strong>Metal:</strong> {{ moneda.metal }}</p>
+    <p><strong>Peso:</strong> {{ moneda.peso }}</p>
+    <p><strong>Diametro:</strong> {{ moneda.diametro }}</p>
+    <p><strong>Anverso:</strong> {{ moneda.anverso }}</p>
+    <p><strong>Reverso:</strong> {{ moneda.reverso }}</p>
+    <p><strong>Canto:</strong> {{ moneda.canto }}</p>
+    <p><strong>Referencias:</strong> {{ moneda.referencias }}</p>
+    <p><strong>Observaciones:</strong> {{ moneda.observaciones }}</p>
+    <p><strong>Propietario:</strong> {{ nombreUsuario }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-stroked-button routerLink="/monedas">
+      ← Volver al listado
+    </button>
+  </mat-card-actions>
+</mat-card>

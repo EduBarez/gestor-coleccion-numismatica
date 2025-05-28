@@ -1,8 +1,8 @@
 // server.js
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
@@ -11,32 +11,33 @@ app.use(cors());
 app.use(express.json());
 
 // Importar rutas
-const monedaRoutes = require('./routes/monedaRoutes');
-const userRoutes = require('./routes/userRoutes');
-const triviaRoutes = require('./routes/triviaRoutes');
-const coleccionRoutes = require('./routes/coleccionRoutes');
-
+const monedaRoutes = require("./routes/monedaRoutes");
+const userRoutes = require("./routes/userRoutes");
+const triviaRoutes = require("./routes/triviaRoutes");
+const coleccionRoutes = require("./routes/coleccionRoutes");
 
 // Usar rutas
-app.use('/api/monedas', monedaRoutes);
-app.use('/api/usuarios', userRoutes);
-app.use('/api/trivia', triviaRoutes);
-app.use('/api/colecciones', coleccionRoutes);
+app.use("/api/monedas", monedaRoutes);
+app.use("/api/usuarios", userRoutes);
+app.use("/api/trivia", triviaRoutes);
+app.use("/api/colecciones", coleccionRoutes);
 
 // Ruta de prueba
-app.get('/', (req, res) => {
-  res.send('Gestor de Colecciones Numismáticas - Backend funcionando');
+app.get("/", (req, res) => {
+  res.send("Gestor de Colecciones Numismáticas - Backend funcionando");
 });
 
 // Manejo de errores 404
 app.use((req, res) => {
-  res.status(404).json({ error: 'Ruta no encontrada' });
+  res.status(404).json({ error: "Ruta no encontrada" });
 });
 
 // Manejo de errores global
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: 'Ocurrió un error en el servidor', details: err.message });
+  res
+    .status(500)
+    .json({ error: "Ocurrió un error en el servidor", details: err.message });
 });
 
 /**
@@ -47,9 +48,9 @@ if (require.main === module) {
   // Conectamos a la BD
   mongoose
     .connect(process.env.MONGO_URI)
-    .then(() => console.log('Conexión a MongoDB establecida'))
+    .then(() => console.log("Conexión a MongoDB establecida"))
     .catch((err) => {
-      console.error('Error al conectar a MongoDB:', err);
+      console.error("Error al conectar a MongoDB:", err);
       process.exit(1);
     });
 
@@ -60,8 +61,8 @@ if (require.main === module) {
   });
 
   // Manejo de errores asíncronos
-  process.on('unhandledRejection', (err) => {
-    console.error('Unhandled Rejection:', err.message);
+  process.on("unhandledRejection", (err) => {
+    console.error("Unhandled Rejection:", err.message);
     server.close(() => process.exit(1));
   });
 }

@@ -8,6 +8,7 @@ const {
   rejectUser,
   loginUser,
   getPendingUsers,
+  getUser,
 } = require("../controllers/userController");
 
 // Rutas para la gestión de usuarios
@@ -16,5 +17,6 @@ router.post("/login", loginUser); // Iniciar sesión
 router.put("/approve/:id", approveUser); // Aprobar usuario
 router.delete("/reject/:id", rejectUser); // Rechazar y eliminar usuario
 router.get("/pending", getPendingUsers); // Obtener usuarios pendientes
+router.get("/user/:id", getUser); // Obtener usuario por id
 
 module.exports = router;

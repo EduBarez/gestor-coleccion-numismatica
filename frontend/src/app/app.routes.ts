@@ -7,6 +7,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { AdminGuard } from './guards/admin.guard';
 import { MonedasComponent } from './monedas/monedas.component';
 import { CrearMonedaComponent } from './crearmoneda/crearmoneda.component';
+import { VermonedaComponent } from './vermoneda/vermoneda.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +30,10 @@ export const routes: Routes = [
       {
         path: 'crear-moneda',
         component: CrearMonedaComponent,
+      },
+      {
+        path: 'monedas/:id',
+        component: VermonedaComponent,
       },
     ],
   },

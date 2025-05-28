@@ -157,3 +157,23 @@ exports.loginUser = async (req, res) => {
       .json({ error: "Error al iniciar sesión", details: error.message });
   }
 };
+
+// Obtener un usuario por su ID
+exports.getUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).select(
+      "DNI nombre apellidos email rol profilePicture"
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error al obtener el usuario", details: error.message });
+  }
+};
