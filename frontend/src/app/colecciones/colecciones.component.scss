@@ -1,0 +1,76 @@
+/* Botón crear */
+.crear-coleccion-button {
+  margin-bottom: 1rem;
+}
+
+/* Formulario buscador + filtros */
+.search-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.buscador-filtro {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .buscador {
+    flex: 1;
+  }
+
+  .filter-toggle {
+    white-space: nowrap;
+  }
+}
+
+/* Bloque filtros extra */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Grid responsiva para tarjetas */
+.colecciones-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 0;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.coleccion-card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.sin-resultados {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-style: italic;
+  color: gray;
+}
+
+/* Paginador alineado al centro */
+.paginator {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}

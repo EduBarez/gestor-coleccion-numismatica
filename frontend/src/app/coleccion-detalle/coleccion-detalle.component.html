@@ -1,0 +1,65 @@
+<div class="coleccion-detalle-page" *ngIf="coleccion">
+  <h2>{{ coleccion.nombre }}</h2>
+  <p class="descripcion">{{ coleccion.descripcion || "Sin descripción." }}</p>
+  <p class="autor">
+    Creada por {{ coleccion.user?.nombre || coleccion.user?.username }}
+  </p>
+
+  <form [formGroup]="filterForm" class="search-filter">
+    <div class="buscador-filtro">
+      <mat-form-field appearance="outline" class="buscador">
+        <mat-label>Buscar monedas</mat-label>
+        <input matInput formControlName="search" placeholder="Nombre" />
+      </mat-form-field>
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="toggleFilters()"
+        class="filter-toggle"
+      >
+        {{ showFilters ? "Ocultar filtros" : "Filtros" }}
+      </button>
+    </div>
+
+    <div class="filters" *ngIf="showFilters">
+      <!-- puedes añadir más controles si quieres -->
+      <p>Más filtros en desarrollo…</p>
+      <div class="filter-actions">
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="filterForm.reset(); applyFilter()"
+        >
+          Limpiar
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="monedas-grid" *ngIf="!isLoading">
+    <mat-card *ngFor="let moneda of monedas" class="moneda-card">
+      <a [routerLink]="['/monedas', moneda._id]">
+        <img mat-card-image [src]="moneda.fotografia" [alt]="moneda.nombre" />
+        <mat-card-content>
+          <h3>{{ moneda.nombre }} – {{ moneda.autoridad_emisora }}</h3>
+        </mat-card-content>
+      </a>
+    </mat-card>
+
+    <div *ngIf="monedas.length === 0" class="sin-resultados">
+      No hay monedas en esta colección.
+    </div>
+  </div>
+
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[8, 16, 24]"
+    (page)="onPageChange($event)"
+    class="paginator"
+  >
+  </mat-paginator>
+</div>
+
+<div *ngIf="isLoading" class="loading">Cargando colección…</div>

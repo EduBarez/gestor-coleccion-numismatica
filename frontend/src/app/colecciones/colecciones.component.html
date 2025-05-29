@@ -1,0 +1,55 @@
+<a
+  *ngIf="userService.isLoggedIn()"
+  mat-flat-button
+  routerLink="/colecciones/crear"
+  class="crear-coleccion-button"
+>
+  Crear colección
+</a>
+
+<form
+  [formGroup]="filterForm"
+  class="search-filter"
+  (ngSubmit)="getColecciones()"
+>
+  <div class="buscador-filtro">
+    <mat-form-field appearance="outline" class="buscador">
+      <mat-label>Buscar colecciones</mat-label>
+      <input
+        matInput
+        formControlName="search"
+        placeholder="Nombre de la colección"
+      />
+    </mat-form-field>
+  </div>
+</form>
+
+<div class="colecciones-grid">
+  <mat-card *ngFor="let col of colecciones" class="coleccion-card">
+    <a [routerLink]="['/colecciones', col._id]">
+      <mat-card-header>
+        <mat-card-title>{{ col.nombre }}</mat-card-title>
+        <mat-card-subtitle>
+          por {{ col.user?.nombre || col.user?.username || "Usuario" }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ col.descripcion || "Sin descripción disponible." }}</p>
+      </mat-card-content>
+    </a>
+  </mat-card>
+
+  <div *ngIf="colecciones.length === 0" class="sin-resultados">
+    No se encontraron colecciones.
+  </div>
+</div>
+
+<mat-paginator
+  [length]="totalItems"
+  [pageSize]="pageSize"
+  [pageIndex]="pageIndex"
+  [pageSizeOptions]="[8, 16, 24]"
+  (page)="onPageChange($event)"
+  class="paginator"
+>
+</mat-paginator>

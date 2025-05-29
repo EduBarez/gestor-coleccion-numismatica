@@ -10,6 +10,9 @@ import { CrearMonedaComponent } from './crearmoneda/crearmoneda.component';
 import { VermonedaComponent } from './vermoneda/vermoneda.component';
 import { LoginRegisterComponent } from './layout/login-register/login-register.component';
 import { ModificarMonedaComponent } from './modificarmoneda/modificarmoneda.component';
+import { ColeccionesComponent } from './colecciones/colecciones.component';
+import { CrearColeccionComponent } from './crearcoleccion/crearcoleccion.component';
+import { ColeccionDetalleComponent } from './coleccion-detalle/coleccion-detalle.component';
 
 export const routes: Routes = [
   {
@@ -40,6 +43,19 @@ export const routes: Routes = [
       {
         path: 'modificar-monedas/:id',
         component: ModificarMonedaComponent,
+      },
+      {
+        path: 'colecciones',
+        component: ColeccionesComponent,
+      },
+      {
+        path: 'colecciones/crear',
+        component: CrearColeccionComponent,
+        //canActivate: [AuthGuard],
+      },
+      {
+        path: 'colecciones/:id',
+        component: ColeccionDetalleComponent,
       },
     ],
   },
