@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '@app/services/user.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-vermoneda',
@@ -26,6 +27,7 @@ import { UserService } from '@app/services/user.service';
     MatPaginatorModule,
     MatCardModule,
     RouterModule,
+    MatIconModule,
   ],
   templateUrl: './vermoneda.component.html',
   styleUrls: ['./vermoneda.component.scss'],
@@ -39,7 +41,7 @@ export class VermonedaComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private monedasService: MonedaService,
-    private userService: UserService
+    public userService: UserService
   ) {}
 
   ngOnInit(): void {

@@ -49,4 +49,8 @@ export class UserService {
   public isAdmin(): boolean {
     return localStorage.getItem('userRole') === 'admin';
   }
+
+  public isPropietario(propietario: string): boolean {
+    return localStorage.getItem('userId') === propietario;
+  }
 }

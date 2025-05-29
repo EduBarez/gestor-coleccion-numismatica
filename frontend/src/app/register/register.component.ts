@@ -3,11 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { RouterModule, Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-register',
@@ -16,9 +19,13 @@ import { RouterModule, Router } from '@angular/router';
     ReactiveFormsModule,
     MatButtonModule,
     NgIf,
+    MatRadioModule,
+    CommonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatRadioModule,
+    MatSelectModule,
+    MatPaginatorModule,
+    MatCardModule,
     RouterModule,
   ],
   templateUrl: './register.component.html',
@@ -27,6 +34,8 @@ import { RouterModule, Router } from '@angular/router';
 export class RegisterComponent {
   form: FormGroup;
   message = '';
+  error = '';
+  loading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -52,12 +61,18 @@ export class RegisterComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
+      this.loading = true;
       this.userService.register(this.form.value).subscribe({
         next: (user) => {
           this.message = 'Registrado correctamente, pendiente de aprobación';
+          this.loading = false;
           this.router.navigate(['/']);
         },
-        error: (err) => (this.message = err.error.error),
+        //        error: (err) => (this.error = err.error.error),
+        error: (err) => {
+          this.error = err.error.error;
+          this.loading = false;
+        },
       });
     }
   }

@@ -28,3 +28,17 @@
   margin: 2rem;
   font-size: 1.2rem;
 }
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 6px;
+}
+.acciones :first-child {
+  margin-inline-end: auto;
+}
+
+::ng-deep .mdc-button__label {
+  font-size: 1.1rem;
+}

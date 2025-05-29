@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  background-color: var(--mat-sys-primary);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  gap: 1rem;
+}
+
+.logo-img {
+  height: 10rem;
+  display: block;
+}
+
+.nombreLogo {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #f28c6f;
+  margin: 0;
+}

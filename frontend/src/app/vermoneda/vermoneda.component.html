@@ -25,8 +25,27 @@
     <p><strong>Propietario:</strong> {{ nombreUsuario }}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-stroked-button routerLink="/monedas">
-      ← Volver al listado
-    </button>
+    <div class="acciones">
+      <button mat-stroked-button routerLink="/monedas">
+        ← Volver al listado
+      </button>
+      <button
+        mat-icon-button
+        aria-label="Modificar elemento"
+        *ngIf="userService.isPropietario(moneda.propietario)"
+        [routerLink]="['/modificar-monedas', moneda._id]"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        *ngIf="
+          userService.isPropietario(moneda.propietario) || userService.isAdmin()
+        "
+        aria-label="Eliminar moneda"
+      >
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </div>
   </mat-card-actions>
 </mat-card>

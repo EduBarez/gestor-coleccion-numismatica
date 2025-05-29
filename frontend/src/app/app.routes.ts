@@ -8,6 +8,8 @@ import { AdminGuard } from './guards/admin.guard';
 import { MonedasComponent } from './monedas/monedas.component';
 import { CrearMonedaComponent } from './crearmoneda/crearmoneda.component';
 import { VermonedaComponent } from './vermoneda/vermoneda.component';
+import { LoginRegisterComponent } from './layout/login-register/login-register.component';
+import { ModificarMonedaComponent } from './modificarmoneda/modificarmoneda.component';
 
 export const routes: Routes = [
   {
@@ -35,15 +37,25 @@ export const routes: Routes = [
         path: 'monedas/:id',
         component: VermonedaComponent,
       },
+      {
+        path: 'modificar-monedas/:id',
+        component: ModificarMonedaComponent,
+      },
     ],
   },
   {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
+    path: '',
+    component: LoginRegisterComponent,
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+    ],
   },
   { path: '**', redirectTo: '' },
 ];

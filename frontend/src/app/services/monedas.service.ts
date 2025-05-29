@@ -7,6 +7,7 @@ import {
   FiltrosMonedas,
   Moneda,
   MonedaCreate,
+  MonedaUpdate,
 } from '../models/moneda.models';
 
 @Injectable({ providedIn: 'root' })
@@ -61,7 +62,16 @@ export class MonedaService {
 
   /** Actualiza una moneda por ID */
   updateMoneda(id: string, formData: FormData): Observable<Moneda> {
-    return this.http.put<Moneda>(`${this.baseUrl}/${id}`, formData);
+    const token = localStorage.getItem('token');
+    const headers = token
+      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+      : undefined;
+
+    return this.http.put<Moneda>(
+      `${this.baseUrl}/${id}`,
+      formData,
+      headers ? { headers } : {}
+    );
   }
 
   /** Elimina una moneda por ID */
