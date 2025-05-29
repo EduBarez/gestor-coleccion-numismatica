@@ -79,6 +79,7 @@
     <div class="file-input">
       <label mat-button color="primary" for="file">Seleccionar imagen</label>
       <input
+        #fileInput
         id="file"
         type="file"
         (change)="onFileChange($event)"

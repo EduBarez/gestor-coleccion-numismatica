@@ -1,6 +1,6 @@
 // vermoneda.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MonedaService } from '../services/monedas.service';
 import { Moneda } from '@app/models/moneda.models';
 import { CommonModule } from '@angular/common';
@@ -41,7 +41,8 @@ export class VermonedaComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private monedasService: MonedaService,
-    public userService: UserService
+    public userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +67,24 @@ export class VermonedaComponent implements OnInit {
       },
       error: () => {
         this.nombreUsuario = 'Usuario no encontrado';
+      },
+    });
+  }
+  onDeleteMoneda(id: string) {
+    const confirmado = window.confirm(
+      '¿Estás seguro de que quieres borrar la moneda?'
+    );
+    if (!confirmado) {
+      return;
+    }
+
+    this.monedasService.deleteMoneda(id).subscribe({
+      next: () => {
+        this.router.navigate(['/monedas']);
+      },
+      error: (err) => {
+        console.error('Error al borrar moneda:', err);
+        alert('No se pudo borrar la moneda. Intenta de nuevo.');
       },
     });
   }

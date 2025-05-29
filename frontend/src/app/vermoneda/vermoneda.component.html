@@ -43,6 +43,7 @@
           userService.isPropietario(moneda.propietario) || userService.isAdmin()
         "
         aria-label="Eliminar moneda"
+        (click)="onDeleteMoneda(moneda._id)"
       >
         <mat-icon>delete_forever</mat-icon>
       </button>

@@ -47,7 +47,7 @@ export class MonedaService {
   }
 
   /** Crea una nueva moneda (con multipart/form-data para la foto) */
-  createMoneda(formData: MonedaCreate): Observable<Moneda> {
+  createMoneda(formData: FormData): Observable<Moneda> {
     const token = localStorage.getItem('token');
     const headers = token
       ? new HttpHeaders({ Authorization: `Bearer ${token}` })
@@ -76,7 +76,15 @@ export class MonedaService {
 
   /** Elimina una moneda por ID */
   deleteMoneda(id: string): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`);
+    const token = localStorage.getItem('token');
+    const headers = token
+      ? new HttpHeaders().set('Authorization', `Bearer ${token}`)
+      : undefined;
+
+    return this.http.delete<{ message: string }>(
+      `${this.baseUrl}/${id}`,
+      headers ? { headers } : {}
+    );
   }
 
   /** Opcional: obtiene las monedas del usuario autenticado */

@@ -72,20 +72,28 @@ export class CrearMonedaComponent {
     }
   }
 
+  cancel() {
+    this.router.navigate(['/monedas']);
+  }
+
   submit(): void {
     if (this.form.invalid || !this.selectedFile) {
       this.form.markAllAsTouched();
       return;
     }
 
-    // 1. Crear el objeto MonedaCreate con los datos del formulario
-    const monedaData: MonedaCreate = {
-      ...this.form.value,
-      fotografia: this.selectedFile,
-    };
+    // 1. Leer los datos tipados
+    const datos: MonedaCreate = this.form.value;
 
-    // 2. Llamar al servicio directamente con el objeto tipado
-    this.monedaService.createMoneda(monedaData).subscribe({
+    // 2. Convertir a FormData
+    const fd = new FormData();
+    Object.entries(datos).forEach(([key, val]) => {
+      fd.append(key, String(val));
+    });
+    fd.append('fotografia', this.selectedFile);
+
+    // 3. Llamar al servicio
+    this.monedaService.createMoneda(fd).subscribe({
       next: () => {
         this.message = 'Moneda creada correctamente';
         this.router.navigate(['/monedas']);
@@ -95,62 +103,28 @@ export class CrearMonedaComponent {
       },
     });
   }
-
-  cancel() {
-    this.router.navigate(['/monedas']);
-  }
-
-  // submit(): void {
-  //   if (this.form.invalid || !this.selectedFile) {
-  //     this.form.markAllAsTouched();
-  //     return;
-  //   }
-  //   const fd = new FormData();
-  //   // Añadir fichero
-  //   fd.append('fotografia', this.selectedFile);
-  //   // Añadir resto de campos del formulario
-  //   Object.entries(this.form.value).forEach(([key, val]) => {
-  //     if (val !== null && val !== undefined) {
-  //       fd.append(key, String(val));
-  //     }
-  //   });
-
-  //   this.monedaService.createMoneda(fd).subscribe({
-  //     next: () => {
-  //       this.message = 'Moneda creada correctamente';
-  //       this.router.navigate(['/monedas']);
-  //     },
-  //     error: (err) => {
-  //       this.message = err.error?.error || 'Error al crear moneda';
-  //     },
-  //   });
-  // }
-
-  // submit(): void {
-  //   if (this.form.invalid || !this.selectedFile) {
-  //     this.form.markAllAsTouched();
-  //     return;
-  //   }
-
-  //   // 1. Leer los datos tipados
-  //   const datos: MonedaCreate = this.form.value;
-
-  //   // 2. Convertir a FormData
-  //   const fd = new FormData();
-  //   Object.entries(datos).forEach(([key, val]) => {
-  //     fd.append(key, String(val));
-  //   });
-  //   fd.append('fotografia', this.selectedFile);
-
-  //   // 3. Llamar al servicio
-  //   this.monedaService.createMoneda(fd).subscribe({
-  //     next: () => {
-  //       this.message = 'Moneda creada correctamente';
-  //       this.router.navigate(['/monedas']);
-  //     },
-  //     error: (err) => {
-  //       this.message = err.error?.error || 'Error al crear moneda';
-  //     },
-  //   });
-  // }
 }
+
+// submit(): void {
+//   if (this.form.invalid || !this.selectedFile) {
+//     this.form.markAllAsTouched();
+//     return;
+//   }
+
+//   // 1. Crear el objeto MonedaCreate con los datos del formulario
+//   const monedaData: MonedaCreate = {
+//     ...this.form.value,
+//     fotografia: this.selectedFile,
+//   };
+
+//   // 2. Llamar al servicio directamente con el objeto tipado
+//   this.monedaService.createMoneda(monedaData).subscribe({
+//     next: () => {
+//       this.message = 'Moneda creada correctamente';
+//       this.router.navigate(['/monedas']);
+//     },
+//     error: (err) => {
+//       this.message = err.error?.error || 'Error al crear moneda';
+//     },
+//   });
+// }
