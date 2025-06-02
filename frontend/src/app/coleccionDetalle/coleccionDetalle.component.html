@@ -1,5 +1,9 @@
 <div class="coleccion-detalle-page" *ngIf="coleccion">
-  <!-- Botones superiores: Añadir/Eliminar colección -->
+  <h2>{{ coleccion.nombre }}</h2>
+  <p class="descripcion">{{ coleccion.descripcion || "Sin descripción." }}</p>
+  <p class="autor">
+    Creada por {{ coleccion.user?.nombre || coleccion.user?.username }}
+  </p>
   <button
     mat-icon-button
     *ngIf="userService.isPropietario(coleccion.user._id)"
@@ -8,6 +12,16 @@
   >
     <mat-icon>add</mat-icon>
   </button>
+  <!-- Botón “Quitar moneda” (solo visible para el/los propietarios o admins) -->
+  <button
+    mat-icon-button
+    *ngIf="userService.isPropietario(coleccion.user._id)"
+    aria-label="Quitar moneda"
+    [routerLink]="['/colecciones', coleccion._id, 'quitar-monedas']"
+  >
+    <mat-icon>remove</mat-icon>
+  </button>
+
   <button
     mat-icon-button
     *ngIf="
@@ -18,12 +32,6 @@
   >
     <mat-icon>delete_forever</mat-icon>
   </button>
-
-  <h2>{{ coleccion.nombre }}</h2>
-  <p class="descripcion">{{ coleccion.descripcion || "Sin descripción." }}</p>
-  <p class="autor">
-    Creada por {{ coleccion.user?.nombre || coleccion.user?.username }}
-  </p>
 
   <form
     [formGroup]="filterForm"

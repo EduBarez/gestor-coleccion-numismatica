@@ -13,6 +13,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '@app/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
+// import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-vermoneda',
@@ -42,7 +43,7 @@ export class VermonedaComponent implements OnInit {
     private route: ActivatedRoute,
     private monedasService: MonedaService,
     public userService: UserService,
-    private router: Router
+    private router: Router // private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -88,4 +89,8 @@ export class VermonedaComponent implements OnInit {
       },
     });
   }
+
+  // volverPaginaAnterior(): void {
+  //   this.location.back();
+  // }
 }

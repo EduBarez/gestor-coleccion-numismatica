@@ -14,6 +14,7 @@ import { ColeccionesComponent } from './colecciones/colecciones.component';
 import { CrearColeccionComponent } from './crearcoleccion/crearcoleccion.component';
 import { ColeccionDetalleComponent } from './coleccionDetalle/coleccionDetalle.component';
 import { AgregarMonedasComponent } from './agregarMonedasColeccion/agregarMonedasColeccion.component';
+import { QuitarMonedasColeccionComponent } from './quitarMonedasColeccion/quitarMonedasColeccion.component';
 
 export const routes: Routes = [
   {
@@ -61,6 +62,10 @@ export const routes: Routes = [
       {
         path: 'colecciones/:id/agregar-monedas',
         component: AgregarMonedasComponent,
+      },
+      {
+        path: 'colecciones/:id/quitar-monedas',
+        component: QuitarMonedasColeccionComponent,
       },
     ],
   },

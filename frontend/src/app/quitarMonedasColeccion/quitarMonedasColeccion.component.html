@@ -1,0 +1,61 @@
+<!-- Si aún estamos cargando, mostrar spinner -->
+<div *ngIf="isLoading" class="spinner-container">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+
+<!-- Formulario: solo cuando isLoading = false -->
+<h2>Quitar monedas de la colección</h2>
+<p>Selecciona las monedas que quieres quitar:</p>
+<form
+  [formGroup]="formSeleccion"
+  (ngSubmit)="onSubmit()"
+  *ngIf="!isLoading"
+  class="form-quitar-monedas"
+>
+  <!-- Si no hay monedas en la colección, mostrar mensaje alternativo -->
+  <ng-container
+    *ngIf="monedasEnColeccion.length > 0; else sinMonedasEnColeccion"
+  >
+    <mat-card>
+      <div formArrayName="seleccion">
+        <mat-list>
+          <mat-list-item
+            *ngFor="let moneda of monedasEnColeccion; let i = index"
+          >
+            <mat-checkbox [formControlName]="i">
+              <strong>{{ moneda.nombre }}</strong> –
+              {{ moneda.autoridad_emisora }}
+            </mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card>
+
+    <!-- Botones de acción -->
+    <div class="actions">
+      <button
+        mat-flat-button
+        color="warn"
+        type="submit"
+        [disabled]="ningunCheckboxSeleccionado"
+      >
+        Quitar de la colección
+      </button>
+      <button mat-stroked-button type="button" (click)="onCancelar()">
+        Cancelar
+      </button>
+    </div>
+  </ng-container>
+
+  <!-- Mensaje si no hay monedas en la colección -->
+  <ng-template #sinMonedasEnColeccion>
+    <mat-card>
+      <p>No hay monedas en esta colección para quitar.</p>
+    </mat-card>
+    <div class="actions">
+      <button mat-stroked-button type="button" (click)="onCancelar()">
+        Volver
+      </button>
+    </div>
+  </ng-template>
+</form>
