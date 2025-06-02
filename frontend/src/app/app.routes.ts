@@ -12,7 +12,8 @@ import { LoginRegisterComponent } from './layout/login-register/login-register.c
 import { ModificarMonedaComponent } from './modificarmoneda/modificarmoneda.component';
 import { ColeccionesComponent } from './colecciones/colecciones.component';
 import { CrearColeccionComponent } from './crearcoleccion/crearcoleccion.component';
-import { ColeccionDetalleComponent } from './coleccion-detalle/coleccion-detalle.component';
+import { ColeccionDetalleComponent } from './coleccionDetalle/coleccionDetalle.component';
+import { AgregarMonedasComponent } from './agregarMonedasColeccion/agregarMonedasColeccion.component';
 
 export const routes: Routes = [
   {
@@ -56,6 +57,10 @@ export const routes: Routes = [
       {
         path: 'colecciones/:id',
         component: ColeccionDetalleComponent,
+      },
+      {
+        path: 'colecciones/:id/agregar-monedas',
+        component: AgregarMonedasComponent,
       },
     ],
   },

@@ -70,3 +70,12 @@ export interface MonedaResponse {
   page: number;
   limit: number;
 }
+
+export const filtrosVacios: FiltrosMonedas = {
+  search: '',
+  autoridad_emisora: '',
+  ceca: '',
+  datacion: '',
+  estado_conservacion: '',
+  metal: '',
+};

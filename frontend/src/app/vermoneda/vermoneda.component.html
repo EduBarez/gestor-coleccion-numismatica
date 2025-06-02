@@ -7,7 +7,7 @@
 <mat-card *ngIf="!cargando && !error && moneda" class="detalle-moneda-card">
   <img mat-card-image [src]="moneda.fotografia" [alt]="moneda.nombre" />
   <mat-card-content>
-    <h2>{{ moneda.nombre }}</h2>
+    <h2 class="titulo">{{ moneda.nombre }}</h2>
     <p><strong>Autoridad emisora:</strong> {{ moneda.autoridad_emisora }}</p>
     <p><strong>Ceca:</strong> {{ moneda.ceca }}</p>
     <p><strong>Datación:</strong> {{ moneda.datacion }}</p>
@@ -26,7 +26,7 @@
   </mat-card-content>
   <mat-card-actions>
     <div class="acciones">
-      <button mat-stroked-button routerLink="/monedas">
+      <button class="accionBoton" mat-stroked-button routerLink="/monedas">
         ← Volver al listado
       </button>
       <button
@@ -38,6 +38,7 @@
         <mat-icon>edit</mat-icon>
       </button>
       <button
+        class="accionBoton"
         mat-icon-button
         *ngIf="
           userService.isPropietario(moneda.propietario) || userService.isAdmin()

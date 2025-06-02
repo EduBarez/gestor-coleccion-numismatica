@@ -1,3 +1,4 @@
+//monedas.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -87,12 +88,19 @@ export class MonedaService {
     );
   }
 
-  /** Opcional: obtiene las monedas del usuario autenticado */
   getMisMonedas(): Observable<Moneda[]> {
-    return this.http.get<Moneda[]>(`${this.baseUrl}/usuario/mis-monedas`);
+    const token = localStorage.getItem('token');
+    const headers = token
+      ? new HttpHeaders().set('Authorization', `Bearer ${token}`)
+      : undefined;
+
+    return this.http.get<Moneda[]>(
+      `${this.baseUrl}/usuario/mis-monedas`,
+      headers ? { headers } : {}
+    );
   }
 
-  /** Opcional: obtiene las monedas de un usuario dado (perfil público) */
+  /** Obtiene las monedas de un usuario dado (perfil público) */
   getMonedasDeUsuario(userId: string): Observable<Moneda[]> {
     return this.http.get<Moneda[]>(`${this.baseUrl}/usuario/${userId}`);
   }

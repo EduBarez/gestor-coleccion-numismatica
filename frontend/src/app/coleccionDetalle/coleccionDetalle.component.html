@@ -1,0 +1,129 @@
+<div class="coleccion-detalle-page" *ngIf="coleccion">
+  <!-- Botones superiores: Añadir/Eliminar colección -->
+  <button
+    mat-icon-button
+    *ngIf="userService.isPropietario(coleccion.user._id)"
+    aria-label="Añadir moneda"
+    [routerLink]="['/colecciones', coleccion._id, 'agregar-monedas']"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    *ngIf="
+      userService.isPropietario(coleccion.user._id) || userService.isAdmin()
+    "
+    aria-label="Eliminar colección"
+    (click)="coleccionService.deleteColeccion(coleccion._id)"
+  >
+    <mat-icon>delete_forever</mat-icon>
+  </button>
+
+  <h2>{{ coleccion.nombre }}</h2>
+  <p class="descripcion">{{ coleccion.descripcion || "Sin descripción." }}</p>
+  <p class="autor">
+    Creada por {{ coleccion.user?.nombre || coleccion.user?.username }}
+  </p>
+
+  <form
+    [formGroup]="filterForm"
+    class="search-filter"
+    (ngSubmit)="applyFilter()"
+  >
+    <div class="buscador-filtro">
+      <mat-form-field appearance="outline" class="buscador">
+        <mat-label>Buscar monedas</mat-label>
+        <input
+          matInput
+          formControlName="search"
+          placeholder="Nombre de la moneda"
+        />
+      </mat-form-field>
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="toggleFilters()"
+        class="filter-toggle"
+      >
+        {{ showFilters ? "Ocultar filtros" : "Filtros" }}
+      </button>
+    </div>
+
+    <div class="filters" *ngIf="showFilters">
+      <mat-form-field appearance="outline">
+        <mat-label>Autoridad emisora</mat-label>
+        <input
+          matInput
+          formControlName="autoridad_emisora"
+          placeholder="Ej. Banco Central"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ceca</mat-label>
+        <input matInput formControlName="ceca" placeholder="Ej. Roma" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Datación</mat-label>
+        <input matInput formControlName="datacion" placeholder="Ej. 1808" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado conservación</mat-label>
+        <input
+          matInput
+          formControlName="estado_conservacion"
+          placeholder="Ej. MBC"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Metal</mat-label>
+        <input matInput formControlName="metal" placeholder="Ej. Plata" />
+      </mat-form-field>
+
+      <div class="filter-actions" *ngIf="showFilters">
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="filterForm.reset(); applyFilter()"
+        >
+          Limpiar filtros
+        </button>
+        <button mat-flat-button color="primary" type="submit">
+          Aplicar búsqueda
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- GRID DE MONEDAS -->
+  <div class="monedas-grid" *ngIf="!isLoading">
+    <mat-card *ngFor="let moneda of monedas" class="moneda-card">
+      <a [routerLink]="['/monedas', moneda._id]">
+        <img mat-card-image [src]="moneda.fotografia" [alt]="moneda.nombre" />
+        <mat-card-content>
+          <h3>{{ moneda.nombre }} – {{ moneda.autoridad_emisora }}</h3>
+        </mat-card-content>
+      </a>
+    </mat-card>
+
+    <div *ngIf="monedas.length === 0" class="sin-resultados">
+      No hay monedas en esta colección.
+    </div>
+  </div>
+
+  <!-- PAGINADOR -->
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[8, 16, 32]"
+    (page)="onPageChange($event)"
+    class="paginator"
+  >
+  </mat-paginator>
+</div>
+
+<div *ngIf="isLoading" class="loading">Cargando colección…</div>

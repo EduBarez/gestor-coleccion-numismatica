@@ -151,13 +151,6 @@ exports.createMoneda = async (req, res) => {
     metal = normalizarTexto(metal, "capitalize");
     estado_conservacion = normalizarTexto(estado_conservacion, "upper");
 
-    const monedaExistente = await Moneda.findOne({ nombre, valor });
-    if (monedaExistente) {
-      return res
-        .status(400)
-        .json({ error: "Ya existe una moneda con ese nombre y valor" });
-    }
-
     const moneda = new Moneda({
       ...req.body,
       nombre,
@@ -355,7 +348,7 @@ exports.getMisMonedas = async (req, res) => {
   }
 };
 
-// Obtener monedas de un usuario específico (para perfil público o admins)
+// Obtener monedas de un usuario específico
 exports.getMonedasDeUsuario = async (req, res) => {
   try {
     const { userId } = req.params;
