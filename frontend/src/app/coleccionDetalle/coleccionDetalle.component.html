@@ -2,7 +2,7 @@
   <h2>{{ coleccion.nombre }}</h2>
   <p class="descripcion">{{ coleccion.descripcion || "Sin descripción." }}</p>
   <p class="autor">
-    Creada por {{ coleccion.user?.nombre || coleccion.user?.username }}
+    Creada por {{ coleccion.user.nombre || coleccion.user.username }}
   </p>
   <button
     mat-icon-button
