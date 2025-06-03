@@ -12,7 +12,7 @@
   >
     <mat-icon>add</mat-icon>
   </button>
-  <!-- Botón “Quitar moneda” (solo visible para el/los propietarios o admins) -->
+
   <button
     mat-icon-button
     *ngIf="userService.isPropietario(coleccion.user._id)"
@@ -28,7 +28,7 @@
       userService.isPropietario(coleccion.user._id) || userService.isAdmin()
     "
     aria-label="Eliminar colección"
-    (click)="coleccionService.deleteColeccion(coleccion._id)"
+    (click)="openConfirmDialog()"
   >
     <mat-icon>delete_forever</mat-icon>
   </button>
@@ -106,7 +106,6 @@
     </div>
   </form>
 
-  <!-- GRID DE MONEDAS -->
   <div class="monedas-grid" *ngIf="!isLoading">
     <mat-card *ngFor="let moneda of monedas" class="moneda-card">
       <a [routerLink]="['/monedas', moneda._id]">
@@ -122,7 +121,6 @@
     </div>
   </div>
 
-  <!-- PAGINADOR -->
   <mat-paginator
     [length]="totalItems"
     [pageSize]="pageSize"

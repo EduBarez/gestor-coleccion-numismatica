@@ -1,4 +1,3 @@
-//agregarMonedasColeccion.component.ts
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -39,14 +38,13 @@ export class AgregarMonedasComponent implements OnInit {
   private monedaService = inject(MonedaService);
   private fb = inject(FormBuilder);
 
-  public isLoading: boolean = false;
+  public isLoading = false;
   public collectionId!: string;
   public todasMisMonedas: any[] = [];
   public monedasEnColeccion: any[] = [];
   public formSeleccion: FormGroup;
 
   constructor() {
-    // Inicialización del FormGroup con un FormArray vacío
     this.formSeleccion = this.fb.group({
       seleccion: this.fb.array([]),
     });
@@ -73,12 +71,9 @@ export class AgregarMonedasComponent implements OnInit {
 
         this.coleccionService.getColeccionById(this.collectionId).subscribe({
           next: (res) => {
-            // Ajustar según la estructura exacta del JSON:
-            // Si el backend devolvía { coleccion: {..., monedas: [...] } }:
-            //   this.monedasEnColeccion = res.coleccion.monedas || [];
-            // Si devolvía directamente { _id, nombre, ..., monedas: [...] }:
-            this.monedasEnColeccion = Array.isArray(res.monedas)
-              ? res.monedas
+            // Antes usábamos res.monedas, ahora es res.coleccion.monedas
+            this.monedasEnColeccion = Array.isArray(res.coleccion.monedas)
+              ? res.coleccion.monedas
               : [];
 
             const idsEnColeccion = new Set(
@@ -106,28 +101,19 @@ export class AgregarMonedasComponent implements OnInit {
 
   private inicializarFormArray(): void {
     const controlArray = this.formSeleccion.get('seleccion') as FormArray;
-    // Se eliminaron controles previos (en caso de recarga)
     while (controlArray.length !== 0) {
       controlArray.removeAt(0);
     }
-    // Por cada moneda (que NO está en la colección), agregar un control booleano inicializado en false
     this.todasMisMonedas.forEach(() =>
       controlArray.push(this.fb.control(false))
     );
   }
 
-  /**
-   * Getter que devuelve true si NO hay ninguna casilla marcada.
-   * Se usó en el template en vez de arrow function.
-   */
   public get ningunCheckboxSeleccionado(): boolean {
     const controlArray = this.formSeleccion.get('seleccion') as FormArray;
     return controlArray.controls.every((ctrl) => !ctrl.value);
   }
 
-  /**
-   * Construyó la lista de IDs de monedas cuyo checkbox está en true.
-   */
   public getMonedasSeleccionadas(): string[] {
     const controlArray = this.formSeleccion.get('seleccion') as FormArray;
     const ids: string[] = [];
@@ -139,9 +125,6 @@ export class AgregarMonedasComponent implements OnInit {
     return ids;
   }
 
-  /**
-   * Al hacer clic en “Añadir a la colección”.
-   */
   public onSubmit(): void {
     const seleccionados = this.getMonedasSeleccionadas();
     if (seleccionados.length === 0) {
@@ -161,9 +144,6 @@ export class AgregarMonedasComponent implements OnInit {
       });
   }
 
-  /**
-   * “Cancelar” vuelve al detalle de la colección sin cambios.
-   */
   public onCancelar(): void {
     this.router.navigate(['/colecciones', this.collectionId]);
   }

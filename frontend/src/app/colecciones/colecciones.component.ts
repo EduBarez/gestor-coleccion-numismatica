@@ -47,13 +47,10 @@ export class ColeccionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Cuando cambien valores de filtro, reiniciamos página y recargamos
     this.filterForm.valueChanges.pipe(debounceTime(300)).subscribe(() => {
       this.pageIndex = 0;
       this.getColecciones();
     });
-
-    // Carga inicial
     this.getColecciones();
   }
 
@@ -63,8 +60,9 @@ export class ColeccionesComponent implements OnInit {
 
   getColecciones(): void {
     const filtros = this.filterForm.value as FiltrosColecciones;
+
     this.coleccionService.getPublicas().subscribe({
-      next: (cols) => {
+      next: (cols: Coleccion[]) => {
         const term = filtros.search?.trim().toLowerCase() || '';
         const filtradas = term
           ? cols.filter((c) => c.nombre.toLowerCase().includes(term))

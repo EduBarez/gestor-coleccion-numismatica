@@ -23,7 +23,21 @@
     >
       Mis colecciones
     </a>
-    <a mat-button routerLink="/trivia" class="botonBarra">Trivia</a>
+
+    <button mat-button [matMenuTriggerFor]="triviaMenu" class="botonBarra">
+      Trivia
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+
+    <mat-menu #triviaMenu="matMenu">
+      <button mat-menu-item [routerLink]="['/trivia-examen']">
+        Examinarse
+      </button>
+      <button mat-menu-item [routerLink]="['/anadir-preguntas-trivia']">
+        Añadir preguntas
+      </button>
+    </mat-menu>
+
     <a
       mat-button
       *ngIf="userService.isAdmin()"

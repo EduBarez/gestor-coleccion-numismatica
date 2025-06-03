@@ -1,0 +1,87 @@
+<div class="contenedor-examen">
+  <!-- 1. SECCIÓN DE CONFIGURACIÓN ANTES DE EMPEZAR -->
+  <ng-container *ngIf="!examStarted && !examFinished">
+    <h2>Examen de Trivia</h2>
+
+    <!-- Selección de modo: Todas o Por Periodo -->
+    <mat-radio-group
+      [(ngModel)]="modoExamen"
+      class="modo-examen-group"
+      aria-label="Modo de examen"
+    >
+      <mat-radio-button value="all">Todas las preguntas</mat-radio-button>
+      <mat-radio-button value="periodo">Por periodo</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Si elige "Por periodo", mostrar desplegable de periodos -->
+    <div *ngIf="modoExamen === 'periodo'" class="selector-periodo">
+      <mat-form-field appearance="outline">
+        <mat-label>Selecciona un periodo</mat-label>
+        <mat-select [(value)]="selectedPeriodo">
+          <mat-option *ngFor="let p of periodos" [value]="p">
+            {{ p }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Botón de empezar, habilitado solo si es válido -->
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="empezarExamen()"
+      [disabled]="modoExamen === 'periodo' && !selectedPeriodo"
+    >
+      Empezar
+    </button>
+  </ng-container>
+
+  <!-- 2. SECCIÓN DE PREGUNTAS DURANTE EL EXAMEN -->
+  <ng-container *ngIf="examStarted && !examFinished">
+    <h3>Responde las siguientes 10 preguntas:</h3>
+
+    <div class="lista-preguntas">
+      <mat-card *ngFor="let pregunta of preguntasExamen" class="card-pregunta">
+        <mat-card-content>
+          <p>
+            <strong>{{ pregunta.pregunta }}</strong>
+          </p>
+          <mat-radio-group
+            [(ngModel)]="respuestasUsuario[pregunta._id!]"
+            class="opciones-group"
+          >
+            <mat-radio-button
+              *ngFor="let opcion of pregunta.opciones"
+              [value]="opcion"
+            >
+              {{ opcion }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Botón para finalizar y calcular puntuación -->
+    <div class="boton-finalizar">
+      <button mat-flat-button color="accent" (click)="finalizarExamen()">
+        Finalizar
+      </button>
+    </div>
+  </ng-container>
+
+  <!-- 3. SECCIÓN DE RESULTADOS AL TERMINAR -->
+  <ng-container *ngIf="examFinished">
+    <h2>Resultados del Examen</h2>
+    <p>
+      <strong>Preguntas acertadas:</strong> {{ correctCount }} /
+      {{ preguntasExamen.length }}
+    </p>
+    <p><strong>Tiempo empleado:</strong> {{ tiempoSegundos }} segundos</p>
+    <p><strong>Puntuación total:</strong> {{ puntuacion }}</p>
+
+    <!-- Botón para reiniciar examen -->
+    <button mat-flat-button color="primary" (click)="reiniciar()">
+      Volver a intentar
+    </button>
+  </ng-container>
+</div>

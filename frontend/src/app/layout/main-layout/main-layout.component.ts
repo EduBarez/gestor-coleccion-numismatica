@@ -4,11 +4,20 @@ import { NgIf } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { UserService } from '@app/services/user.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterModule, NgIf, MatToolbarModule, MatButtonModule],
+  imports: [
+    RouterModule,
+    NgIf,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+  ],
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss'],
 })

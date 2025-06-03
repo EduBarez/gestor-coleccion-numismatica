@@ -1,0 +1,92 @@
+<div class="crear-trivia-page">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <h2>Nueva Pregunta de Trivia</h2>
+    <!-- PREGUNTA -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Texto de la pregunta</mat-label>
+      <input matInput formControlName="pregunta" />
+      <mat-error *ngIf="form.get('pregunta')?.hasError('required')">
+        La pregunta es obligatoria
+      </mat-error>
+    </mat-form-field>
+
+    <!-- OPCIONES -->
+    <div class="row">
+      <mat-form-field appearance="outline" class="flex-1">
+        <mat-label>Opción 1</mat-label>
+        <input matInput formControlName="opcion1" />
+        <mat-error *ngIf="form.get('opcion1')?.hasError('required')">
+          Requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="flex-1">
+        <mat-label>Opción 2</mat-label>
+        <input matInput formControlName="opcion2" />
+        <mat-error *ngIf="form.get('opcion2')?.hasError('required')">
+          Requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="flex-1">
+        <mat-label>Opción 3</mat-label>
+        <input matInput formControlName="opcion3" />
+        <mat-error *ngIf="form.get('opcion3')?.hasError('required')">
+          Requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="flex-1">
+        <mat-label>Opción 4</mat-label>
+        <input matInput formControlName="opcion4" />
+        <mat-error *ngIf="form.get('opcion4')?.hasError('required')">
+          Requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- RESPUESTA CORRECTA (select con las 4 opciones) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Respuesta correcta</mat-label>
+      <mat-select formControlName="respuestaCorrecta">
+        <mat-option [value]="form.get('opcion1')?.value">
+          {{ form.get("opcion1")?.value || "Opción 1" }}
+        </mat-option>
+        <mat-option [value]="form.get('opcion2')?.value">
+          {{ form.get("opcion2")?.value || "Opción 2" }}
+        </mat-option>
+        <mat-option [value]="form.get('opcion3')?.value">
+          {{ form.get("opcion3")?.value || "Opción 3" }}
+        </mat-option>
+        <mat-option [value]="form.get('opcion4')?.value">
+          {{ form.get("opcion4")?.value || "Opción 4" }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('respuestaCorrecta')?.hasError('required')">
+        Debes seleccionar la respuesta correcta
+      </mat-error>
+    </mat-form-field>
+
+    <!-- PERIODO -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Periodo</mat-label>
+      <input matInput formControlName="periodo" />
+      <mat-error *ngIf="form.get('periodo')?.hasError('required')">
+        El periodo es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+    <!-- BOTONES -->
+    <div class="actions">
+      <button mat-flat-button color="primary" type="submit">
+        Crear Trivia
+      </button>
+      <button mat-stroked-button type="button" (click)="cancel()">
+        Cancelar
+      </button>
+    </div>
+
+    <!-- MENSAJE DE ERROR -->
+    <p class="error" *ngIf="message">{{ message }}</p>
+  </form>
+</div>

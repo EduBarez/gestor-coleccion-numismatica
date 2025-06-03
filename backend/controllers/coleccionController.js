@@ -44,15 +44,23 @@ exports.getMisColecciones = async (req, res) => {
 // Obtener una colección y sus monedas
 exports.getColeccionById = async (req, res) => {
   try {
-    const coleccion = await Coleccion.findById(req.params.id).populate("user");
-    if (!coleccion)
+    const { id } = req.params;
+
+    const coleccion = await Coleccion.findById(id)
+      .populate("user", "nombre username")
+      .populate("monedas");
+
+    if (!coleccion) {
       return res.status(404).json({ error: "Colección no encontrada" });
+    }
 
-    const monedas = await Moneda.find({ coleccion: coleccion._id });
-
-    res.status(200).json({ coleccion, monedas });
+    return res.status(200).json({ coleccion });
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener la colección" });
+    console.error("Error en getColeccionById:", error);
+    return res.status(500).json({
+      error: "Error al obtener la colección",
+      details: error.message,
+    });
   }
 };
 
@@ -93,36 +101,45 @@ exports.deleteColeccion = async (req, res) => {
   }
 };
 
+// Agregar monedas a una colección
 exports.agregarMonedasAColeccion = async (req, res) => {
   try {
     const { id } = req.params; // ID de la colección
-    const { monedas } = req.body; // array de IDs de monedas
+    const { monedas } = req.body; // [ "mon1", "mon2", ... ]
 
-    // Validación básica
     if (!Array.isArray(monedas)) {
       return res
         .status(400)
         .json({ error: "Se espera un array de IDs de monedas" });
     }
 
-    // Actualizar todas las monedas
-    await Moneda.updateMany(
-      { _id: { $in: monedas }, propietario: req.user.id },
-      { $set: { coleccion: id } }
+    const coleccion = await Coleccion.findOne({ _id: id, user: req.user.id });
+    if (!coleccion) {
+      return res
+        .status(404)
+        .json({ error: "Colección no encontrada o sin permiso" });
+    }
+
+    await Coleccion.updateOne(
+      { _id: id, user: req.user.id },
+      { $addToSet: { monedas: { $each: monedas } } }
     );
 
-    res.status(200).json({ message: "Monedas agregadas a la colección" });
+    return res
+      .status(200)
+      .json({ message: "Monedas agregadas a la colección" });
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ error: "Error al agregar monedas", details: error.message });
   }
 };
 
+// Quitar monedas de una colección
 exports.quitarMonedasDeColeccion = async (req, res) => {
   try {
     const { id } = req.params; // ID de la colección
-    const { monedas } = req.body; // array de IDs
+    const { monedas } = req.body; // [ "mon1", "mon2", ... ]
 
     if (!Array.isArray(monedas)) {
       return res
@@ -130,14 +147,25 @@ exports.quitarMonedasDeColeccion = async (req, res) => {
         .json({ error: "Se espera un array de IDs de monedas" });
     }
 
-    await Moneda.updateMany(
-      { _id: { $in: monedas }, propietario: req.user.id, coleccion: id },
-      { $set: { coleccion: null } }
+    // 1) Verificar que la colección existe y que el usuario es el propietario
+    const coleccion = await Coleccion.findOne({ _id: id, user: req.user.id });
+    if (!coleccion) {
+      return res
+        .status(404)
+        .json({ error: "Colección no encontrada o sin permiso" });
+    }
+
+    // 2) Quitar los IDs del array 'monedas'
+    await Coleccion.updateOne(
+      { _id: id, user: req.user.id },
+      { $pull: { monedas: { $in: monedas } } }
     );
 
-    res.status(200).json({ message: "Monedas quitadas de la colección" });
+    return res
+      .status(200)
+      .json({ message: "Monedas quitadas de la colección" });
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ error: "Error al quitar monedas", details: error.message });
   }
