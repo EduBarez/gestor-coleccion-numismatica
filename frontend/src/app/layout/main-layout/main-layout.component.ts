@@ -24,16 +24,11 @@ import { MatMenuModule } from '@angular/material/menu';
 export class MainLayoutComponent {
   currentYear = new Date().getFullYear();
   userName = localStorage.getItem('userName') || '';
+  userRol = localStorage.getItem('userRole') || '';
 
-  constructor(private router: Router, public userService: UserService) {}
-
-  // isLoggedIn(): boolean {
-  //   return !!localStorage.getItem('token');
-  // }
-
-  // isAdmin(): boolean {
-  //   return localStorage.getItem('userRole') === 'admin';
-  // }
+  constructor(private router: Router, public userService: UserService) {
+    if (this.userRol === 'user') this.userRol = 'Usuario';
+  }
 
   logout(): void {
     localStorage.removeItem('token');

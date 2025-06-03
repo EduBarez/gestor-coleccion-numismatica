@@ -1,5 +1,3 @@
-@use "@angular/material" as mat;
-
 :host {
   display: flex;
   flex-direction: column;
@@ -16,7 +14,7 @@
 
 main {
   flex: 1;
-  padding: 16 px, 20px;
+  padding: 16px 20px;
   margin: 0.8%;
 }
 
@@ -28,11 +26,11 @@ footer {
 }
 
 .barraNavegacion {
-  padding: 2.7rem 1rem;
+  padding: 2.5rem 1rem;
 }
 
 .botonBarra {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin: 0, 2rem;
 }
 
@@ -41,27 +39,85 @@ footer {
 }
 
 .nombreLogo {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   vertical-align: middle;
   margin-left: 0.7rem;
 }
 
 .textoLog {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 .textoLogout {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-left: 1rem;
 }
+
 /* ───────────────────────────────────────────────────
-   Ajustes responsivos
+   Ajustes responsivos (solo tamaños, sin cambiar orden ni estructura)
    ─────────────────────────────────────────────────── */
-@media (max-width: 600px) {
+
+/* Para pantallas medianas (hasta 960px) */
+@media (max-width: 960px) {
+  .nombreLogo,
+  .textoLog {
+    display: none;
+  }
+
+  /* Reducir padding lateral de la barra para que no se comprima */
   .barraNavegacion {
-    padding: 0.5rem;
-    font-size: 1rem; /* 16px en móvil */
+    padding: 2rem 0.5rem;
+  }
+  /* Logo ligeramente más pequeño */
+  .barraNavegacion a:first-child img {
+    height: 50px;
+  }
+  /* Reducir tamaño de fuente y márgenes de botones */
+  .botonBarra {
+    font-size: 1.25rem;
+    margin: 0 1.5rem;
+  }
+  .nombreLogo {
+    font-size: 1.25rem;
+    margin-left: 0.5rem;
+  }
+  .textoLog,
+  .textoLogout {
+    font-size: 1.25rem;
+    margin-left: 0.5rem;
+  }
+  /* Ajustar padding de main en pantallas medianas */
+  main {
+    padding: 14px 18px;
+  }
+}
+
+/* Para móviles (hasta 600px) */
+@media (max-width: 600px) {
+  .nombreLogo,
+  .textoLog {
+    display: none;
+  }
+
+  .barraNavegacion {
+    padding: 1rem 0.5rem;
   }
   .barraNavegacion a:first-child img {
-    height: 2rem; /* 32px logo en móvil */
+    height: 2rem; /* 32px en móvil */
+  }
+  .botonBarra {
+    font-size: 1rem; /* 16px en móvil */
+    margin: 0 1rem; /* menos espacio entre botones */
+  }
+  .nombreLogo {
+    font-size: 1rem;
+    margin-left: 0.4rem;
+  }
+  .textoLog,
+  .textoLogout {
+    font-size: 1rem;
+    margin-left: 0.4rem;
+  }
+  main {
+    padding: 12px 16px; /* menos padding en móviles */
   }
 }
