@@ -1,6 +1,6 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
-const app = require("./server");
+const app = require("../server");
 
 describe("Pruebas de Trivia Controller", () => {
   let preguntaId;
@@ -57,11 +57,9 @@ describe("Pruebas de Trivia Controller", () => {
   });
 
   it("Debería actualizar la pregunta de trivia", async () => {
-    const res = await request(app)
-      .put(`/api/trivia/${preguntaId}`)
-      .send({
-        pregunta: "¿Qué pueblo fue conquistado por Julio César en la Galia?",
-      });
+    const res = await request(app).put(`/api/trivia/${preguntaId}`).send({
+      pregunta: "¿Qué pueblo fue conquistado por Julio César en la Galia?",
+    });
 
     expect(res.status).toBe(200);
     expect(res.body.pregunta).toBe(

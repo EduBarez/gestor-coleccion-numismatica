@@ -1,6 +1,6 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
-const app = require("./server");
+const app = require("../server");
 const jwt = require("jsonwebtoken");
 
 const userId = "67f3972e5bf893c6c8087901";

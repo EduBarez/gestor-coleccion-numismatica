@@ -1,7 +1,7 @@
 // vermoneda.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { MonedaService } from '../services/monedas.service';
+import { MonedaService } from '@app/services/monedas.service';
 import { Moneda } from '@app/models/moneda.models';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';

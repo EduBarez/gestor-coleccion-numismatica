@@ -32,7 +32,7 @@
 
   <p class="descripcion">{{ coleccion.descripcion || "Sin descripción." }}</p>
   <p class="autor">
-    Creada por {{ coleccion.user.nombre || coleccion.user.username }}
+    Creada por {{ coleccion.user.nombre || coleccion.user._id }}
   </p>
 
   <form

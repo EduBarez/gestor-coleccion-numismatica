@@ -6,14 +6,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MonedaService } from '../services/monedas.service';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MonedaService } from '../../services/monedas.service';
+import { Router, RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MonedaUpdate } from '@app/models/moneda.models';
+import { MonedaCreate } from '@app/models/moneda.models';
 
 @Component({
   selector: 'app-crear-moneda',
@@ -28,21 +28,19 @@ import { MonedaUpdate } from '@app/models/moneda.models';
     MatButtonModule,
     MatIconModule,
   ],
-  templateUrl: './modificarmoneda.component.html',
-  styleUrls: ['./modificarmoneda.component.scss'],
+  templateUrl: './crearmoneda.component.html',
+  styleUrls: ['./crearmoneda.component.scss'],
 })
-export class ModificarMonedaComponent {
+export class CrearMonedaComponent {
   form!: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   message = '';
-  idMoneda: string = '';
 
   constructor(
     private fb: FormBuilder,
     private monedaService: MonedaService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
@@ -59,35 +57,7 @@ export class ModificarMonedaComponent {
       canto: [''],
       referencias: ['', Validators.required],
       observaciones: [''],
-      fotografia: [null],
-    });
-  }
-
-  ngOnInit(): void {
-    this.idMoneda = this.route.snapshot.paramMap.get('id')!;
-    this.monedaService.getMonedaById(this.idMoneda).subscribe({
-      next: (moneda) => {
-        this.form.patchValue({
-          nombre: moneda.nombre,
-          valor: moneda.valor,
-          autoridad_emisora: moneda.autoridad_emisora,
-          ceca: moneda.ceca,
-          datacion: moneda.datacion,
-          estado_conservacion: moneda.estado_conservacion,
-          metal: moneda.metal,
-          peso: moneda.peso,
-          diametro: moneda.diametro,
-          anverso: moneda.anverso,
-          reverso: moneda.reverso,
-          canto: moneda.canto,
-          referencias: moneda.referencias,
-          observaciones: moneda.observaciones,
-        });
-      },
-      error: (err) => {
-        this.message = 'Error al cargar la moneda';
-        this.router.navigate(['/monedas']);
-      },
+      fotografia: [null, Validators.required],
     });
   }
 
@@ -102,41 +72,32 @@ export class ModificarMonedaComponent {
     }
   }
 
+  cancel() {
+    this.router.navigate(['/monedas']);
+  }
+
   submit(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.selectedFile) {
       this.form.markAllAsTouched();
       return;
     }
 
+    const datos: MonedaCreate = this.form.value;
+
     const fd = new FormData();
-
-    Object.entries(this.form.value).forEach(([key, val]) => {
-      if (
-        key !== 'fotografia' &&
-        val !== null &&
-        val !== undefined &&
-        val !== ''
-      ) {
-        fd.append(key, String(val));
-      }
+    Object.entries(datos).forEach(([key, val]) => {
+      fd.append(key, String(val));
     });
+    fd.append('fotografia', this.selectedFile);
 
-    if (this.selectedFile) {
-      fd.append('fotografia', this.selectedFile);
-    }
-
-    this.monedaService.updateMoneda(this.idMoneda, fd).subscribe({
+    this.monedaService.createMoneda(fd).subscribe({
       next: () => {
-        this.message = 'Moneda modificada correctamente';
-        this.router.navigate(['/monedas/' + this.idMoneda]);
+        this.message = 'Moneda creada correctamente';
+        this.router.navigate(['/monedas']);
       },
       error: (err) => {
-        this.message = err.error?.error || 'Error al modificar moneda';
+        this.message = err.error?.error || 'Error al crear moneda';
       },
     });
-  }
-
-  cancel() {
-    this.router.navigate(['/monedas/' + this.idMoneda]);
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MonedaService } from '../services/monedas.service';
+import { MonedaService } from '@app/services/monedas.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,7 +14,7 @@ import {
   Moneda,
   MonedaResponse,
   FiltrosMonedas,
-} from '../models/moneda.models';
+} from '@app/models/moneda.models';
 import { UserService } from '@app/services/user.service';
 
 @Component({

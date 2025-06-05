@@ -1,6 +1,6 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
-const app = require("./server");
+const app = require("../server");
 
 describe("Pruebas de User Controller", () => {
   let testUserId;
@@ -39,7 +39,7 @@ describe("Pruebas de User Controller", () => {
   });
 
   it("Debería obtener el ID del usuario de prueba", async () => {
-    const User = require("./models/user");
+    const User = require("../models/user");
     const user = await User.findOne({ email: testUser.email });
     expect(user).toBeDefined();
     testUserId = user._id.toString();

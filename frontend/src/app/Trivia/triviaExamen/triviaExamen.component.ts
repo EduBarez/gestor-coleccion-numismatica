@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TriviaService } from '../services/trivia.service';
-import { Trivia } from '../models/trivia.model';
+import { TriviaService } from '@app/services/trivia.service';
+import { Trivia } from '@app/models/trivia.model';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';

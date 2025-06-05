@@ -12,8 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 
-import { TriviaService } from '../services/trivia.service';
-import { Trivia } from '../models/trivia.model';
+import { TriviaService } from '@app/services/trivia.service';
+import { Trivia } from '@app/models/trivia.model';
 
 @Component({
   selector: 'app-crear-trivia',
