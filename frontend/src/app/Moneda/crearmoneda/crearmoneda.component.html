@@ -93,7 +93,14 @@
     </div>
 
     <div class="actions">
-      <button mat-flat-button color="primary" type="submit">Crear</button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="isSubmitting"
+      >
+        Crear
+      </button>
       <button mat-stroked-button type="button" (click)="cancel()">
         Cancelar
       </button>

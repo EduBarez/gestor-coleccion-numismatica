@@ -36,6 +36,7 @@ export class CrearMonedaComponent {
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   message = '';
+  isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -77,13 +78,13 @@ export class CrearMonedaComponent {
   }
 
   submit(): void {
-    if (this.form.invalid || !this.selectedFile) {
+    if (this.form.invalid || !this.selectedFile || this.isSubmitting) {
       this.form.markAllAsTouched();
       return;
     }
+    this.isSubmitting = true;
 
     const datos: MonedaCreate = this.form.value;
-
     const fd = new FormData();
     Object.entries(datos).forEach(([key, val]) => {
       fd.append(key, String(val));
@@ -94,9 +95,11 @@ export class CrearMonedaComponent {
       next: () => {
         this.message = 'Moneda creada correctamente';
         this.router.navigate(['/monedas']);
+        this.isSubmitting = false;
       },
       error: (err) => {
         this.message = err.error?.error || 'Error al crear moneda';
+        this.isSubmitting = false;
       },
     });
   }
