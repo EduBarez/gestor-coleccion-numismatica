@@ -15,12 +15,14 @@ const monedaRoutes = require("./routes/monedaRoutes");
 const userRoutes = require("./routes/userRoutes");
 const triviaRoutes = require("./routes/triviaRoutes");
 const coleccionRoutes = require("./routes/coleccionRoutes");
+const notificacionRoutes = require("./routes/notificacionRoutes");
 
 // Usar rutas
 app.use("/api/monedas", monedaRoutes);
 app.use("/api/usuarios", userRoutes);
 app.use("/api/trivia", triviaRoutes);
 app.use("/api/colecciones", coleccionRoutes);
+app.use("/api/notifications", notificacionRoutes);
 
 // Ruta de prueba
 app.get("/", (req, res) => {

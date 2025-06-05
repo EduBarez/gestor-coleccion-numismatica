@@ -1,0 +1,21 @@
+<div *ngIf="notifications.length === 0" class="sin-notificaciones-container">
+  <button mat-menu-item disabled class="sin-notificaciones">
+    <mat-icon>notifications_off</mat-icon>
+    <span>No hay notificaciones</span>
+  </button>
+</div>
+
+<ng-container *ngFor="let notif of notifications">
+  <div class="notificacion-container">
+    <button
+      mat-menu-item
+      (mouseenter)="markAsRead(notif)"
+      [ngClass]="{ 'no-leida': !notif.viewed }"
+    >
+      <div>
+        <mat-icon>notification_important</mat-icon>
+        <span>{{ notif.message }} – {{ notif.date | date : "short" }}</span>
+      </div>
+    </button>
+  </div>
+</ng-container>

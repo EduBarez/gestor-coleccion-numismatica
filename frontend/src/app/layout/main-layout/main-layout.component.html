@@ -58,6 +58,27 @@
     </ng-container>
     <ng-template #loggedTpl>
       <span class="textoLog">Hola {{ userRol }}, {{ userName }} </span>
+
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="notifMenu"
+        class="botonNotificaciones"
+        aria-label="Notificaciones"
+        matBadge="!"
+        matBadgeDot
+        matBadgeColor="warn"
+        [matBadgeHidden]="!hasUnread"
+        matBadgeOverlap="false"
+        matBadgePosition="after"
+        (menuOpened)="onNotifMenuOpened()"
+      >
+        <mat-icon class="iconoBlanco">chat_bubble</mat-icon>
+      </button>
+
+      <mat-menu #notifMenu="matMenu">
+        <app-notifications></app-notifications>
+      </mat-menu>
+
       <button mat-raised-button (click)="logout()" class="textoLogout">
         Logout
       </button>

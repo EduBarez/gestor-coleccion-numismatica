@@ -17,6 +17,7 @@ import { AgregarMonedasComponent } from './agregarMonedasColeccion/agregarMoneda
 import { QuitarMonedasColeccionComponent } from './quitarMonedasColeccion/quitarMonedasColeccion.component';
 import { TriviaExamenComponent } from './triviaExamen/triviaExamen.component';
 import { CrearTriviaComponent } from './crearTrivia/crearTrivia.component';
+import { MisColeccionesComponent } from './miscolecciones/miscolecciones.component';
 
 export const routes: Routes = [
   {
@@ -68,6 +69,11 @@ export const routes: Routes = [
       {
         path: 'colecciones/:id/quitar-monedas',
         component: QuitarMonedasColeccionComponent,
+      },
+      {
+        path: 'mis-colecciones',
+        component: MisColeccionesComponent,
+        //canActivate: [AuthGuard],
       },
       {
         path: 'trivia-examen',

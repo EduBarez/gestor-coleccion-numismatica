@@ -303,15 +303,61 @@ exports.updateMoneda = async (req, res) => {
 //       .json({ error: "Error al eliminar la moneda", details: error.message });
 //   }
 // };
+// exports.deleteMoneda = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const moneda = await Moneda.findById(id);
+//     if (!moneda) {
+//       return res.status(404).json({ error: "Moneda no encontrada" });
+//     }
+
+//     // Si tiene URL de fotografía, extraigo el public_id y la destruyo en Cloudinary
+//     if (moneda.fotografia) {
+//       const match = moneda.fotografia.match(/\/upload\/(?:v\d+\/)?(.+)\.\w+$/);
+//       if (match && match[1]) {
+//         await cloudinary.uploader.destroy(match[1]);
+//       }
+//     }
+
+//     // Finalmente borro el documento de la base de datos
+//     await Moneda.findByIdAndDelete(id);
+
+//     return res
+//       .status(200)
+//       .json({ message: "Moneda y fotografía eliminadas correctamente" });
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(500)
+//       .json({ error: "Error al eliminar la moneda", details: error.message });
+//   }
+// };
 exports.deleteMoneda = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // 1) Validar que el ID tenga formato válido de ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "ID de moneda no válido" });
+    }
+
+    // 2) Buscar la moneda en la base de datos
     const moneda = await Moneda.findById(id);
     if (!moneda) {
       return res.status(404).json({ error: "Moneda no encontrada" });
     }
 
-    // Si tiene URL de fotografía, extraigo el public_id y la destruyo en Cloudinary
+    // 3) Verificar permisos: sólo el propietario o un administrador podían borrarla
+    if (
+      moneda.propietario.toString() !== req.user.id &&
+      req.user.rol !== "admin"
+    ) {
+      return res
+        .status(403)
+        .json({ error: "No tienes permisos para eliminar esta moneda" });
+    }
+
+    // 4) Si la moneda tenía una fotografía, extraer public_id y destruir en Cloudinary
     if (moneda.fotografia) {
       const match = moneda.fotografia.match(/\/upload\/(?:v\d+\/)?(.+)\.\w+$/);
       if (match && match[1]) {
@@ -319,7 +365,7 @@ exports.deleteMoneda = async (req, res) => {
       }
     }
 
-    // Finalmente borro el documento de la base de datos
+    // 5) Borrar el documento de la colección
     await Moneda.findByIdAndDelete(id);
 
     return res

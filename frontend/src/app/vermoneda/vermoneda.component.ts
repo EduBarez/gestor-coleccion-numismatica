@@ -13,7 +13,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '@app/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
-// import { Location } from '@angular/common';
+import { NotificationService } from '@app/services/notification.service';
+import { Notification } from '@app/models/notificacion.model';
 
 @Component({
   selector: 'app-vermoneda',
@@ -43,7 +44,8 @@ export class VermonedaComponent implements OnInit {
     private route: ActivatedRoute,
     private monedasService: MonedaService,
     public userService: UserService,
-    private router: Router // private location: Location
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +73,7 @@ export class VermonedaComponent implements OnInit {
       },
     });
   }
+
   onDeleteMoneda(id: string) {
     const confirmado = window.confirm(
       '¿Estás seguro de que quieres borrar la moneda?'
@@ -79,8 +82,26 @@ export class VermonedaComponent implements OnInit {
       return;
     }
 
+    const isAdmin = this.userService.isAdmin();
+    const isPropietario = this.moneda
+      ? this.userService.isPropietario(this.moneda.propietario)
+      : false;
+
     this.monedasService.deleteMoneda(id).subscribe({
       next: () => {
+        if (isAdmin && !isPropietario && this.moneda) {
+          const fechaHora = new Date().toLocaleString();
+          const mensaje = `Un administrador te ha eliminado la moneda: ${this.moneda.nombre} - ${this.moneda.autoridad_emisora}, Referencias: ${this.moneda.referencias}) el ${fechaHora}`;
+          const nuevaNotificacion: Notification = {
+            userId: this.moneda.propietario,
+            message: mensaje,
+            date: new Date().toISOString(),
+            viewed: false,
+          };
+          this.notificationService
+            .createNotification(nuevaNotificacion)
+            .subscribe();
+        }
         this.router.navigate(['/monedas']);
       },
       error: (err) => {
@@ -89,8 +110,4 @@ export class VermonedaComponent implements OnInit {
       },
     });
   }
-
-  // volverPaginaAnterior(): void {
-  //   this.location.back();
-  // }
 }

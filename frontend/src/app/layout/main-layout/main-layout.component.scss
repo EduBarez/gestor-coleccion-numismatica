@@ -52,6 +52,17 @@ footer {
   margin-left: 1rem;
 }
 
+.botonNotificaciones {
+  margin-left: 0.5rem;
+}
+
+.botonNotificaciones .iconoBlanco {
+  color: white;
+}
+
+:host ::ng-deep.mat-mdc-select-value-text ::ng-deep.mat-badge-content {
+  margin-right: 5px;
+}
 /* ───────────────────────────────────────────────────
    Ajustes responsivos (solo tamaños, sin cambiar orden ni estructura)
    ─────────────────────────────────────────────────── */
