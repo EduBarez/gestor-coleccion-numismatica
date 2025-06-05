@@ -110,7 +110,10 @@
 
   <div class="monedas-grid" *ngIf="!isLoading">
     <mat-card *ngFor="let moneda of monedas" class="moneda-card">
-      <a [routerLink]="['/monedas', moneda._id]">
+      <a
+        [routerLink]="['/monedas', moneda._id]"
+        [queryParams]="{ coleccionId: coleccion._id }"
+      >
         <img mat-card-image [src]="moneda.fotografia" [alt]="moneda.nombre" />
         <mat-card-content>
           <h3>{{ moneda.nombre }} – {{ moneda.autoridad_emisora }}</h3>

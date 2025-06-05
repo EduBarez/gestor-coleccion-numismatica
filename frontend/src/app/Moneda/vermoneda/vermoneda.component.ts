@@ -39,6 +39,7 @@ export class VermonedaComponent implements OnInit {
   cargando = true;
   error: string | null = null;
   nombreUsuario: string = '';
+  coleccionId: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +50,7 @@ export class VermonedaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.coleccionId = this.route.snapshot.queryParamMap.get('coleccionId');
     const id = this.route.snapshot.paramMap.get('id')!;
     this.monedasService.getMonedaById(id).subscribe({
       next: (m) => {

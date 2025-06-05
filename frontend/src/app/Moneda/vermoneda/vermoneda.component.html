@@ -26,7 +26,13 @@
   </mat-card-content>
   <mat-card-actions>
     <div class="acciones">
-      <button class="accionBoton" mat-stroked-button routerLink="/monedas">
+      <button
+        class="accionBoton"
+        mat-stroked-button
+        [routerLink]="
+          coleccionId ? ['/colecciones', coleccionId] : ['/monedas']
+        "
+      >
         ← Volver al listado
       </button>
       <button
