@@ -1,14 +1,11 @@
-// controllers/userController.js
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-// Expresiones regulares para validaciones
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
 
-// Registrar un nuevo usuario con encriptación de contraseña
 exports.registerUser = async (req, res) => {
   try {
     const {
@@ -35,7 +32,6 @@ exports.registerUser = async (req, res) => {
       });
     }
 
-    // Verificar si el email o DNI ya están registrados
     const existingUser = await User.findOne({ $or: [{ email }, { DNI }] });
     if (existingUser) {
       return res
@@ -43,7 +39,6 @@ exports.registerUser = async (req, res) => {
         .json({ error: "El email o DNI ya están registrados" });
     }
 
-    // Crear un nuevo usuario con isApproved en false
     const newUser = new User({
       DNI,
       nombre,
@@ -67,7 +62,6 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-// Obtener todos los usuarios pendientes de aprobación
 exports.getPendingUsers = async (req, res) => {
   try {
     const pendientes = await User.find({ isApproved: false });
@@ -80,7 +74,6 @@ exports.getPendingUsers = async (req, res) => {
   }
 };
 
-// Aprobar un usuario solo si no está aprobado
 exports.approveUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -103,7 +96,6 @@ exports.approveUser = async (req, res) => {
   }
 };
 
-// Rechazar un usuario eliminándolo de la base de datos
 exports.rejectUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -121,29 +113,24 @@ exports.rejectUser = async (req, res) => {
   }
 };
 
-// Login de usuario con JWT
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Verificar si el usuario existe
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
-    // Verificar si la cuenta está aprobada
     if (!user.isApproved) {
       return res.status(403).json({ error: "Cuenta pendiente de aprobación" });
     }
 
-    // Verificar la contraseña
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ error: "Contraseña incorrecta" });
     }
 
-    // Generar token JWT
     const token = jwt.sign(
       { id: user._id, rol: user.rol, nombre: user.nombre },
       process.env.JWT_SECRET,
@@ -158,7 +145,6 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-// Obtener un usuario por su ID
 exports.getUser = async (req, res) => {
   try {
     const { id } = req.params;

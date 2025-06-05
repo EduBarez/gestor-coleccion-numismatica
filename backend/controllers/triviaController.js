@@ -1,6 +1,5 @@
 const Trivia = require("../models/trivia");
 
-// Obtener todas las preguntas de trivia
 exports.getPreguntas = async (req, res) => {
   try {
     const preguntas = await Trivia.find();
@@ -13,7 +12,6 @@ exports.getPreguntas = async (req, res) => {
   }
 };
 
-// Obtener una pregunta de trivia por ID
 exports.getPreguntaById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -28,7 +26,6 @@ exports.getPreguntaById = async (req, res) => {
   }
 };
 
-// Crear una nueva pregunta de trivia
 exports.createPregunta = async (req, res) => {
   try {
     const { pregunta, opciones, respuestaCorrecta, periodo } = req.body;
@@ -68,7 +65,6 @@ exports.createPregunta = async (req, res) => {
   }
 };
 
-// Actualizar una pregunta de trivia por ID
 exports.updatePregunta = async (req, res) => {
   try {
     const { id } = req.params;
@@ -87,7 +83,6 @@ exports.updatePregunta = async (req, res) => {
   }
 };
 
-// Obtener preguntas de trivia por periodo
 exports.getPreguntasPorPeriodo = async (req, res) => {
   try {
     const { nombrePeriodo } = req.params;
@@ -101,7 +96,6 @@ exports.getPreguntasPorPeriodo = async (req, res) => {
   }
 };
 
-// Eliminar una pregunta de trivia por ID
 exports.deletePregunta = async (req, res) => {
   try {
     const { id } = req.params;

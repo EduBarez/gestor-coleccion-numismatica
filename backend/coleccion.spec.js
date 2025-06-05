@@ -1,21 +1,29 @@
-const request = require('supertest');
-const mongoose = require('mongoose');
-const app = require('./server');
-const jwt = require('jsonwebtoken');
+const request = require("supertest");
+const mongoose = require("mongoose");
+const app = require("./server");
+const jwt = require("jsonwebtoken");
 
-const userId = '67f3972e5bf893c6c8087901';
-const adminId = '67f3972e5bf893c6c80878ff';
+const userId = "67f3972e5bf893c6c8087901";
+const adminId = "67f3972e5bf893c6c80878ff";
 
-const userToken = jwt.sign({ id: userId, rol: 'user' }, process.env.JWT_SECRET, { expiresIn: '1h' });
-const adminToken = jwt.sign({ id: adminId, rol: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+const userToken = jwt.sign(
+  { id: userId, rol: "user" },
+  process.env.JWT_SECRET,
+  { expiresIn: "1h" }
+);
+const adminToken = jwt.sign(
+  { id: adminId, rol: "admin" },
+  process.env.JWT_SECRET,
+  { expiresIn: "1h" }
+);
 
-describe('Pruebas de Colección Controller (usuario y admin)', () => {
+describe("Pruebas de Colección Controller (usuario y admin)", () => {
   let coleccionId;
 
   beforeAll(async () => {
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     });
   });
 
@@ -23,79 +31,73 @@ describe('Pruebas de Colección Controller (usuario y admin)', () => {
     await mongoose.connection.close();
   });
 
-  // 1. Crear colección como usuario
-  it('El usuario debería crear una nueva colección privada', async () => {
+  it("El usuario debería crear una nueva colección privada", async () => {
     const nueva = {
-      nombre: 'Colección Republicana',
-      descripcion: 'Monedas de la República Romana',
-      publica: false
+      nombre: "Colección Republicana",
+      descripcion: "Monedas de la República Romana",
+      publica: false,
     };
 
     const res = await request(app)
-      .post('/api/colecciones')
-      .set('Authorization', `Bearer ${userToken}`)
+      .post("/api/colecciones")
+      .set("Authorization", `Bearer ${userToken}`)
       .send(nueva);
 
     expect(res.status).toBe(201);
     expect(res.body._id).toBeDefined();
-    expect(res.body.nombre).toBe('Colección Republicana');
+    expect(res.body.nombre).toBe("Colección Republicana");
     coleccionId = res.body._id;
   });
 
-  // 2. Ver colecciones públicas
-  it('Cualquier usuario puede ver las colecciones públicas', async () => {
-    const res = await request(app).get('/api/colecciones/publicas');
+  it("Cualquier usuario puede ver las colecciones públicas", async () => {
+    const res = await request(app).get("/api/colecciones/publicas");
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  // 3. Ver colecciones del usuario autenticado
-  it('El usuario debería ver solo sus colecciones', async () => {
+  it("El usuario debería ver solo sus colecciones", async () => {
     const res = await request(app)
-      .get('/api/colecciones/usuario')
-      .set('Authorization', `Bearer ${userToken}`);
+      .get("/api/colecciones/usuario")
+      .set("Authorization", `Bearer ${userToken}`);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body.some(c => c.nombre === 'Colección Republicana')).toBe(true);
+    expect(res.body.some((c) => c.nombre === "Colección Republicana")).toBe(
+      true
+    );
   });
 
-  // 4. Ver una colección por ID
-  it('Debería devolver la colección con sus monedas (vacía)', async () => {
+  it("Debería devolver la colección con sus monedas (vacía)", async () => {
     const res = await request(app).get(`/api/colecciones/${coleccionId}`);
     expect(res.status).toBe(200);
     expect(res.body.coleccion._id).toBe(coleccionId);
     expect(Array.isArray(res.body.monedas)).toBe(true);
   });
 
-  // 5. Actualizar colección como usuario
-  it('El usuario puede actualizar su colección', async () => {
+  it("El usuario puede actualizar su colección", async () => {
     const res = await request(app)
       .put(`/api/colecciones/${coleccionId}`)
-      .set('Authorization', `Bearer ${userToken}`)
-      .send({ nombre: 'Colección de Roma' });
+      .set("Authorization", `Bearer ${userToken}`)
+      .send({ nombre: "Colección de Roma" });
 
     expect(res.status).toBe(200);
-    expect(res.body.nombre).toBe('Colección de Roma');
+    expect(res.body.nombre).toBe("Colección de Roma");
   });
 
-  // 6. Acceso del admin a todas las colecciones
-  it('El admin puede acceder a todas las colecciones (ruta admin)', async () => {
+  it("El admin puede acceder a todas las colecciones (ruta admin)", async () => {
     const res = await request(app)
-      .get('/api/colecciones/admin/todas')
-      .set('Authorization', `Bearer ${adminToken}`);
+      .get("/api/colecciones/admin/todas")
+      .set("Authorization", `Bearer ${adminToken}`);
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
-    // Debería incluir la creada por el usuario
-    const nombres = res.body.map(c => c.nombre);
-    expect(nombres).toContain('Colección de Roma');
+    const nombres = res.body.map((c) => c.nombre);
+    expect(nombres).toContain("Colección de Roma");
   });
 
-  // 7. Eliminar la colección y desvincular monedas
-  it('El admin también puede eliminar la colección', async () => {
+  it("El admin también puede eliminar la colección", async () => {
     const res = await request(app)
       .delete(`/api/colecciones/${coleccionId}`)
-      .set('Authorization', `Bearer ${adminToken}`);
+      .set("Authorization", `Bearer ${adminToken}`);
 
     expect(res.status).toBe(200);
     expect(res.body.message).toMatch(/Colección eliminada/);

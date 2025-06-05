@@ -15,7 +15,6 @@ const {
 
 const { authMiddleware } = require("../middleware/auth");
 
-// Rutas CRUD para monedas
 router.get("/", getMonedas);
 router.get("/:id", getMonedaById);
 router.get("/usuario/mis-monedas", authMiddleware, getMisMonedas);

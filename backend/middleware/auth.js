@@ -1,11 +1,6 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-/**
- * Middleware de autenticación:
- * - Verifica el token JWT enviado en el encabezado Authorization.
- * - Añade el objeto `user` al request con el ID y el rol extraídos del token.
- */
 exports.authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 

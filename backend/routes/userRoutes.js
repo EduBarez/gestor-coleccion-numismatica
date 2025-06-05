@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-// Importar controladores de usuario
 const {
   registerUser,
   approveUser,
@@ -11,12 +10,11 @@ const {
   getUser,
 } = require("../controllers/userController");
 
-// Rutas para la gestión de usuarios
-router.post("/register", registerUser); // Registrar usuario
-router.post("/login", loginUser); // Iniciar sesión
-router.put("/approve/:id", approveUser); // Aprobar usuario
-router.delete("/reject/:id", rejectUser); // Rechazar y eliminar usuario
-router.get("/pending", getPendingUsers); // Obtener usuarios pendientes
-router.get("/user/:id", getUser); // Obtener usuario por id
+router.post("/register", registerUser);
+router.post("/login", loginUser);
+router.put("/approve/:id", approveUser);
+router.delete("/reject/:id", rejectUser);
+router.get("/pending", getPendingUsers);
+router.get("/user/:id", getUser);
 
 module.exports = router;

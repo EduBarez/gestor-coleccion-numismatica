@@ -21,7 +21,6 @@ const NotificacionSchema = new mongoose.Schema({
   },
 });
 
-// Crea y exporta el modelo "Notificacion". La colección en MongoDB será "Notificaciones".
 module.exports = mongoose.model(
   "Notificacion",
   NotificacionSchema,

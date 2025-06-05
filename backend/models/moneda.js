@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Definición del esquema para Monedas
 const MonedaSchema = new mongoose.Schema({
   fotografia: {
     type: String,
@@ -24,7 +23,7 @@ const MonedaSchema = new mongoose.Schema({
   },
   ceca: {
     type: String,
-    default: "Desconocida", // Valor por defecto si no se sabe dónde fue acuñada
+    default: "Desconocida",
     trim: true,
   },
   datacion: {
@@ -64,7 +63,7 @@ const MonedaSchema = new mongoose.Schema({
   },
   canto: {
     type: String,
-    default: "", // Campo opcional para inscripciones en el canto
+    default: "",
     trim: true,
   },
   referencias: {
@@ -74,7 +73,7 @@ const MonedaSchema = new mongoose.Schema({
   },
   observaciones: {
     type: String,
-    default: "", // Campo opcional para observaciones adicionales
+    default: "",
     trim: true,
   },
   propietario: {
@@ -89,5 +88,4 @@ const MonedaSchema = new mongoose.Schema({
   },
 });
 
-// Crear y exportar el modelo
 module.exports = mongoose.model("Moneda", MonedaSchema, "Monedas");

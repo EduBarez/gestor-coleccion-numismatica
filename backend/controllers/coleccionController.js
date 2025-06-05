@@ -3,7 +3,6 @@ const Coleccion = require("../models/coleccion");
 const Moneda = require("../models/moneda");
 const Usuario = require("../models/user");
 
-// Crear colección
 exports.createColeccion = async (req, res) => {
   try {
     const { nombre, descripcion, publica } = req.body;
@@ -19,7 +18,6 @@ exports.createColeccion = async (req, res) => {
   }
 };
 
-// Obtener colecciones públicas
 exports.getColeccionesPublicas = async (req, res) => {
   try {
     const colecciones = await Coleccion.find({ publica: true }).populate(
@@ -31,7 +29,6 @@ exports.getColeccionesPublicas = async (req, res) => {
   }
 };
 
-// Colecciones del user autenticado
 exports.getMisColecciones = async (req, res) => {
   try {
     const colecciones = await Coleccion.find({ user: req.user.id });
@@ -41,7 +38,6 @@ exports.getMisColecciones = async (req, res) => {
   }
 };
 
-// Obtener una colección y sus monedas
 exports.getColeccionById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -64,7 +60,6 @@ exports.getColeccionById = async (req, res) => {
   }
 };
 
-// Actualizar una colección
 exports.updateColeccion = async (req, res) => {
   try {
     const coleccion = await Coleccion.findByIdAndUpdate(
@@ -80,15 +75,12 @@ exports.updateColeccion = async (req, res) => {
   }
 };
 
-// Eliminar una colección y desvincular sus monedas
 exports.deleteColeccion = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Desvincular monedas
     await Moneda.updateMany({ coleccion: id }, { $set: { coleccion: null } });
 
-    // Eliminar colección
     const resultado = await Coleccion.findByIdAndDelete(id);
     if (!resultado)
       return res.status(404).json({ error: "Colección no encontrada" });
@@ -101,11 +93,10 @@ exports.deleteColeccion = async (req, res) => {
   }
 };
 
-// Agregar monedas a una colección
 exports.agregarMonedasAColeccion = async (req, res) => {
   try {
-    const { id } = req.params; // ID de la colección
-    const { monedas } = req.body; // [ "mon1", "mon2", ... ]
+    const { id } = req.params;
+    const { monedas } = req.body;
 
     if (!Array.isArray(monedas)) {
       return res
@@ -135,11 +126,10 @@ exports.agregarMonedasAColeccion = async (req, res) => {
   }
 };
 
-// Quitar monedas de una colección
 exports.quitarMonedasDeColeccion = async (req, res) => {
   try {
-    const { id } = req.params; // ID de la colección
-    const { monedas } = req.body; // [ "mon1", "mon2", ... ]
+    const { id } = req.params;
+    const { monedas } = req.body;
 
     if (!Array.isArray(monedas)) {
       return res
@@ -147,7 +137,6 @@ exports.quitarMonedasDeColeccion = async (req, res) => {
         .json({ error: "Se espera un array de IDs de monedas" });
     }
 
-    // 1) Verificar que la colección existe y que el usuario es el propietario
     const coleccion = await Coleccion.findOne({ _id: id, user: req.user.id });
     if (!coleccion) {
       return res
@@ -155,7 +144,6 @@ exports.quitarMonedasDeColeccion = async (req, res) => {
         .json({ error: "Colección no encontrada o sin permiso" });
     }
 
-    // 2) Quitar los IDs del array 'monedas'
     await Coleccion.updateOne(
       { _id: id, user: req.user.id },
       { $pull: { monedas: { $in: monedas } } }

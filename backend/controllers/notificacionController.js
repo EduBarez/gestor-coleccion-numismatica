@@ -1,11 +1,6 @@
-// src/controllers/notificacionController.js
 const mongoose = require("mongoose");
 const Notificacion = require("../models/notificacion");
 
-/**
- * GET /notifications?userId=...
- * Obtiene todas las notificaciones para un usuario dado (query param: userId).
- */
 exports.getNotifications = async (req, res) => {
   try {
     if (!req.user || !req.user.id) {
@@ -33,19 +28,8 @@ exports.getNotifications = async (req, res) => {
   }
 };
 
-/**
- * POST /notifications
- * Crea una nueva notificación. Se espera en el body:
- * {
- *   userId: "...",
- *   message: "...",
- *   date: "2023-05-01T12:34:56.789Z",
- *   viewed: false
- * }
- */
 exports.createNotification = async (req, res) => {
   try {
-    // Comprobamos que venga autenticado (se presupone que hay un authMiddleware)
     if (!req.user) {
       return res.status(401).json({ error: "No autenticado" });
     }
@@ -67,7 +51,7 @@ exports.createNotification = async (req, res) => {
       userId,
       message,
       date,
-      viewed: viewed === true, // si viene distinto de true, queda como false
+      viewed: viewed === true,
     });
 
     const guardada = await nuevaNotificacion.save();
@@ -81,13 +65,8 @@ exports.createNotification = async (req, res) => {
   }
 };
 
-/**
- * PATCH /notifications/:id
- * Marca una notificación concreta como leída (viewed: true).
- */
 exports.markAsRead = async (req, res) => {
   try {
-    // Se asume que solo usuarios autenticados pueden modificar
     if (!req.user) {
       return res.status(401).json({ error: "No autenticado" });
     }
@@ -104,7 +83,6 @@ exports.markAsRead = async (req, res) => {
       return res.status(404).json({ error: "Notificación no encontrada" });
     }
 
-    // Solo el usuario destinatario debería poder marcarla como leída
     if (!notificacion.userId.equals(req.user.id)) {
       return res
         .status(403)

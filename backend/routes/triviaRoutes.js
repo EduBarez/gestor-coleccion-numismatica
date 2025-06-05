@@ -1,22 +1,20 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-// Importar controladores de trivia
-const { 
-  getPreguntas, 
-  getPreguntaById, 
+const {
+  getPreguntas,
+  getPreguntaById,
   getPreguntasPorPeriodo,
-  createPregunta, 
-  updatePregunta, 
-  deletePregunta 
-} = require('../controllers/triviaController');
+  createPregunta,
+  updatePregunta,
+  deletePregunta,
+} = require("../controllers/triviaController");
 
-// Rutas para la gestión de preguntas de trivia
-router.get('/', getPreguntas); // Obtener todas las preguntas
-router.get('/periodo/:nombrePeriodo', getPreguntasPorPeriodo); // Obtener preguntas por periodo
-router.get('/:id', getPreguntaById); // Obtener una pregunta por ID
-router.post('/', createPregunta); // Crear una nueva pregunta
-router.put('/:id', updatePregunta); // Actualizar una pregunta por ID
-router.delete('/:id', deletePregunta); // Eliminar una pregunta por ID
+router.get("/", getPreguntas);
+router.get("/periodo/:nombrePeriodo", getPreguntasPorPeriodo);
+router.get("/:id", getPreguntaById);
+router.post("/", createPregunta);
+router.put("/:id", updatePregunta);
+router.delete("/:id", deletePregunta);
 
 module.exports = router;
