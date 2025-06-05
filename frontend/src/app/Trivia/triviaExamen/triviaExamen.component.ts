@@ -56,6 +56,11 @@ export class TriviaExamenComponent implements OnInit {
   constructor(private triviaService: TriviaService) {}
 
   ngOnInit(): void {
+    this.triviaService.getPeriodos().subscribe({
+      next: (periodos) => (this.periodos = periodos),
+      error: () => (this.periodos = []),
+    });
+
     this.triviaService.getPreguntas().subscribe(
       (allPreguntas) => {
         this.preguntasDisponibles = allPreguntas;

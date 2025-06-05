@@ -1,7 +1,6 @@
 <div class="crear-trivia-page">
   <form [formGroup]="form" (ngSubmit)="submit()">
     <h2>Nueva Pregunta de Trivia</h2>
-    <!-- PREGUNTA -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Texto de la pregunta</mat-label>
       <input matInput formControlName="pregunta" />
@@ -10,7 +9,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- OPCIONES -->
     <div class="row">
       <mat-form-field appearance="outline" class="flex-1">
         <mat-label>Opción 1</mat-label>
@@ -45,7 +43,6 @@
       </mat-form-field>
     </div>
 
-    <!-- RESPUESTA CORRECTA (select con las 4 opciones) -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Respuesta correcta</mat-label>
       <mat-select formControlName="respuestaCorrecta">
@@ -67,16 +64,34 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- PERIODO -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Periodo</mat-label>
-      <input matInput formControlName="periodo" />
-      <mat-error *ngIf="form.get('periodo')?.hasError('required')">
+      <mat-select
+        formControlName="periodo"
+        (selectionChange)="onPeriodoChange($event.value)"
+      >
+        <mat-option *ngFor="let p of periodos" [value]="p">{{ p }}</mat-option>
+        <mat-option value="nuevo">Nuevo periodo...</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="form.get('periodo')?.hasError('required') && !nuevoPeriodo"
+      >
         El periodo es obligatorio
       </mat-error>
     </mat-form-field>
 
-    <!-- BOTONES -->
+    <mat-form-field
+      *ngIf="nuevoPeriodo"
+      appearance="outline"
+      class="full-width"
+    >
+      <mat-label>Nuevo periodo</mat-label>
+      <input matInput formControlName="periodoNuevo" />
+      <mat-error *ngIf="form.get('periodoNuevo')?.hasError('required')">
+        El nuevo periodo es obligatorio
+      </mat-error>
+    </mat-form-field>
+
     <div class="actions">
       <button mat-flat-button color="primary" type="submit">
         Crear Trivia
@@ -86,7 +101,6 @@
       </button>
     </div>
 
-    <!-- MENSAJE DE ERROR -->
     <p class="error" *ngIf="message">{{ message }}</p>
   </form>
 </div>

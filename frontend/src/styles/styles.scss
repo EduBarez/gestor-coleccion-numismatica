@@ -25,11 +25,13 @@ body h1 {
 body h2 {
   font-size: 2rem;
   margin-bottom: 0.875rem;
+  color: var(--mat-sys-primary);
 }
 
 body h3 {
   font-size: 1.75rem;
   margin-bottom: 0.75rem;
+  color: var(--mat-sys-primary);
 }
 
 body p {
@@ -40,4 +42,9 @@ body p {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+strong {
+  color: var(--mat-sys-primary);
+  font-weight: 600;
 }

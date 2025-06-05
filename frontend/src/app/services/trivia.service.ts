@@ -36,4 +36,8 @@ export class TriviaService {
   deletePregunta(id: string): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`);
   }
+
+  getPeriodos(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/periodos`);
+  }
 }

@@ -109,3 +109,15 @@ exports.deletePregunta = async (req, res) => {
       .json({ error: "Error al eliminar la pregunta", details: error.message });
   }
 };
+
+exports.getPeriodos = async (req, res) => {
+  try {
+    const periodos = await Trivia.distinct("periodo");
+    res.status(200).json(periodos);
+  } catch (error) {
+    res.status(500).json({
+      error: "Error al obtener los periodos",
+      details: error.message,
+    });
+  }
+};

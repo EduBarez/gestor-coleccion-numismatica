@@ -1,9 +1,7 @@
 <div class="contenedor-examen">
-  <!-- 1. SECCIÓN DE CONFIGURACIÓN ANTES DE EMPEZAR -->
   <ng-container *ngIf="!examStarted && !examFinished">
-    <h2>Examen de Trivia</h2>
+    <h1>Examen de Trivia</h1>
 
-    <!-- Selección de modo: Todas o Por Periodo -->
     <mat-radio-group
       [(ngModel)]="modoExamen"
       class="modo-examen-group"
@@ -13,7 +11,6 @@
       <mat-radio-button value="periodo">Por periodo</mat-radio-button>
     </mat-radio-group>
 
-    <!-- Si elige "Por periodo", mostrar desplegable de periodos -->
     <div *ngIf="modoExamen === 'periodo'" class="selector-periodo">
       <mat-form-field appearance="outline">
         <mat-label>Selecciona un periodo</mat-label>
@@ -25,20 +22,19 @@
       </mat-form-field>
     </div>
 
-    <!-- Botón de empezar, habilitado solo si es válido -->
     <button
       mat-flat-button
       color="primary"
       (click)="empezarExamen()"
       [disabled]="modoExamen === 'periodo' && !selectedPeriodo"
+      class="boton-empezar"
     >
       Empezar
     </button>
   </ng-container>
 
-  <!-- 2. SECCIÓN DE PREGUNTAS DURANTE EL EXAMEN -->
   <ng-container *ngIf="examStarted && !examFinished">
-    <h3>Responde las siguientes 10 preguntas:</h3>
+    <h1>Responde las siguientes 10 preguntas:</h1>
 
     <div class="lista-preguntas">
       <mat-card *ngFor="let pregunta of preguntasExamen" class="card-pregunta">
@@ -61,7 +57,6 @@
       </mat-card>
     </div>
 
-    <!-- Botón para finalizar y calcular puntuación -->
     <div class="boton-finalizar">
       <button mat-flat-button color="accent" (click)="finalizarExamen()">
         Finalizar
@@ -69,7 +64,6 @@
     </div>
   </ng-container>
 
-  <!-- 3. SECCIÓN DE RESULTADOS AL TERMINAR -->
   <ng-container *ngIf="examFinished">
     <h2>Resultados del Examen</h2>
     <p>
@@ -79,8 +73,12 @@
     <p><strong>Tiempo empleado:</strong> {{ tiempoSegundos }} segundos</p>
     <p><strong>Puntuación total:</strong> {{ puntuacion }}</p>
 
-    <!-- Botón para reiniciar examen -->
-    <button mat-flat-button color="primary" (click)="reiniciar()">
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="reiniciar()"
+      class="boton-reiniciar"
+    >
       Volver a intentar
     </button>
   </ng-container>

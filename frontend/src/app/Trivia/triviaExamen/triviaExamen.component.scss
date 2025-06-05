@@ -1,0 +1,81 @@
+.contenedor-examen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  ng-container,
+  .modo-examen-group,
+  .selector-periodo,
+  button {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .modo-examen-group {
+    margin-bottom: 16px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .selector-periodo {
+    margin-bottom: 24px;
+    max-width: 320px;
+  }
+
+  .lista-preguntas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .card-pregunta {
+    width: 100%;
+    max-width: 700px;
+    min-width: 350px;
+    padding: 24px 0;
+  }
+
+  .opciones-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .boton-finalizar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  h2,
+  h3 {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .boton-reiniciar,
+  .boton-empezar {
+    width: fit-content;
+  }
+
+  .mat-form-field {
+    max-width: 320px;
+  }
+}
+
+:host ::ng-deep .mdc-label {
+  font-size: 16;
+}

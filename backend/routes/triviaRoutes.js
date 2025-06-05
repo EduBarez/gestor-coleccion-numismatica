@@ -8,10 +8,12 @@ const {
   createPregunta,
   updatePregunta,
   deletePregunta,
+  getPeriodos,
 } = require("../controllers/triviaController");
 
 router.get("/", getPreguntas);
 router.get("/periodo/:nombrePeriodo", getPreguntasPorPeriodo);
+router.get("/periodos", getPeriodos);
 router.get("/:id", getPreguntaById);
 router.post("/", createPregunta);
 router.put("/:id", updatePregunta);
