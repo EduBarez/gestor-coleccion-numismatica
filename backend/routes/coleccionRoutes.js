@@ -15,7 +15,7 @@ const { authMiddleware } = require("../middleware/auth");
 
 router.post("/", authMiddleware, createColeccion);
 router.get("/publicas", getColeccionesPublicas);
-router.get("/usuario", authMiddleware, getMisColecciones);
+router.get("/usuario/mis-colecciones", authMiddleware, getMisColecciones);
 router.get("/:id", getColeccionById);
 router.get("/admin/todas", authMiddleware, getTodasLasColecciones);
 router.put("/:id", authMiddleware, updateColeccion);

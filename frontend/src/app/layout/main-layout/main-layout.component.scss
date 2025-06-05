@@ -63,26 +63,21 @@ footer {
 :host ::ng-deep.mat-mdc-select-value-text ::ng-deep.mat-badge-content {
   margin-right: 5px;
 }
-/* ───────────────────────────────────────────────────
-   Ajustes responsivos (solo tamaños, sin cambiar orden ni estructura)
-   ─────────────────────────────────────────────────── */
 
-/* Para pantallas medianas (hasta 960px) */
 @media (max-width: 960px) {
   .nombreLogo,
   .textoLog {
     display: none;
   }
 
-  /* Reducir padding lateral de la barra para que no se comprima */
   .barraNavegacion {
     padding: 2rem 0.5rem;
   }
-  /* Logo ligeramente más pequeño */
+
   .barraNavegacion a:first-child img {
     height: 50px;
   }
-  /* Reducir tamaño de fuente y márgenes de botones */
+
   .botonBarra {
     font-size: 1.25rem;
     margin: 0 1.5rem;
@@ -96,13 +91,12 @@ footer {
     font-size: 1.25rem;
     margin-left: 0.5rem;
   }
-  /* Ajustar padding de main en pantallas medianas */
+
   main {
     padding: 14px 18px;
   }
 }
 
-/* Para móviles (hasta 600px) */
 @media (max-width: 600px) {
   .nombreLogo,
   .textoLog {
@@ -113,11 +107,11 @@ footer {
     padding: 1rem 0.5rem;
   }
   .barraNavegacion a:first-child img {
-    height: 2rem; /* 32px en móvil */
+    height: 2rem;
   }
   .botonBarra {
-    font-size: 1rem; /* 16px en móvil */
-    margin: 0 1rem; /* menos espacio entre botones */
+    font-size: 1rem;
+    margin: 0 1rem;
   }
   .nombreLogo {
     font-size: 1rem;
@@ -129,6 +123,6 @@ footer {
     margin-left: 0.4rem;
   }
   main {
-    padding: 12px 16px; /* menos padding en móviles */
+    padding: 12px 16px;
   }
 }

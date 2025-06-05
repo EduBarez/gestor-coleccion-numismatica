@@ -71,7 +71,6 @@ export class AgregarMonedasComponent implements OnInit {
 
         this.coleccionService.getColeccionById(this.collectionId).subscribe({
           next: (res) => {
-            // Antes usábamos res.monedas, ahora es res.coleccion.monedas
             this.monedasEnColeccion = Array.isArray(res.coleccion.monedas)
               ? res.coleccion.monedas
               : [];

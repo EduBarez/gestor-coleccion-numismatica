@@ -3,6 +3,18 @@
   font-size: 1rem;
 }
 
+.tituloYbotones {
+  display: flex;
+  align-items: baseline;
+}
+.tituloYbotones h2 {
+  margin-right: auto;
+}
+
+.tituloYbotones button {
+  margin-left: 0.5rem;
+}
+
 /* Buscador y filtros */
 .buscador-filtro {
   display: flex;

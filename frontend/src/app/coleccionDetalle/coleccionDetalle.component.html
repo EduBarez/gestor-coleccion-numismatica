@@ -1,37 +1,39 @@
 <div class="coleccion-detalle-page" *ngIf="coleccion">
-  <h2>{{ coleccion.nombre }}</h2>
+  <div class="tituloYbotones">
+    <h2>{{ coleccion.nombre }}</h2>
+    <button
+      mat-icon-button
+      *ngIf="userService.isPropietario(coleccion.user._id)"
+      aria-label="Añadir moneda"
+      [routerLink]="['/colecciones', coleccion._id, 'agregar-monedas']"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      *ngIf="userService.isPropietario(coleccion.user._id)"
+      aria-label="Quitar moneda"
+      [routerLink]="['/colecciones', coleccion._id, 'quitar-monedas']"
+    >
+      <mat-icon>remove</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      *ngIf="
+        userService.isPropietario(coleccion.user._id) || userService.isAdmin()
+      "
+      aria-label="Eliminar colección"
+      (click)="openConfirmDialog()"
+    >
+      <mat-icon>delete_forever</mat-icon>
+    </button>
+  </div>
+
   <p class="descripcion">{{ coleccion.descripcion || "Sin descripción." }}</p>
   <p class="autor">
     Creada por {{ coleccion.user.nombre || coleccion.user.username }}
   </p>
-  <button
-    mat-icon-button
-    *ngIf="userService.isPropietario(coleccion.user._id)"
-    aria-label="Añadir moneda"
-    [routerLink]="['/colecciones', coleccion._id, 'agregar-monedas']"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
-
-  <button
-    mat-icon-button
-    *ngIf="userService.isPropietario(coleccion.user._id)"
-    aria-label="Quitar moneda"
-    [routerLink]="['/colecciones', coleccion._id, 'quitar-monedas']"
-  >
-    <mat-icon>remove</mat-icon>
-  </button>
-
-  <button
-    mat-icon-button
-    *ngIf="
-      userService.isPropietario(coleccion.user._id) || userService.isAdmin()
-    "
-    aria-label="Eliminar colección"
-    (click)="openConfirmDialog()"
-  >
-    <mat-icon>delete_forever</mat-icon>
-  </button>
 
   <form
     [formGroup]="filterForm"

@@ -10,7 +10,6 @@
       <span class="nombreLogo">Enjoy Coins</span>
     </a>
 
-    <!-- Separador -->
     <span class="separador"></span>
 
     <a mat-button routerLink="/monedas" class="botonBarra">Monedas</a>
@@ -47,7 +46,6 @@
       Gestion usuarios
     </a>
 
-    <!-- Separador -->
     <span class="separador"></span>
 
     <ng-container *ngIf="!userService.isLoggedIn(); else loggedTpl">
@@ -68,8 +66,6 @@
         matBadgeDot
         matBadgeColor="warn"
         [matBadgeHidden]="!hasUnread"
-        matBadgeOverlap="false"
-        matBadgePosition="after"
         (menuOpened)="onNotifMenuOpened()"
       >
         <mat-icon class="iconoBlanco">chat_bubble</mat-icon>

@@ -1,0 +1,105 @@
+:host {
+  display: block;
+  position: relative;
+  padding: 1rem;
+}
+
+.crear-coleccion-button {
+  font-size: 1rem;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.search-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 500px;
+  margin: 4rem auto 1rem;
+}
+
+.search-filter ::ng-deep mat-form-field {
+  width: 100%;
+}
+
+.buscador-filtro {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+
+  .buscador {
+    flex: 1;
+  }
+
+  .filter-toggle {
+    white-space: nowrap;
+  }
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+.colecciones-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 0;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  margin-top: 1rem;
+}
+
+.coleccion-card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.sin-resultados {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-style: italic;
+  color: gray;
+}
+
+.paginator {
+  margin-top: 1rem;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+:host ::ng-deep .mat-mdc-select-value-text {
+  font-size: 1rem;
+}
+
+:host ::ng-deep .mat-mdc-paginator-container {
+  background-color: inherit;
+}

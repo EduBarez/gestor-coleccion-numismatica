@@ -197,12 +197,13 @@ export class ColeccionService {
   }
 
   /** 2. Mis colecciones (requiere auth) */
-  getMisColecciones(): Observable<ColeccionResponse> {
+  getMisColecciones(): Observable<Coleccion[]> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-    return this.http.get<ColeccionResponse>(`${this.baseUrl}/usuario`, {
-      headers,
-    });
+    return this.http.get<Coleccion[]>(
+      `${this.baseUrl}/usuario/mis-colecciones`,
+      { headers }
+    );
   }
 
   /** 3. Todas las colecciones (sólo admin) */

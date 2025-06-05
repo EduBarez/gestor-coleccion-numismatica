@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
-
-// Módulos de Angular Material usados en el template
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-user-management',
-  standalone: true, // Componente standalone
+  standalone: true,
   imports: [
     NgIf,
     NgFor,
@@ -28,9 +26,7 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrls: ['./user-management.component.scss'],
 })
 export class UserManagementComponent implements OnInit {
-  // Lista de usuarios pendientes de aprobación
   pendientes: User[] = [];
-  // Mensajes de éxito o error
   message: string = '';
   error: string = '';
 
@@ -40,9 +36,6 @@ export class UserManagementComponent implements OnInit {
     this.loadPendings();
   }
 
-  /**
-   * Carga los usuarios cuyo campo isApproved es false
-   */
   loadPendings(): void {
     this.userService.getPending().subscribe({
       next: (list: any[]) => {
@@ -59,9 +52,6 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  /**
-   * Aprueba un usuario y recarga la lista
-   */
   approve(userId: string): void {
     this.userService.approve(userId).subscribe({
       next: (u: User) => {
@@ -75,9 +65,6 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  /**
-   * Rechaza (elimina) un usuario y recarga la lista
-   */
   reject(userId: string): void {
     this.userService.reject(userId).subscribe({
       next: () => {

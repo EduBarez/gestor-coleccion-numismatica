@@ -47,12 +47,12 @@ export class MisColeccionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Cada vez que cambie el término de búsqueda, reiniciamos la página y recargamos
+    // Cada vez que cambió el término de búsqueda, se reinició la página y se recargaron las colecciones
     this.filterForm.valueChanges.pipe(debounceTime(300)).subscribe(() => {
       this.pageIndex = 0;
       this.getMisColecciones();
     });
-    // Al iniciar, cargamos las colecciones del usuario
+    // Al iniciar, se cargaron las colecciones del usuario
     this.getMisColecciones();
   }
 
@@ -64,8 +64,7 @@ export class MisColeccionesComponent implements OnInit {
     const filtros = this.filterForm.value as FiltrosColecciones;
 
     this.coleccionService.getMisColecciones().subscribe({
-      next: (res) => {
-        const cols = res.colecciones; // Array de Coleccion obtenido del backend
+      next: (cols: Coleccion[]) => {
         const term = filtros.search?.trim().toLowerCase() || '';
         const filtradas = term
           ? cols.filter((c) => c.nombre.toLowerCase().includes(term))

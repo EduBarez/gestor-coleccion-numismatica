@@ -1,58 +1,44 @@
-<h1>Usuarios pendientes de aprobación</h1>
-
 <ng-container *ngIf="pendientes.length > 0; else noUsers">
-  <mat-list>
-    <ng-container *ngFor="let u of pendientes">
-      <mat-list-item class="user-item">
-        <!-- Datos -->
-        <span class="user-info">
-          {{ u.DNI }} – {{ u.nombre }} {{ u.apellidos }}
-        </span>
-        <span class="user-contact">
-          {{ u.email }} • Rol: <strong>{{ u.rol }}</strong>
-        </span>
+  <mat-card class="user-list-card">
+    <h1>Usuarios pendientes de aprobación</h1>
+    <mat-card-content>
+      <mat-list>
+        <ng-container *ngFor="let u of pendientes">
+          <mat-list-item>
+            <div class="user-item">
+              <span class="user-info">
+                {{ u.DNI }} – {{ u.nombre }} {{ u.apellidos }} – {{ u.email }} •
+                <strong>Rol:</strong> {{ u.rol }}
+              </span>
 
-        <!-- Botones -->
-        <button
-          mat-flat-button
-          color="primary"
-          (click)="approve(u.id)"
-          matTooltip="Aprobar usuario"
-          aria-label="Aprobar"
-        >
-          Aprobar
-        </button>
-        <button
-          mat-flat-button
-          color="warn"
-          (click)="reject(u.id)"
-          matTooltip="Rechazar usuario"
-          aria-label="Rechazar"
-        >
-          Rechazar
-        </button>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-    </ng-container>
-  </mat-list>
+              <button
+                mat-flat-button
+                color="primary"
+                (click)="approve(u.id)"
+                matTooltip="Aprobar usuario"
+                aria-label="Aprobar"
+                class="accionBoton"
+              >
+                Aprobar
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="reject(u.id)"
+                matTooltip="Rechazar usuario"
+                aria-label="Rechazar"
+                class="accionBoton"
+              >
+                Rechazar
+              </button>
+            </div>
+          </mat-list-item>
+        </ng-container>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
 </ng-container>
 
 <ng-template #noUsers>
   <p class="no-users">No hay usuarios pendientes de aprobación.</p>
 </ng-template>
-
-<!-- <div *ngIf="error" class="error">{{ error }}</div>
-<ul>
-  <li *ngFor="let u of pendientes">
-    <img
-      *ngIf="u.profilePicture"
-      [src]="u.profilePicture"
-      alt="Perfil"
-      width="50"
-    />
-    {{ u.DNI }} - {{ u.nombre }} {{ u.apellidos }} ({{ u.email }}) - Rol:
-    {{ u.rol }}
-    <button (click)="approve(u.id)">Aprobar</button>
-    <button (click)="reject(u.id)">Rechazar</button>
-  </li>
-</ul> -->
