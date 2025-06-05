@@ -27,7 +27,6 @@
     </button>
   </div>
 
-  <!-- Filtros adicionales -->
   <div class="filters" *ngIf="showFilters">
     <mat-form-field appearance="outline">
       <mat-label>Autoridad emisora</mat-label>
@@ -50,7 +49,6 @@
       <input matInput formControlName="metal" />
     </mat-form-field>
 
-    <!-- Acciones de filtros: sólo se ven cuando showFilters = true -->
     <div class="filter-actions" *ngIf="showFilters">
       <button
         mat-stroked-button

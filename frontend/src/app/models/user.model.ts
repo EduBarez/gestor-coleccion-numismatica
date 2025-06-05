@@ -39,3 +39,9 @@ export interface JwtPayload {
   exp: number;
   iat: number;
 }
+
+export interface UsuarioResumen {
+  _id: string;
+  nombre?: string;
+  rol?: string;
+}

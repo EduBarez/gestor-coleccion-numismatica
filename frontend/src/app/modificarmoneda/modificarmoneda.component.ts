@@ -37,7 +37,6 @@ export class ModificarMonedaComponent {
   previewUrl: string | ArrayBuffer | null = null;
   message = '';
   idMoneda: string = '';
-  //fotoMoneda: File = new File([], '');
 
   constructor(
     private fb: FormBuilder,
@@ -83,7 +82,6 @@ export class ModificarMonedaComponent {
           canto: moneda.canto,
           referencias: moneda.referencias,
           observaciones: moneda.observaciones,
-          //fotoMoneda: moneda.fotografia,
         });
       },
       error: (err) => {
@@ -110,10 +108,8 @@ export class ModificarMonedaComponent {
       return;
     }
 
-    // 1) Crear FormData
     const fd = new FormData();
 
-    // 2) Añadir todos los campos del formulario (menos 'fotografia')
     Object.entries(this.form.value).forEach(([key, val]) => {
       if (
         key !== 'fotografia' &&
@@ -125,12 +121,10 @@ export class ModificarMonedaComponent {
       }
     });
 
-    // 3) Si hay fichero nuevo, añadirlo bajo el mismo name que usas en Multer
     if (this.selectedFile) {
       fd.append('fotografia', this.selectedFile);
     }
 
-    // 4) Llamar al servicio pasando el FormData
     this.monedaService.updateMoneda(this.idMoneda, fd).subscribe({
       next: () => {
         this.message = 'Moneda modificada correctamente';
@@ -141,65 +135,6 @@ export class ModificarMonedaComponent {
       },
     });
   }
-
-  // submit(): void {
-  //   if (this.form.invalid) {
-  //     this.form.markAllAsTouched();
-  //     return;
-  //   }
-
-  //   const {
-  //     nombre,
-  //     valor,
-  //     autoridad_emisora,
-  //     ceca,
-  //     datacion,
-  //     estado_conservacion,
-  //     metal,
-  //     peso,
-  //     diametro,
-  //     anverso,
-  //     reverso,
-  //     canto,
-  //     referencias,
-  //     observaciones,
-  //     fotografia,
-  //   } = this.form.value;
-
-  //   const monedaData: MonedaUpdate = {
-  //     nombre,
-  //     valor,
-  //     autoridad_emisora,
-  //     ceca,
-  //     datacion,
-  //     estado_conservacion,
-  //     metal,
-  //     peso,
-  //     diametro,
-  //     anverso,
-  //     reverso,
-  //     canto,
-  //     referencias,
-  //     observaciones,
-  //     fotografia,
-  //   };
-
-  //   if (this.selectedFile) {
-  //     monedaData.fotografia = this.selectedFile;
-  //   } else {
-  //     monedaData.fotografia = this.fotoMoneda;
-  //   }
-
-  //   this.monedaService.updateMoneda(this.idMoneda, monedaData).subscribe({
-  //     next: () => {
-  //       this.message = 'Moneda modificar correctamente';
-  //       this.router.navigate(['/monedas']);
-  //     },
-  //     error: (err) => {
-  //       this.message = err.error?.error || 'Error al modificar moneda';
-  //     },
-  //   });
-  // }
 
   cancel() {
     this.router.navigate(['/monedas/' + this.idMoneda]);

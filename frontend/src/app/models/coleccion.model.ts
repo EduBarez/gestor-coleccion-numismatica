@@ -1,4 +1,5 @@
 import { Moneda } from './moneda.models';
+import { UsuarioResumen } from './user.model';
 
 export interface Coleccion {
   _id: string;
@@ -15,12 +16,6 @@ export interface ColeccionResponse {
   total: number;
   page: number;
   limit: number;
-}
-
-export interface UsuarioResumen {
-  _id: string;
-  nombre?: string;
-  username?: string;
 }
 
 export interface ColeccionConMonedas {

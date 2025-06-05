@@ -1,4 +1,3 @@
-//monedas.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -17,12 +16,6 @@ export class MonedaService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Obtiene la lista paginada de monedas con filtros opcionales.
-   * @param page número de página (1-based)
-   * @param limit elementos por página
-   * @param filtros campos definidos en FiltrosMonedas (search → nombre)
-   */
   getMonedas(
     page: number,
     limit: number,
@@ -42,12 +35,10 @@ export class MonedaService {
     return this.http.get<MonedaResponse>(this.baseUrl, { params });
   }
 
-  /** Obtiene una moneda por su ID */
   getMonedaById(id: string): Observable<Moneda> {
     return this.http.get<Moneda>(`${this.baseUrl}/${id}`);
   }
 
-  /** Crea una nueva moneda (con multipart/form-data para la foto) */
   createMoneda(formData: FormData): Observable<Moneda> {
     const token = localStorage.getItem('token');
     const headers = token
@@ -61,7 +52,6 @@ export class MonedaService {
     );
   }
 
-  /** Actualiza una moneda por ID */
   updateMoneda(id: string, formData: FormData): Observable<Moneda> {
     const token = localStorage.getItem('token');
     const headers = token
@@ -75,7 +65,6 @@ export class MonedaService {
     );
   }
 
-  /** Elimina una moneda por ID */
   deleteMoneda(id: string): Observable<{ message: string }> {
     const token = localStorage.getItem('token');
     const headers = token
@@ -100,7 +89,6 @@ export class MonedaService {
     );
   }
 
-  /** Obtiene las monedas de un usuario dado (perfil público) */
   getMonedasDeUsuario(userId: string): Observable<Moneda[]> {
     return this.http.get<Moneda[]>(`${this.baseUrl}/usuario/${userId}`);
   }

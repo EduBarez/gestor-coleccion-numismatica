@@ -39,7 +39,6 @@ export class CrearColeccionComponent {
     private coleccionService: ColeccionService,
     private router: Router
   ) {
-    // Definimos el formulario con validación mínima
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: [''],
@@ -47,19 +46,16 @@ export class CrearColeccionComponent {
     });
   }
 
-  /** Navegar atrás sin guardar */
   cancel(): void {
     this.router.navigate(['/colecciones']);
   }
 
-  /** Enviar el formulario al backend */
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    // Tipo de dato esperado por el servicio:
     const data: {
       nombre: string;
       descripcion?: string;

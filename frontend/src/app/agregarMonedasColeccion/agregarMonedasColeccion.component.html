@@ -1,10 +1,8 @@
-<!-- Si no se ha terminado de cargar, mostrar spinner -->
 <div *ngIf="isLoading" class="spinner-container">
   <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 </div>
 
-<!-- Formulario solo se muestra cuando ya se haya cargado (isLoading = false) -->
-<h2>Añadir monedas a la colección</h2>
+<h1>Añadir monedas a la colección</h1>
 <p>Selecciona las monedas que quieras agregar:</p>
 <form
   [formGroup]="formSeleccion"
@@ -12,10 +10,8 @@
   *ngIf="!isLoading"
   class="form-agregar-monedas"
 >
-  <!-- Si no hay monedas disponibles para agregar, mostrar mensaje -->
   <ng-container *ngIf="todasMisMonedas.length > 0; else sinMonedasDisponibles">
     <mat-card>
-      <!-- Importante: formArrayName para vincular los checkbox -->
       <div formArrayName="seleccion">
         <mat-list>
           <mat-list-item *ngFor="let moneda of todasMisMonedas; let i = index">
@@ -28,7 +24,6 @@
       </div>
     </mat-card>
 
-    <!-- Botones de acción -->
     <div class="actions">
       <button
         mat-flat-button
@@ -44,7 +39,6 @@
     </div>
   </ng-container>
 
-  <!-- Template alternativo si no hay monedas disponibles -->
   <ng-template #sinMonedasDisponibles>
     <mat-card>
       <p>No existen monedas disponibles para añadir a esta colección.</p>

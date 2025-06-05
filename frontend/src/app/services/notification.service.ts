@@ -1,4 +1,3 @@
-// notification.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,7 +10,6 @@ export class NotificationService {
 
   constructor(private http: HttpClient) {}
 
-  /** Obtiene las notificaciones de un usuario dado */
   getNotifications(userId: string): Observable<Notification[]> {
     const token = localStorage.getItem('token');
     const headers = token
@@ -24,7 +22,6 @@ export class NotificationService {
     });
   }
 
-  /** Crea una nueva notificación */
   createNotification(notification: Notification): Observable<Notification> {
     const token = localStorage.getItem('token');
     const headers = token
@@ -35,7 +32,6 @@ export class NotificationService {
     });
   }
 
-  /** Marca una notificación como leída */
   markAsRead(notificationId: string): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = token

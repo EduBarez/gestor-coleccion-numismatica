@@ -18,6 +18,9 @@ import { QuitarMonedasColeccionComponent } from './quitarMonedasColeccion/quitar
 import { TriviaExamenComponent } from './triviaExamen/triviaExamen.component';
 import { CrearTriviaComponent } from './crearTrivia/crearTrivia.component';
 import { MisColeccionesComponent } from './miscolecciones/miscolecciones.component';
+import { OwnerOrAdminGuard } from './guards/propietarioOadmin.guard';
+import { UserGuard } from './guards/user.guard';
+import { PropietarioGuard } from './guards/propietario.guard';
 
 export const routes: Routes = [
   {
@@ -40,6 +43,7 @@ export const routes: Routes = [
       {
         path: 'crear-moneda',
         component: CrearMonedaComponent,
+        canActivate: [UserGuard],
       },
       {
         path: 'monedas/:id',
@@ -48,6 +52,7 @@ export const routes: Routes = [
       {
         path: 'modificar-monedas/:id',
         component: ModificarMonedaComponent,
+        canActivate: [OwnerOrAdminGuard],
       },
       {
         path: 'colecciones',
@@ -56,7 +61,7 @@ export const routes: Routes = [
       {
         path: 'colecciones/crear',
         component: CrearColeccionComponent,
-        //canActivate: [AuthGuard],
+        canActivate: [UserGuard],
       },
       {
         path: 'colecciones/:id',
@@ -65,15 +70,17 @@ export const routes: Routes = [
       {
         path: 'colecciones/:id/agregar-monedas',
         component: AgregarMonedasComponent,
+        canActivate: [PropietarioGuard],
       },
       {
         path: 'colecciones/:id/quitar-monedas',
         component: QuitarMonedasColeccionComponent,
+        canActivate: [OwnerOrAdminGuard],
       },
       {
         path: 'mis-colecciones',
         component: MisColeccionesComponent,
-        //canActivate: [AuthGuard],
+        canActivate: [UserGuard],
       },
       {
         path: 'trivia-examen',

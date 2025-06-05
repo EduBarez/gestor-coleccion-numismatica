@@ -14,19 +14,16 @@
     gap: 16px;
   }
 
-  /* Para campos de ancho completo */
   .full {
     width: 100%;
   }
 
-  /* Acciones de formulario (botones) */
   .actions {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
   }
 
-  /* Mensajes de error */
   .error {
     color: #c0392b;
     text-align: center;
