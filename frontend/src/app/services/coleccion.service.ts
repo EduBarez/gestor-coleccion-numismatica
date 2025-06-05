@@ -17,12 +17,10 @@ export class ColeccionService {
 
   constructor(private http: HttpClient) {}
 
-  /** 1. Lista de colecciones públicas */
   getPublicas(): Observable<Coleccion[]> {
     return this.http.get<Coleccion[]>(`${this.baseUrl}/publicas`);
   }
 
-  /** 2. Mis colecciones (requiere auth) */
   getMisColecciones(): Observable<Coleccion[]> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
@@ -32,7 +30,6 @@ export class ColeccionService {
     );
   }
 
-  /** 3. Todas las colecciones (sólo admin) */
   getTodasLasColecciones(): Observable<Coleccion[]> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
@@ -41,7 +38,6 @@ export class ColeccionService {
     });
   }
 
-  /** 4. Obtener una colección con sus monedas */
   getColeccionById(id: string): Observable<ColeccionDetalleResponse> {
     const token = localStorage.getItem('token') || '';
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
@@ -50,7 +46,6 @@ export class ColeccionService {
     });
   }
 
-  /** 5. Crear nueva colección */
   createColeccion(data: {
     nombre: string;
     descripcion?: string;

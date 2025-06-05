@@ -1,10 +1,8 @@
-<!-- Si aún estamos cargando, mostrar spinner -->
 <div *ngIf="isLoading" class="spinner-container">
   <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 </div>
 
-<!-- Formulario: solo cuando isLoading = false -->
-<h2>Quitar monedas de la colección</h2>
+<h1>Quitar monedas de la colección</h1>
 <p>Selecciona las monedas que quieres quitar:</p>
 <form
   [formGroup]="formSeleccion"
@@ -12,7 +10,6 @@
   *ngIf="!isLoading"
   class="form-quitar-monedas"
 >
-  <!-- Si no hay monedas en la colección, mostrar mensaje alternativo -->
   <ng-container
     *ngIf="monedasEnColeccion.length > 0; else sinMonedasEnColeccion"
   >
@@ -31,7 +28,6 @@
       </div>
     </mat-card>
 
-    <!-- Botones de acción -->
     <div class="actions">
       <button
         mat-flat-button
@@ -47,7 +43,6 @@
     </div>
   </ng-container>
 
-  <!-- Mensaje si no hay monedas en la colección -->
   <ng-template #sinMonedasEnColeccion>
     <mat-card>
       <p>No hay monedas en esta colección para quitar.</p>

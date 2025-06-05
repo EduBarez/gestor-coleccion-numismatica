@@ -1,0 +1,17 @@
+mat-card {
+  margin-bottom: 24px;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+mat-checkbox {
+  font-size: 1rem;
+
+  strong {
+    font-size: 1rem;
+  }
+}
