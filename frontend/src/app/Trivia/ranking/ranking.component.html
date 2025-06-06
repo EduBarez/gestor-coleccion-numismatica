@@ -1,0 +1,49 @@
+<div class="ranking-page">
+  <h1>Ranking de Trivia</h1>
+
+  <div class="ranking-filtros">
+    <mat-form-field appearance="outline">
+      <mat-label>Filtrar por periodo</mat-label>
+      <mat-select
+        [(value)]="selectedPeriodo"
+        (selectionChange)="cargarRanking()"
+      >
+        <mat-option value="">General</mat-option>
+        <mat-option *ngFor="let p of periodos" [value]="p">{{ p }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="ranking-list-card">
+    <ng-container *ngIf="topRanking.length > 0; else noRanking">
+      <table class="ranking-table">
+        <thead>
+          <tr>
+            <th>Posición</th>
+            <th>Usuario</th>
+            <th>Puntuación</th>
+            <th>Aciertos</th>
+            <th>Tiempo</th>
+            <th>Periodo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of topRanking; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ getNombreUsuario(r.idUsuario) }}</td>
+            <td>{{ r.puntuacion }}</td>
+            <td>{{ r.aciertos }}/{{ r.totalPreguntas }}</td>
+            <td>{{ r.tiempoSegundos }}s</td>
+            <td>{{ r.periodo || "General" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+    <ng-template #noRanking>
+      <div class="no-ranking">
+        <mat-icon>info</mat-icon>
+        <span>No hay datos de puntuación disponibles.</span>
+      </div>
+    </ng-template>
+  </div>
+</div>

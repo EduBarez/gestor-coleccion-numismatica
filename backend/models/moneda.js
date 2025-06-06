@@ -78,7 +78,7 @@ const MonedaSchema = new mongoose.Schema({
   },
   propietario: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Usuario",
+    ref: "User",
     required: true,
   },
   coleccion: {

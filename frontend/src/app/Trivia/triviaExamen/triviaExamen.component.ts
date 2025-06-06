@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { RankingService } from '../../services/ranking.service';
+import { Ranking } from '@app/models/ranking.model';
 
 @Component({
   selector: 'app-trivia-examen',
@@ -33,27 +35,26 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./triviaExamen.component.scss'],
 })
 export class TriviaExamenComponent implements OnInit {
-  // ----- CONTROL DE VISTAS -----
   modoExamen: 'all' | 'periodo' = 'all';
   examStarted = false;
   examFinished = false;
 
-  // ----- LISTADOS Y SELECCIONES -----
   periodos: string[] = [];
   selectedPeriodo: string = '';
   preguntasDisponibles: Trivia[] = [];
   preguntasExamen: Trivia[] = [];
-  // Para almacenar las respuestas del usuario: clave = _id de la pregunta, valor = opción elegida
   respuestasUsuario: { [preguntaId: string]: string } = {};
 
-  // ----- TIEMPO Y PUNTUACIÓN -----
   startTime!: Date;
   endTime!: Date;
   tiempoSegundos: number = 0;
   puntuacion: number = 0;
   correctCount: number = 0;
 
-  constructor(private triviaService: TriviaService) {}
+  constructor(
+    private triviaService: TriviaService,
+    private rankingService: RankingService
+  ) {}
 
   ngOnInit(): void {
     this.triviaService.getPeriodos().subscribe({
@@ -117,12 +118,10 @@ export class TriviaExamenComponent implements OnInit {
 
   finalizarExamen(): void {
     this.endTime = new Date();
-    // Tiempo en segundos (redondeado)
     this.tiempoSegundos = Math.floor(
       (this.endTime.getTime() - this.startTime.getTime()) / 1000
     );
 
-    // Contar aciertos
     let aciertos = 0;
     this.preguntasExamen.forEach((p) => {
       const respuesta = this.respuestasUsuario[p._id!];
@@ -132,19 +131,33 @@ export class TriviaExamenComponent implements OnInit {
     });
     this.correctCount = aciertos;
 
-    // Cálculo de puntuación: (aciertos * 1000) / tiempoSegundos
-    // + Se multiplica por 1000 para escalar la puntuación
-    // + Ganar más puntos si responde más rápido
     if (this.tiempoSegundos > 0) {
       this.puntuacion = parseFloat(
         ((aciertos * 1000) / this.tiempoSegundos).toFixed(2)
       );
     } else {
-      // Evitar división por cero; si tarda menos de 1s, damos la máxima puntuación teórica
       this.puntuacion = aciertos * 1000;
     }
 
     this.examFinished = true;
+
+    // Solo intentamos guardar ranking si hay usuario registrado
+    const idUsuario = this.getUsuarioId?.();
+    if (idUsuario) {
+      this.rankingService
+        .addRanking({
+          puntuacion: this.puntuacion,
+          aciertos: this.correctCount,
+          totalPreguntas: this.preguntasExamen.length,
+          tiempoSegundos: this.tiempoSegundos,
+          periodo: this.modoExamen === 'periodo' ? this.selectedPeriodo : null,
+        })
+        .subscribe();
+    }
+  }
+
+  private getUsuarioId(): string | null {
+    return localStorage.getItem('userId');
   }
 
   reiniciar(): void {

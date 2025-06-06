@@ -32,9 +32,14 @@
       <button mat-menu-item [routerLink]="['/trivia-examen']">
         Examinarse
       </button>
-      <button mat-menu-item [routerLink]="['/anadir-preguntas-trivia']">
+      <button
+        mat-menu-item
+        [routerLink]="['/anadir-preguntas-trivia']"
+        *ngIf="userService.isLoggedIn()"
+      >
         Añadir preguntas
       </button>
+      <button mat-menu-item [routerLink]="['/ranking']">Ranking</button>
     </mat-menu>
 
     <a

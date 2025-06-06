@@ -21,6 +21,7 @@ import { MisColeccionesComponent } from './Coleccion/miscolecciones/miscoleccion
 import { OwnerOrAdminGuard } from './guards/propietarioOadmin.guard';
 import { UserGuard } from './guards/user.guard';
 import { PropietarioGuard } from './guards/propietario.guard';
+import { RankingComponent } from './Trivia/ranking/ranking.component';
 
 export const routes: Routes = [
   {
@@ -75,7 +76,7 @@ export const routes: Routes = [
       {
         path: 'colecciones/:id/quitar-monedas',
         component: QuitarMonedasColeccionComponent,
-        canActivate: [OwnerOrAdminGuard],
+        canActivate: [PropietarioGuard],
       },
       {
         path: 'mis-colecciones',
@@ -89,6 +90,11 @@ export const routes: Routes = [
       {
         path: 'anadir-preguntas-trivia',
         component: CrearTriviaComponent,
+        canActivate: [UserGuard],
+      },
+      {
+        path: 'ranking',
+        component: RankingComponent,
       },
     ],
   },
