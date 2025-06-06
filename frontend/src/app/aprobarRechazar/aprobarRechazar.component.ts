@@ -10,7 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-user-management',
+  selector: 'app-aprobar-rechazar',
   standalone: true,
   imports: [
     NgIf,
@@ -22,10 +22,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatTooltipModule,
     MatDividerModule,
   ],
-  templateUrl: './user-management.component.html',
-  styleUrls: ['./user-management.component.scss'],
+  templateUrl: './aprobarRechazar.component.html',
+  styleUrls: ['./aprobarRechazar.component.scss'],
 })
-export class UserManagementComponent implements OnInit {
+export class AprobarRechazarComponent implements OnInit {
   pendientes: User[] = [];
   message: string = '';
   error: string = '';

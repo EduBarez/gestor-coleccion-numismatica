@@ -1,0 +1,32 @@
+<ng-container *ngIf="usuarios.length > 0; else noUsers">
+  <mat-card class="user-list-card">
+    <h1>Usuarios para eliminación</h1>
+    <mat-card-content>
+      <mat-list>
+        <ng-container *ngFor="let user of usuarios">
+          <mat-list-item>
+            <div class="user-item">
+              <span class="user-info">
+                {{ user.nombre }} {{ user.apellidos }} – {{ user.email }}
+              </span>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="eliminarUsuario(user)"
+                matTooltip="Eliminar usuario"
+                aria-label="Eliminar"
+                class="accionBoton"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+        </ng-container>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
+<ng-template #noUsers>
+  <p class="no-users">No hay usuarios para eliminar.</p>
+</ng-template>

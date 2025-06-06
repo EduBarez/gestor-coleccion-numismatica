@@ -14,7 +14,7 @@
               <button
                 mat-flat-button
                 color="primary"
-                (click)="approve(u.id)"
+                (click)="approve(u._id)"
                 matTooltip="Aprobar usuario"
                 aria-label="Aprobar"
                 class="accionBoton"
@@ -24,7 +24,7 @@
               <button
                 mat-raised-button
                 color="warn"
-                (click)="reject(u.id)"
+                (click)="reject(u._id)"
                 matTooltip="Rechazar usuario"
                 aria-label="Rechazar"
                 class="accionBoton"

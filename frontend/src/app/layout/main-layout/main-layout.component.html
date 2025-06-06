@@ -45,11 +45,20 @@
     <a
       mat-button
       *ngIf="userService.isAdmin()"
-      routerLink="/gestion-usuarios"
+      [matMenuTriggerFor]="gestionUsuariosMenu"
       class="botonBarra"
     >
       Gestion usuarios
+      <mat-icon>arrow_drop_down</mat-icon>
     </a>
+    <mat-menu #gestionUsuariosMenu="matMenu">
+      <button mat-menu-item [routerLink]="['/aprobar-rechazar']">
+        Aprobar/Rechazar
+      </button>
+      <button mat-menu-item [routerLink]="['/eliminar-usuarios']">
+        Eliminar
+      </button>
+    </mat-menu>
 
     <span class="separador"></span>
 

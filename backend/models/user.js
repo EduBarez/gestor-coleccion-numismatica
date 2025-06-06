@@ -19,5 +19,18 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+userSchema.pre("findOneAndDelete", async function (next) {
+  const doc = await this.model.findOne(this.getQuery());
+  if (doc) {
+    const userId = doc._id;
+
+    await require("./coleccion").deleteMany({ user: userId });
+    await require("./moneda").deleteMany({ propietario: userId });
+    await require("./notificacion").deleteMany({ userId: userId });
+    await require("./ranking").deleteMany({ idUsuario: userId });
+  }
+  next();
+});
+
 const User = mongoose.model("User", userSchema, "Usuarios");
 module.exports = User;

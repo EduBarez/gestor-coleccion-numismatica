@@ -163,3 +163,32 @@ exports.getUser = async (req, res) => {
       .json({ error: "Error al obtener el usuario", details: error.message });
   }
 };
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await require("../models/user")
+      .find()
+      .select("DNI nombre apellidos email rol profilePicture");
+    res.status(200).json(users);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error al obtener los usuarios", details: error.message });
+  }
+};
+
+exports.deleteUserCascade = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await require("../models/user").findByIdAndDelete(id);
+
+    return res.status(200).json({
+      message: "Usuario y datos relacionados eliminados correctamente",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: "Error al eliminar el usuario en cascada",
+      details: error.message,
+    });
+  }
+};

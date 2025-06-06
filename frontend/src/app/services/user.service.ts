@@ -53,4 +53,17 @@ export class UserService {
   public isPropietario(propietario: string): boolean {
     return localStorage.getItem('userId') === propietario;
   }
+
+  getAll(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/all`);
+  }
+
+  deleteUserCascade(id: string): Observable<{ message: string }> {
+    const token = localStorage.getItem('token') || '';
+    const headers = { headers: { Authorization: `Bearer ${token}` } };
+    return this.http.delete<{ message: string }>(
+      `${this.baseUrl}/cascade/${id}`,
+      headers
+    );
+  }
 }

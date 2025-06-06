@@ -3,7 +3,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { UserManagementComponent } from './user-management/user-management.component';
+import { AprobarRechazarComponent } from './aprobarRechazar/aprobarRechazar.component';
 import { AdminGuard } from './guards/admin.guard';
 import { MonedasComponent } from './Moneda/monedas/monedas.component';
 import { CrearMonedaComponent } from './Moneda/crearmoneda/crearmoneda.component';
@@ -22,6 +22,7 @@ import { OwnerOrAdminGuard } from './guards/propietarioOadmin.guard';
 import { UserGuard } from './guards/user.guard';
 import { PropietarioGuard } from './guards/propietario.guard';
 import { RankingComponent } from './Trivia/ranking/ranking.component';
+import { EliminarUsuariosComponent } from './eliminarUsuarios/eliminarUsuarios.component';
 
 export const routes: Routes = [
   {
@@ -33,8 +34,13 @@ export const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'gestion-usuarios',
-        component: UserManagementComponent,
+        path: 'aprobar-rechazar',
+        component: AprobarRechazarComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'eliminar-usuarios',
+        component: EliminarUsuariosComponent,
         canActivate: [AdminGuard],
       },
       {

@@ -8,6 +8,8 @@ const {
   loginUser,
   getPendingUsers,
   getUser,
+  getAllUsers,
+  deleteUserCascade,
 } = require("../controllers/userController");
 
 router.post("/register", registerUser);
@@ -16,5 +18,7 @@ router.put("/approve/:id", approveUser);
 router.delete("/reject/:id", rejectUser);
 router.get("/pending", getPendingUsers);
 router.get("/user/:id", getUser);
+router.get("/all", getAllUsers);
+router.delete("/cascade/:id", deleteUserCascade);
 
 module.exports = router;
