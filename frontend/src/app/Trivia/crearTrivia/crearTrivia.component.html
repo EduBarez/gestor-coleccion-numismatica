@@ -66,29 +66,11 @@
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Periodo</mat-label>
-      <mat-select
-        formControlName="periodo"
-        (selectionChange)="onPeriodoChange($event.value)"
-      >
+      <mat-select formControlName="periodo">
         <mat-option *ngFor="let p of periodos" [value]="p">{{ p }}</mat-option>
-        <mat-option value="nuevo">Nuevo periodo...</mat-option>
       </mat-select>
-      <mat-error
-        *ngIf="form.get('periodo')?.hasError('required') && !nuevoPeriodo"
-      >
+      <mat-error *ngIf="form.get('periodo')?.hasError('required')">
         El periodo es obligatorio
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field
-      *ngIf="nuevoPeriodo"
-      appearance="outline"
-      class="full-width"
-    >
-      <mat-label>Nuevo periodo</mat-label>
-      <input matInput formControlName="periodoNuevo" />
-      <mat-error *ngIf="form.get('periodoNuevo')?.hasError('required')">
-        El nuevo periodo es obligatorio
       </mat-error>
     </mat-form-field>
 

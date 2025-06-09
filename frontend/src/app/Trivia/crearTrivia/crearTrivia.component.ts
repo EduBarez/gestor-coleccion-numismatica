@@ -34,7 +34,6 @@ export class CrearTriviaComponent {
   form: FormGroup;
   message = '';
   periodos: string[] = [];
-  nuevoPeriodo = false;
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +48,6 @@ export class CrearTriviaComponent {
       opcion4: ['', Validators.required],
       respuestaCorrecta: ['', Validators.required],
       periodo: ['', Validators.required],
-      periodoNuevo: [''],
     });
 
     this.form.valueChanges.subscribe(() => {
@@ -66,19 +64,6 @@ export class CrearTriviaComponent {
       next: (periodos) => (this.periodos = periodos),
       error: () => (this.periodos = []),
     });
-  }
-
-  onPeriodoChange(value: string) {
-    this.nuevoPeriodo = value === 'nuevo';
-    if (this.nuevoPeriodo) {
-      this.form.get('periodo')?.setValidators([]);
-      this.form.get('periodoNuevo')?.setValidators([Validators.required]);
-    } else {
-      this.form.get('periodo')?.setValidators([Validators.required]);
-      this.form.get('periodoNuevo')?.setValidators([]);
-    }
-    this.form.get('periodo')?.updateValueAndValidity();
-    this.form.get('periodoNuevo')?.updateValueAndValidity();
   }
 
   cancel(): void {
@@ -99,12 +84,9 @@ export class CrearTriviaComponent {
       opcion4,
       respuestaCorrecta,
       periodo,
-      periodoNuevo,
     } = this.form.value;
 
-    const periodoFinal = this.nuevoPeriodo
-      ? periodoNuevo.trim()
-      : periodo.trim();
+    const periodoFinal = periodo.trim();
 
     const nuevaPregunta: Omit<Trivia, '_id'> = {
       pregunta: pregunta.trim(),
