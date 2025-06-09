@@ -16,9 +16,7 @@
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -31,10 +29,7 @@
               "src/styles/custom-theme.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/styles",
-                "node_modules"
-              ]
+              "includePaths": ["src/styles", "node_modules"]
             },
             "scripts": []
           },
@@ -52,7 +47,13 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,
@@ -86,10 +87,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
@@ -102,10 +100,7 @@
               "src/styles/custom-theme.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/styles",
-                "node_modules"
-              ]
+              "includePaths": ["src/styles", "node_modules"]
             }
           }
         }
