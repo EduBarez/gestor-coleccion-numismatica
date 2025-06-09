@@ -52,6 +52,16 @@ export class CrearTriviaComponent {
       periodoNuevo: [''],
     });
 
+    this.form.valueChanges.subscribe(() => {
+      const respuestaActual = this.form.get('respuestaCorrecta')?.value;
+      const opcion1 = this.form.get('opcion1')?.value;
+      if ((!respuestaActual || respuestaActual === '') && opcion1) {
+        this.form
+          .get('respuestaCorrecta')
+          ?.setValue(opcion1, { emitEvent: false });
+      }
+    });
+
     this.triviaService.getPeriodos().subscribe({
       next: (periodos) => (this.periodos = periodos),
       error: () => (this.periodos = []),
@@ -110,7 +120,7 @@ export class CrearTriviaComponent {
 
     this.triviaService.createPregunta(nuevaPregunta).subscribe({
       next: (resp) => {
-        this.router.navigate(['/trivia']);
+        this.router.navigate(['/trivia-examen']);
       },
       error: (err) => {
         this.message =

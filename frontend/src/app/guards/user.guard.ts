@@ -6,23 +6,25 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
+import { UserService } from '@app/services/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserGuard implements CanActivate {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: UserService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return this.router.parseUrl('/login');
+    if (!this.auth.isLoggedIn()) {
+      return this.router.createUrlTree(['/login'], {
+        queryParams: { returnUrl: state.url },
+      });
     }
 
-    const rol = localStorage.getItem('userRole');
-    if (rol !== 'user') {
-      return this.router.parseUrl('/');
+    const role = this.auth.getUserRole();
+    if (role !== 'user' && role !== 'admin') {
+      return this.router.createUrlTree(['/']);
     }
 
     return true;

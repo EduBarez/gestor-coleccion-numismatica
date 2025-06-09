@@ -50,6 +50,10 @@ export class UserService {
     return localStorage.getItem('userRole') === 'admin';
   }
 
+  getUserRole(): string | null {
+    return localStorage.getItem('userRole');
+  }
+
   public isPropietario(propietario: string): boolean {
     return localStorage.getItem('userId') === propietario;
   }
