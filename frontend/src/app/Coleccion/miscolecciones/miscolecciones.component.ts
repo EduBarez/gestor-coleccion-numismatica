@@ -47,12 +47,10 @@ export class MisColeccionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Cada vez que cambió el término de búsqueda, se reinició la página y se recargaron las colecciones
     this.filterForm.valueChanges.pipe(debounceTime(300)).subscribe(() => {
       this.pageIndex = 0;
       this.getMisColecciones();
     });
-    // Al iniciar, se cargaron las colecciones del usuario
     this.getMisColecciones();
   }
 

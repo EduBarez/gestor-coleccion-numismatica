@@ -31,7 +31,10 @@ exports.getColeccionesPublicas = async (req, res) => {
 
 exports.getMisColecciones = async (req, res) => {
   try {
-    const colecciones = await Coleccion.find({ user: req.user.id });
+    const colecciones = await Coleccion.find({ user: req.user.id }).populate(
+      "user",
+      "nombre"
+    );
     res.status(200).json(colecciones);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener tus colecciones" });
