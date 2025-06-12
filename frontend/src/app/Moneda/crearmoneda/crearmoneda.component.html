@@ -77,7 +77,9 @@
     </mat-form-field>
 
     <div class="file-input">
-      <label mat-button color="primary" for="file">Seleccionar imagen</label>
+      <label mat-flat-button color="primary" for="file"
+        >Seleccionar imagen</label
+      >
       <input
         #fileInput
         id="file"
@@ -99,7 +101,7 @@
         type="submit"
         [disabled]="isSubmitting"
       >
-        Crear
+        Añadir
       </button>
       <button mat-stroked-button type="button" (click)="cancel()">
         Cancelar
