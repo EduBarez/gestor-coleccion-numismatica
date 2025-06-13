@@ -19,7 +19,9 @@ export class TriviaService {
   }
 
   getPreguntasPorPeriodo(nombrePeriodo: string): Observable<Trivia[]> {
-    return this.http.get<Trivia[]>(`${this.baseUrl}/periodo/${nombrePeriodo}`);
+    return this.http.get<Trivia[]>(
+      `${this.baseUrl}/periodo/${encodeURIComponent(nombrePeriodo)}`
+    );
   }
 
   createPregunta(preguntaPayload: Omit<Trivia, '_id'>): Observable<Trivia> {
