@@ -26,10 +26,14 @@ function normalizarTexto(texto, modo = "none") {
           if (!match) return palabra;
 
           const [, prefijo, nucleo, sufijo] = match;
+          const nucleoLower = nucleo.toLocaleLowerCase("es");
+
+          if (nucleoLower === "de") {
+            return prefijo + "de" + sufijo;
+          }
 
           if (romanoValido.test(nucleo)) {
-            const rom = nucleo.toLocaleUpperCase("es");
-            return prefijo + rom + sufijo;
+            return prefijo + nucleo.toLocaleUpperCase("es") + sufijo;
           }
 
           const primera = nucleo.charAt(0).toLocaleUpperCase("es");
