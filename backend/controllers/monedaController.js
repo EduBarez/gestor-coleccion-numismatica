@@ -20,12 +20,21 @@ function normalizarTexto(texto, modo = "none") {
       textoNormalizado = textoNormalizado
         .split(/\s+/)
         .map((palabra) => {
-          if (romanoValido.test(palabra)) {
-            return palabra.toLocaleUpperCase("es");
+          const match = palabra.match(
+            /^([^A-Za-zÀ-ÿ]*)([A-Za-zÀ-ÿ]+)([^A-Za-zÀ-ÿ]*)$/u
+          );
+          if (!match) return palabra;
+
+          const [, prefijo, nucleo, sufijo] = match;
+
+          if (romanoValido.test(nucleo)) {
+            const rom = nucleo.toLocaleUpperCase("es");
+            return prefijo + rom + sufijo;
           }
-          const first = palabra.charAt(0).toLocaleUpperCase("es");
-          const rest = palabra.slice(1).toLocaleLowerCase("es");
-          return first + rest;
+
+          const primera = nucleo.charAt(0).toLocaleUpperCase("es");
+          const resto = nucleo.slice(1).toLocaleLowerCase("es");
+          return prefijo + primera + resto + sufijo;
         })
         .join(" ");
       break;
