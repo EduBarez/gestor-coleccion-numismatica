@@ -77,9 +77,14 @@
     </mat-form-field>
 
     <div class="file-input">
-      <label mat-flat-button color="primary" for="file"
-        >Seleccionar imagen</label
+      <button
+        mat-stroked-button
+        color="primary"
+        type="button"
+        (click)="fileInput.click()"
       >
+        Seleccionar imagen
+      </button>
       <input
         #fileInput
         id="file"
@@ -89,6 +94,9 @@
         hidden
       />
       <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+      <p class="helper-text">
+        La imagen tiene que ser 600 × 300 incluyendo anverso y reverso.
+      </p>
     </div>
     <div class="preview" *ngIf="previewUrl">
       <img [src]="previewUrl" alt="Vista previa" />

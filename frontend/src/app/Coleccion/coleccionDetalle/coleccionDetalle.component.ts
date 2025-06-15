@@ -42,7 +42,7 @@ export class ColeccionDetalleComponent implements OnInit {
   public monedasFull: Moneda[] = [];
   public monedas: Moneda[] = [];
   public totalItems = 0;
-  public pageSize = 8;
+  public pageSize = 16;
   public pageIndex = 0;
 
   public filterForm: FormGroup;

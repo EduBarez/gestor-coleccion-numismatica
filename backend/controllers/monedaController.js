@@ -8,42 +8,39 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-/**
- * Función para normalizar cadenas de texto:
- * - Elimina diacríticos (tildes).
- * - Permite modos: 'capitalize' (primera letra de cada palabra en mayúscula),
- *   'upper' (todo en mayúsculas) o 'none' (solo quitar tildes).
- */
 function normalizarTexto(texto, modo = "none") {
   if (!texto || typeof texto !== "string") return "";
-  let textoNormalizado = texto
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .trim();
+  let textoNormalizado = texto.trim();
+
+  const romanoValido =
+    /^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/i;
 
   switch (modo) {
     case "capitalize":
       textoNormalizado = textoNormalizado
         .split(/\s+/)
-        .map(
-          (palabra) =>
-            palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase()
-        )
+        .map((palabra) => {
+          if (romanoValido.test(palabra)) {
+            return palabra.toLocaleUpperCase("es");
+          }
+          const first = palabra.charAt(0).toLocaleUpperCase("es");
+          const rest = palabra.slice(1).toLocaleLowerCase("es");
+          return first + rest;
+        })
         .join(" ");
       break;
+
     case "upper":
-      textoNormalizado = textoNormalizado.toUpperCase();
+      textoNormalizado = textoNormalizado.toLocaleUpperCase("es");
       break;
+
     default:
       break;
   }
+
   return textoNormalizado;
 }
 
-/**
- * Obtener monedas con paginación y filtros de búsqueda.
- * Se pueden buscar por: nombre, autoridad_emisora, ceca, datacion, estado_conservacion y metal.
- */
 exports.getMonedas = async (req, res) => {
   try {
     const filters = {};
@@ -116,10 +113,6 @@ exports.getMonedaById = async (req, res) => {
   }
 };
 
-/**
- * Crear una nueva moneda evitando duplicados.
- * - Si se envía un archivo (req.file) para la fotografía, se sube a Cloudinary.
- */
 exports.createMoneda = async (req, res) => {
   try {
     if (!req.user) return res.status(401).json({ error: "No autenticado" });
@@ -165,11 +158,6 @@ exports.createMoneda = async (req, res) => {
   }
 };
 
-/**
- * Actualizar una moneda por ID.
- * - Si se envía un nuevo archivo de imagen, se sube a Cloudinary y se actualiza el campo fotografía.
- */
-
 exports.updateMoneda = async (req, res) => {
   try {
     const { id } = req.params;
@@ -188,6 +176,28 @@ exports.updateMoneda = async (req, res) => {
         folder: "monedas",
       });
       req.body.fotografia = result.secure_url;
+    }
+
+    if (req.body.nombre) {
+      req.body.nombre = normalizarTexto(req.body.nombre, "capitalize");
+    }
+    if (req.body.autoridad_emisora) {
+      req.body.autoridad_emisora = normalizarTexto(
+        req.body.autoridad_emisora,
+        "capitalize"
+      );
+    }
+    if (req.body.ceca) {
+      req.body.ceca = normalizarTexto(req.body.ceca, "capitalize");
+    }
+    if (req.body.metal) {
+      req.body.metal = normalizarTexto(req.body.metal, "capitalize");
+    }
+    if (req.body.estado_conservacion) {
+      req.body.estado_conservacion = normalizarTexto(
+        req.body.estado_conservacion,
+        "upper"
+      );
     }
 
     const monedaActualizada = await Moneda.findByIdAndUpdate(

@@ -41,7 +41,7 @@ export class MonedasComponent implements OnInit {
   filterForm: FormGroup;
   monedas: Moneda[] = [];
   totalItems = 0;
-  pageSize = 8;
+  pageSize = 16;
   pageIndex = 0;
 
   constructor(private fb: FormBuilder, public userService: UserService) {

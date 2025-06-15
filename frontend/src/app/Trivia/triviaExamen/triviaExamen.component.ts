@@ -141,7 +141,6 @@ export class TriviaExamenComponent implements OnInit {
 
     this.examFinished = true;
 
-    // Solo intentamos guardar ranking si hay usuario registrado
     const idUsuario = this.getUsuarioId?.();
     if (idUsuario) {
       this.rankingService

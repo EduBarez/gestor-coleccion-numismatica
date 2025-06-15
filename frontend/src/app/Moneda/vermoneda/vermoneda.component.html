@@ -8,6 +8,9 @@
   <img mat-card-image [src]="moneda.fotografia" [alt]="moneda.nombre" />
   <mat-card-content>
     <h2 class="titulo">{{ moneda.nombre }}</h2>
+    <p *ngIf="moneda.valor !== '1'">
+      <strong>Valor:</strong> {{ moneda.valor }}
+    </p>
     <p><strong>Autoridad emisora:</strong> {{ moneda.autoridad_emisora }}</p>
     <p><strong>Ceca:</strong> {{ moneda.ceca }}</p>
     <p><strong>Datación:</strong> {{ moneda.datacion }}</p>
