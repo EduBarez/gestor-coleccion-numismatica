@@ -96,7 +96,7 @@ export class CrearTriviaComponent {
         opcion3.trim(),
         opcion4.trim(),
       ],
-      respuestaCorrecta: respuestaCorrecta,
+      respuesta_correcta: respuestaCorrecta,
       periodo: periodoFinal,
     };
 

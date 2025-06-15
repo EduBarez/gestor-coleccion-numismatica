@@ -125,7 +125,7 @@ export class TriviaExamenComponent implements OnInit {
     let aciertos = 0;
     this.preguntasExamen.forEach((p) => {
       const respuesta = this.respuestasUsuario[p._id!];
-      if (respuesta && respuesta === p.respuestaCorrecta) {
+      if (respuesta && respuesta === p.respuesta_correcta) {
         aciertos++;
       }
     });
